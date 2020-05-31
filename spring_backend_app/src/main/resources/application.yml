@@ -1,0 +1,13 @@
+auth0:
+  audience: conqueror-api
+  issuer: https://conqueror-app.eu.auth0.com/
+server:
+  port : 8081
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: admin
+    url: jdbc:mysql://localhost:3306/conqueror_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
