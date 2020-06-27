@@ -1,30 +1,23 @@
 package pl.daniel.pawlowski.conquerorgame.web;
 
-import com.nimbusds.jwt.JWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-import pl.daniel.pawlowski.conquerorgame.data.LoginService;
+import org.springframework.web.bind.annotation.*;
+import pl.daniel.pawlowski.conquerorgame.data.UserService;
+import pl.daniel.pawlowski.conquerorgame.model.Fraction;
 import pl.daniel.pawlowski.conquerorgame.model.Message;
 import pl.daniel.pawlowski.conquerorgame.model.User;
-
-import javax.print.attribute.standard.Media;
 
 @RestController
 @RequestMapping(path = "api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class APIController {
 
-    @Autowired
-    LoginService loginService;
+    ObjectMapper mapper = new ObjectMapper();
 
-    @Value("${auth0.issuer}")
-    private String authServerUrl;
+    @Autowired
+    UserService userService;
 
     @GetMapping(value = "/public")
     public Message publicEndpoint() {
@@ -32,22 +25,27 @@ public class APIController {
         return new Message("All good. You DO NOT need to be authenticated to call /api/public.");
     }
 
-    @GetMapping(value = "/private")
-    public Message privateEndpoint(@RequestHeader(value = "Authorization") String authorization) {
-        RestTemplate template = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", authorization);
-        HttpEntity entity = new HttpEntity(headers);
-        User user = template.exchange(
-                authServerUrl + "userinfo", HttpMethod.GET, entity, User.class).getBody();
-
-        if(loginService.hasAccount(user))
-            return new Message(user.getName());
-        else{
-            loginService.addUser(user);
-            return new Message("User added!");
+    @GetMapping(value = "/account")
+    public String logIn(@RequestHeader(value = "Authorization") String authorization) throws JsonProcessingException {
+        User userInfo = userService.getUserInfo(authorization);
+        boolean hasAccount = userService.hasAccount(userInfo);
+        if (hasAccount)
+            return mapper.writeValueAsString(userInfo);
+        else {
+            //return "{\"race\": \"race\", \"nick\":\"nick\"}";
+            return "";
         }
     }
+
+    @GetMapping(value = "/account/finalize")
+    public Message finalizeRegister(@RequestHeader(value = "Authorization") String authorization, @RequestBody User user) throws JsonProcessingException {
+        System.out.println("Finalize");
+        User userInfo = userService.getUserInfo(authorization);
+        userInfo.setFraction(user.getFraction());
+        userService.addUser(userInfo);
+        return new Message("User created");
+    }
+
 
     @GetMapping(value = "/private-scoped")
     public Message privateScopedEndpoint() {
