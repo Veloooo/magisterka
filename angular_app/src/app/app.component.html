@@ -6,10 +6,6 @@
             </span>
         </a>
         <span class="navbar-fill">
-            <button *ngIf="isLoggedIn" mat-button routerLink="/public">Public</button>
-            <button *ngIf="isLoggedIn" mat-button routerLink="/private">Private</button>
-            <button *ngIf="isLoggedIn" mat-button routerLink="/private-scoped">Private scoped</button>
-            <button *ngIf="isAdmin()" mat-button routerLink="/admin">Manage Projects</button>
         </span>
         <span>
             <button *ngIf="!isLoggedIn" mat-button (click)="login()">Login</button>

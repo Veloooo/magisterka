@@ -4,7 +4,7 @@ import { AuthInterceptorService } from './auth-interceptor.service';
 import { AuthService } from './auth-service.component';
 import { AccountService } from './account.service';
 import { ProjectService } from './project.service';
-import { AdminRouteGuard } from './admin-route-guard';
+import { GameRouteGuard } from './game-route-guard';
 
 @NgModule({
     imports: [],
@@ -14,7 +14,7 @@ import { AdminRouteGuard } from './admin-route-guard';
         AuthService,
         AccountService,
         ProjectService,
-        AdminRouteGuard,
+        GameRouteGuard,
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
     ],
 })

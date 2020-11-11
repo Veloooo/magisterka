@@ -1,4 +1,4 @@
 export class UserAccount{
-    race: string;
+    fraction: string;
     nick: string;
 }

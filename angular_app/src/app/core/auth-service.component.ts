@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { UserManager, User } from 'oidc-client';
 import { Constants } from '../constants';
 import {from, Observable, Subject} from 'rxjs';
-import { CoreModule } from './core.module';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { AuthContext } from '../model/auth-context';
-import {UserAccount} from '../model/user-account';
 
 @Injectable()
 export class AuthService {

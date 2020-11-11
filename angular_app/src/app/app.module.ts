@@ -21,6 +21,7 @@ import {SignoutRedirectCallbackComponent} from './home/signout-redirect-callback
 import {UnauthorizedComponent} from './home/unauthorized.component';
 import {TestComponent} from './test/test.component';
 import {CreateAccountComponent} from './components/create-account/create-account.component';
+import { MainViewComponent } from './components/main-view/main-view.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import {CreateAccountComponent} from './components/create-account/create-account
         SignoutRedirectCallbackComponent,
         UnauthorizedComponent,
         TestComponent,
-        CreateAccountComponent
+        CreateAccountComponent,
+        MainViewComponent
     ],
     imports: [
         BrowserModule,

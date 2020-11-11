@@ -3,11 +3,10 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angul
 import { AuthService } from './auth-service.component';
 
 @Injectable()
-export class AdminRouteGuard implements CanActivate {
+export class GameRouteGuard implements CanActivate {
     constructor(private _authService: AuthService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return !!this._authService.authContext &&
-        this._authService.authContext.isAdmin;
+        return this._authService.isLoggedIn();
     }
 }

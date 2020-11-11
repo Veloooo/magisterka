@@ -24,7 +24,7 @@ export class SigninRedirectCallbackComponent implements OnInit {
               this.userAccount = user;
               console.log(this.userAccount);
               if(this.userAccount)
-                  this._router.navigate(['/'], { replaceUrl: true });
+                  this._router.navigate(['main-view'], { replaceUrl: true });
               else
                   this._router.navigate(['create-account'], { replaceUrl: true});
           }
