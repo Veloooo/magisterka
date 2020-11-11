@@ -37,7 +37,7 @@ public class APIController {
         }
     }
 
-    @GetMapping(value = "/account/finalize")
+    @PostMapping(value = "/account/finalize")
     public Message finalizeRegister(@RequestHeader(value = "Authorization") String authorization, @RequestBody User user) throws JsonProcessingException {
         System.out.println("Finalize");
         User userInfo = userService.getUserInfo(authorization);

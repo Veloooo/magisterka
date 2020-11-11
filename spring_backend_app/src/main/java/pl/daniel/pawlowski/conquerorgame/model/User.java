@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Data
@@ -19,7 +21,7 @@ public class User {
 
     private String name;
 
-    private Fraction fraction;
+    private String fraction;
 
     private Integer points;
 }
