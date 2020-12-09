@@ -1,0 +1,29 @@
+<h1>Almost done...</h1>
+<br>
+<h3>Select your fraction:</h3>
+
+<form [formGroup]="userFraction" (ngSubmit)="onSubmit()">
+    <div class="cc-selector">
+        <div class="fraction-option">
+            Human <br/>
+            <input id="human" type="radio" name="fraction" value="HUMAN" formControlName="fraction"/>
+            <label class="fraction-cc human" for="human"></label>
+        </div>
+        <div class="fraction-option">
+            Orc <br/>
+            <input id="orc" type="radio" name="fraction" value="ORC" formControlName="fraction"/>
+            <label class="fraction-cc orc" for="orc"></label>
+        </div>
+        <div class="fraction-option">
+            Demon <br/>
+            <input id="demon" type="radio" name="fraction" value="DEMON" formControlName="fraction"/>
+            <label class="fraction-cc demon" for="demon"></label>
+        </div>
+        <div class="fraction-option">
+            Druid <br/>
+            <input id="druid" type="radio" name="fraction" value="DRUID" formControlName="fraction"/>
+            <label class="fraction-cc druid" for="druid"></label>
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+</form>
