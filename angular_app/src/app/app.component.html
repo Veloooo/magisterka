@@ -1,18 +1,13 @@
 <nav>
     <mat-toolbar color="primary">
-        <a href="/">
-            <span>
-                <img src="/assets/images/Globo_logo.png" alt="Globomantics" title="Globomantics" class="globo-logo">
-            </span>
-        </a>
         <span class="navbar-fill">
         </span>
         <span>
-            <button *ngIf="!isLoggedIn" mat-button (click)="login()">Login</button>
-            <button *ngIf="isLoggedIn" mat-button (click)="logout()">Logout</button>
+            <button *ngIf="!isLoggedIn" class="btn-primary" mat-button (click)="login()">Login</button>
+            <button *ngIf="isLoggedIn" class="badge-danger" mat-button (click)="logout()">Logout</button>
         </span>
     </mat-toolbar>
 </nav>
 <div class="main">
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 </div>

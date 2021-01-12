@@ -22,6 +22,13 @@ import {UnauthorizedComponent} from './home/unauthorized.component';
 import {TestComponent} from './test/test.component';
 import {CreateAccountComponent} from './components/create-account/create-account.component';
 import { MainViewComponent } from './components/main-view/main-view.component';
+import { OverviewComponent } from './components/overview/overview.component';
+import { BuildingsComponent } from './components/buildings/buildings.component';
+import { BarracksComponent } from './components/barracks/barracks.component';
+import { TavernComponent } from './components/tavern/tavern.component';
+import { DefenceComponent } from './components/defence/defence.component';
+import { PopulationComponent } from './components/population/population.component';
+import { ResearchComponent } from './components/research/research.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +39,14 @@ import { MainViewComponent } from './components/main-view/main-view.component';
         UnauthorizedComponent,
         TestComponent,
         CreateAccountComponent,
-        MainViewComponent
+        MainViewComponent,
+        OverviewComponent,
+        BuildingsComponent,
+        BarracksComponent,
+        TavernComponent,
+        DefenceComponent,
+        PopulationComponent,
+        ResearchComponent
     ],
     imports: [
         BrowserModule,

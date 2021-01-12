@@ -1,3 +1,8 @@
+.cc-selector{
+  width: 100%;
+  text-align: center;
+}
+
 .cc-selector input {
   margin: 0;
   padding: 0;
@@ -35,7 +40,7 @@
 .fraction-option {
   display: inline-block;
   text-align: center;
-  text-: 20px;
+  font-size: 30px;
   margin: 80px;
 }
 
@@ -73,4 +78,10 @@ a {
 
 p {
   margin-bottom: .3em;
+}
+
+.button-submit{
+  width: 300px;
+  height: 100px;
+  font-size: 40px;
 }
