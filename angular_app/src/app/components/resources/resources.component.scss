@@ -1,15 +1,15 @@
 .entry{
-  width: 22%;
+  width: 23%;
   border: 1px solid gray;
   padding: 1%;
   min-height: 90%;
   margin: 2% 5%;
+  float: left;
   text-align: center;
-  display: inline-block;
 }
 
 .entry img{
-  width: 40%;
+  width: 50%;
   height: 10%;
 }
 
@@ -22,3 +22,17 @@
   width: 40%;
   margin: 4%;
 }
+
+.entry-big{
+  width: 30%;
+  min-height: 30%;
+  float: none;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+
+.entry-big img{
+  width: 45%;
+  min-height: 30%;
+}
+

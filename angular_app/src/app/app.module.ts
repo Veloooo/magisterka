@@ -29,6 +29,7 @@ import { TavernComponent } from './components/tavern/tavern.component';
 import { DefenceComponent } from './components/defence/defence.component';
 import { PopulationComponent } from './components/population/population.component';
 import { ResearchComponent } from './components/research/research.component';
+import { ResourcesComponent } from './components/resources/resources.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { ResearchComponent } from './components/research/research.component';
         TavernComponent,
         DefenceComponent,
         PopulationComponent,
-        ResearchComponent
+        ResearchComponent,
+        ResourcesComponent
     ],
     imports: [
         BrowserModule,

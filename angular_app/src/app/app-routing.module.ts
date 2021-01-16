@@ -15,6 +15,7 @@ import {TavernComponent} from './components/tavern/tavern.component';
 import {DefenceComponent} from './components/defence/defence.component';
 import {PopulationComponent} from './components/population/population.component';
 import {ResearchComponent} from './components/research/research.component';
+import {ResourcesComponent} from './components/resources/resources.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
             {path: 'buildings', component: BuildingsComponent},
             {path: 'barracks', component: BarracksComponent},
             {path: 'tavern', component: TavernComponent},
+            {path: 'resources', component: ResourcesComponent},
             {path: 'defence', component: DefenceComponent},
             {path: 'population', component: PopulationComponent},
             {path: 'research', component: ResearchComponent}
