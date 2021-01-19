@@ -1,27 +1,29 @@
-<div class="entry entry-big">
-    Untrained people <br/>
-    <img src="../../../assets/images/people/normal.png"/> <br/>
-    100/100
-</div>
+<div *ngIf="isDataLoaded">
+    <div class="entry entry-big">
+        Untrained people <br/>
+        <img src="../../../assets/images/people/normal.png"/> <br/>
+        {{userPopulation.total}}
+    </div>
 
 
-<div class="entry">
-    Builder <br/>
-    <img src="../../../assets/images/people/builder.png"/> <br/>
-    100 <br/>
-    <button class="btn-success btn-upgrade">Train</button>
-</div>
+    <div class="entry">
+        Builder <br/>
+        <img src="../../../assets/images/people/builder.png"/> <br/>
+        {{userPopulation.builder}} <br/>
+        <button class="btn-success btn-upgrade">Train</button>
+    </div>
 
-<div class="entry">
-    Scientist <br/>
-    <img src="../../../assets/images/people/scientist.png"/> <br/>
-    100 <br/>
-    <button class="btn-success btn-upgrade">Train</button>
-</div>
+    <div class="entry">
+        Scientist <br/>
+        <img src="../../../assets/images/people/scientist.png"/> <br/>
+        {{userPopulation.scientist}} <br/>
+        <button class="btn-success btn-upgrade">Train</button>
+    </div>
 
-<div class="entry">
-    Resources worker <br/>
-    <img src="../../../assets/images/people/resource.png"/> <br/>
-    100 <br/>
-    <button class="btn-success btn-upgrade">Train</button>
+    <div class="entry">
+        Resources worker <br/>
+        <img src="../../../assets/images/people/resource.png"/> <br/>
+        {{userPopulation.resources}} <br/>
+        <button class="btn-success btn-upgrade">Train</button>
+    </div>
 </div>

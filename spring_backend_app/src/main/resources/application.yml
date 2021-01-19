@@ -11,3 +11,6 @@ spring:
     username: root
     password: admin
     url: jdbc:mysql://localhost:3306/conqueror_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false

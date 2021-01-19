@@ -8,13 +8,17 @@ import {UserAccount} from '../model/user-account';
 
 @Injectable()
 export class AccountService {
-    userProfile: UserProfile;
+    userAccount: UserAccount;
 
     constructor(private _httpClient: HttpClient) {
     }
 
     getUserAccount(): Observable<UserAccount> {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account');
+    }
+
+    getUserAllInfo(): Observable<UserAccount> {
+        return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo');
     }
 
     getAllUsers(): Observable<UserProfile[]> {

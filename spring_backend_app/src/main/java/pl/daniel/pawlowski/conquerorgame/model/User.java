@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Getter
@@ -24,5 +21,15 @@ public class User {
     private String fraction;
 
     private Integer points;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn (name="population_id", referencedColumnName = "id")
+    private Population population;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn (name="resources_id", referencedColumnName = "id")
+    private Resources resources;
+
+
 }
 

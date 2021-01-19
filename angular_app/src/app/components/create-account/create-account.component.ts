@@ -26,7 +26,7 @@ export class CreateAccountComponent implements OnInit {
     onSubmit() {
         this.newUser = new UserAccount();
         this.newUser.fraction = this.userFraction.value['fraction'];
-        this.accountService.finalizeRegister(this.newUser).subscribe(data => this._router.navigate(['main-view'], {replaceUrl: true}));
+        console.log(this.accountService.finalizeRegister(this.newUser).subscribe(data => this._router.navigate(['main-view'], {replaceUrl: true})));
     }
 
 }
