@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectService} from '../core/project.service';
 
 @Component({
     selector: 'app-test',
@@ -10,13 +9,10 @@ export class TestComponent implements OnInit {
 
     message: string;
 
-    constructor(private _projectService: ProjectService) {
+    constructor() {
     }
 
     ngOnInit() {
-        this._projectService.getMessage().subscribe(message => {
-            this.message= JSON.stringify(message);
-        });
     }
 
 }

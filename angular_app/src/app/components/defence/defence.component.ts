@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+import {AccountService} from '../../core/account.service';
+import {Defence} from '../../model/defence';
 
 @Component({
   selector: 'app-defence',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefenceComponent implements OnInit {
 
-  constructor() { }
+  private defence: Defence;
+  private isDataLoaded = false;
+
+  constructor(private _router: Router,
+              private _accountService: AccountService) {
+  }
 
   ngOnInit() {
+    this._accountService.getUserAllInfo().subscribe(
+        user => {
+          this.defence = user.defence;
+          this.isDataLoaded = true;
+        }
+    );
   }
 
 }

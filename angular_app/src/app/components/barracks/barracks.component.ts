@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Buildings} from '../../model/buildings';
+import {Router} from '@angular/router';
+import {AccountService} from '../../core/account.service';
+import {Units} from '../../model/units';
 
 @Component({
   selector: 'app-barracks',
@@ -7,9 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BarracksComponent implements OnInit {
 
-  constructor() { }
+  private units: Units;
+  private isDataLoaded = false;
 
-  ngOnInit() {
+  constructor(private _router: Router,
+              private _accountService: AccountService) {
   }
 
+  ngOnInit() {
+    this._accountService.getUserAllInfo().subscribe(
+        user => {
+          this.units = user.units;
+          this.isDataLoaded = true;
+        }
+    );
+  }
 }

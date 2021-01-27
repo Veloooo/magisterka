@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {UserPopulation} from '../../model/user-population';
-import {UserAccount} from '../../model/user-account';
 import {Router} from '@angular/router';
 import {AccountService} from '../../core/account.service';
+import {UserAction} from '../../model/user-action';
 
 @Component({
     selector: 'app-population',
@@ -12,6 +12,7 @@ import {AccountService} from '../../core/account.service';
 export class PopulationComponent implements OnInit {
     private userPopulation: UserPopulation;
     private isDataLoaded = false;
+    private userAction: UserAction;
 
     constructor(private _router: Router,
                 private _accountService: AccountService) {
@@ -26,4 +27,11 @@ export class PopulationComponent implements OnInit {
         );
     }
 
+    train(who : number){
+        this.userAction = new UserAction();
+        this.userAction.action = who;
+        this.userAction.data = "recruit";
+        this._accountService.postUserAction(this.userAction).subscribe();
+        console.log(this.userAction);
+    }
 }
