@@ -1,15 +1,15 @@
 .entry{
-  width: 23%;
+  width: 19%;
   border: 1px solid gray;
   padding: 1%;
   min-height: 90%;
-  margin: 2% 5%;
-  float: left;
+  margin: 2% 3%;
+  display: inline-block;
   text-align: center;
 }
 
 .entry img{
-  width: 50%;
+  width: 30%;
   height: 10%;
 }
 
@@ -24,15 +24,21 @@
 }
 
 .entry-big{
-  width: 30%;
-  min-height: 30%;
-  float: none;
-  margin-left: 35%;
-  margin-right: 35%;
+  width: 100%;
+  display: block;
 }
 
 .entry-big img{
-  width: 45%;
+  width: 100%;
   min-height: 30%;
 }
 
+.resource-small{
+  width: 20%;
+  display: inline-block;
+  margin: 1% 4%;
+}
+
+.resource-small img{
+  width: 100%;
+}

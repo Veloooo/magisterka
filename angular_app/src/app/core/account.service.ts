@@ -5,23 +5,45 @@ import {Observable} from 'rxjs';
 import {Constants} from '../constants';
 import {UserAccount} from '../model/user-account';
 import {UserAction} from '../model/user-action';
+import {ServerResponse} from '../model/server-response';
+
 
 @Injectable()
 export class AccountService {
 
+    userAccount: UserAccount;
+
     constructor(private _httpClient: HttpClient) {
+        console.log("Service constructor")
+        this.getAllUSerInfoNormal();
     }
 
     getUserAccount(): Observable<UserAccount> {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account');
     }
 
+    getAllUSerInfoNormal(): UserAccount {
+        if (!this.userAccount) {
+            this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo').subscribe(user => {
+                this.userAccount = user;
+                console.log("Data fetched");
+                return this.userAccount
+            })
+        } else {
+            return this.userAccount;
+        }
+    }
+
     getUserAllInfo(): Observable<UserAccount> {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo');
     }
 
-    postUserAction(userAction: UserAction): Observable<string> {
-        return this._httpClient.post<string>(Constants.apiRoot + 'game/userAction', userAction);
+    populationAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/population', userAction);
+    }
+
+    resourcesAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/resources', userAction);
     }
 
     finalizeRegister(userAccount: UserAccount) {

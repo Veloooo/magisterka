@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,20 @@ public class User {
     private String cityCoordinates;
 
     private String fraction;
+
+    private Integer gold;
+
+    private Integer wood;
+
+    private Integer stone;
+
+    private Integer people;
+
+    @Column(name = "building_queue")
+    private String buildingQueue;
+
+    @Column(name = "building_finish_time")
+    private LocalDateTime buildingFinishTime;
 
     private Integer points;
 

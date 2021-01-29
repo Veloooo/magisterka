@@ -11,19 +11,13 @@ import {Defence} from '../../model/defence';
 export class DefenceComponent implements OnInit {
 
   private defence: Defence;
-  private isDataLoaded = false;
 
   constructor(private _router: Router,
               private _accountService: AccountService) {
   }
 
   ngOnInit() {
-    this._accountService.getUserAllInfo().subscribe(
-        user => {
-          this.defence = user.defence;
-          this.isDataLoaded = true;
-        }
-    );
+      this.defence = this._accountService.userAccount.defence;
   }
 
 }

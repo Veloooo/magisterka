@@ -1,23 +1,29 @@
-<div class="ingame-menu">
-    <div class="resources">
-        <div class="resource"><img src="../../../assets/images/resources/gold.png" title="Gold"/> <br/> 100</div>
-        <div class="resource"><img src="../../../assets/images/resources/wood.png" title="Wood"/> <br/> 100</div>
-        <div class="resource"><img src="../../../assets/images/resources/stone.png" title="Stone"/> <br/> 100</div>
-        <div class="resource"><img src="../../../assets/images/resources/meat.png" title="Meat"/> <br/> 1/100 </div>
-    </div>
-    <div class="ingame-nav">
-        <ul>
-            <li><a routerLink="overview">Overview</a></li>
-            <li><a routerLink="population">Population</a></li>
-            <li><a routerLink="resources">Resources</a></li>
-            <li><a routerLink="research">Research</a></li>
-            <li><a routerLink="buildings">Buildings</a></li>
-            <li><a routerLink="barracks">Barracks</a></li>
-            <li><a routerLink="tavern">Tavern</a></li>
-            <li><a routerLink="defence">Defence</a></li>
-        </ul>
-    </div>
-    <div id="content">
-        <router-outlet></router-outlet>
+<div *ngIf="isDataLoaded">
+    <div class="ingame-menu">
+        <div class="resources">
+            <div class="resource"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
+                <br/> {{account.gold}}</div>
+            <div class="resource"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
+                <br/> {{account.wood}}</div>
+            <div class="resource"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
+                <br/> {{account.stone}}</div>
+            <div class="resource"><img src="../../../assets/images/resources/meat.png" title="Meat"/>
+                <br/> {{account.people}} </div>
+        </div>
+        <div class="ingame-nav">
+            <ul>
+                <li><a routerLink="overview">Overview</a></li>
+                <li><a routerLink="population">Population</a></li>
+                <li><a routerLink="resources">Resources</a></li>
+                <li><a routerLink="research">Research</a></li>
+                <li><a routerLink="buildings">Buildings</a></li>
+                <li><a routerLink="barracks">Barracks</a></li>
+                <li><a routerLink="tavern">Tavern</a></li>
+                <li><a routerLink="defence">Defence</a></li>
+            </ul>
+        </div>
+        <div id="content">
+            <router-outlet></router-outlet>
+        </div>
     </div>
 </div>

@@ -12,8 +12,6 @@ import moment = require('moment');
 export class OverviewComponent implements OnInit {
 
   private account: UserAccount;
-  private isDataLoaded = false;
-  private now: number;
 
   constructor(private _router: Router,
               private _accountService: AccountService) {
@@ -23,18 +21,11 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._accountService.getUserAllInfo().subscribe(
-        user => {
-          this.account = user;
-          console.log(user.events);
-          this.isDataLoaded = true;
-        }
-    );
-
+    this.account = this._accountService.userAccount;
   }
 
   calculateDiff(){
-    this.account.events.forEach(e => e.timeRemaining = moment(e.eventDate).diff(moment()));
+      this.account.events.forEach(e => e.timeRemaining = moment(e.eventDate).diff(moment()));
   }
 
 }

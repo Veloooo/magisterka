@@ -16,4 +16,8 @@ export class UserAccount{
     units: Units;
     defence: Defence;
     events: GameEvent[];
+    gold: number;
+    wood: number;
+    stone: number;
+    people: number;
 }

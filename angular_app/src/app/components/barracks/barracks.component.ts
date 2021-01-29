@@ -19,11 +19,6 @@ export class BarracksComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._accountService.getUserAllInfo().subscribe(
-        user => {
-          this.units = user.units;
-          this.isDataLoaded = true;
-        }
-    );
+    this.units = this._accountService.userAccount.units;
   }
 }

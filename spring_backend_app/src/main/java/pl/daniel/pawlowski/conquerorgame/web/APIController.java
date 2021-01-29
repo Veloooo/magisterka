@@ -21,7 +21,7 @@ import java.util.Random;
 public class APIController {
 
     @Autowired
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper;
 
     @Autowired
     UserService userService;
@@ -71,6 +71,10 @@ public class APIController {
         userInfo.setFraction(user.getFraction());
         userInfo.setCityName("City");
         userInfo.setCityCoordinates("1:1:1");
+        userInfo.setGold(200);
+        userInfo.setWood(100);
+        userInfo.setStone(100);
+        userInfo.setPeople(10);
         Random rand = new Random();
 
         Population population = new Population();
@@ -79,6 +83,9 @@ public class APIController {
         userInfo.setPopulation(population);
 
         Resources resources = new Resources();
+        resources.setGoldmineLvl(1);
+        resources.setSawmillLvl(1);
+        resources.setStonepitLvl(1);
         resources.setUser(userInfo);
         userInfo.setResources(resources);
 

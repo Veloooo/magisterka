@@ -1,33 +1,31 @@
-<div *ngIf="isDataLoaded">
-    <div class="left-pane">
-        <div style="text-align: center">Your city :</div>
-        <br/>
-        <img src="../../../assets/images/cities/human.jpg"/><br/>
-        <hr>
-        <div class="entry"> City name: Name</div>
-        <div class="entry"> City coordinates: 1:1</div>
-        <div class="entry"> Heroes:</div>
-        <div class="entry"> Units:</div>
-        <div class="entry"> Sawmill:</div>
-        <div class="entry"> Stone pit:</div>
-        <div class="entry"> Gold mine:</div>
-    </div>
-    <div class="right-pane">
-        <div class="log">
-            <div style="text-align: center">Recent events:</div>
-            <div *ngFor="let x of account.events">
-                <div class="entry">
-                    {{x.content}} at {{x.timeRemaining | date:'HH:mm:ss'}}
-                </div>
+<div class="left-pane">
+    <div style="text-align: center">Your city :</div>
+    <br/>
+    <img src="../../../assets/images/cities/human.jpg"/><br/>
+    <hr>
+    <div class="entry"> City name: Name</div>
+    <div class="entry"> City coordinates: 1:1</div>
+    <div class="entry"> Heroes:</div>
+    <div class="entry"> Units:</div>
+    <div class="entry"> Sawmill:</div>
+    <div class="entry"> Stone pit:</div>
+    <div class="entry"> Gold mine:</div>
+</div>
+<div class="right-pane">
+    <div class="log">
+        <div style="text-align: center">Recent events:</div>
+        <div *ngFor="let x of account.events">
+            <div class="entry">
+                {{x.content}} at {{x.timeRemaining | date:'HH:mm:ss'}}
             </div>
         </div>
-        <div class="statistics">
-            <div style="text-align: center">Statistics:</div>
-            <div class="entry">Buildings statistics:</div>
-            <div class="entry">Units statistics:</div>
-            <div class="entry">Resources statistics:</div>
-            <div class="entry">Research statistics:</div>
-            <div class="entry">Overall statistics:</div>
-        </div>
+    </div>
+    <div class="statistics">
+        <div style="text-align: center">Statistics:</div>
+        <div class="entry">Buildings statistics:</div>
+        <div class="entry">Units statistics:</div>
+        <div class="entry">Resources statistics:</div>
+        <div class="entry">Research statistics:</div>
+        <div class="entry">Overall statistics:</div>
     </div>
 </div>

@@ -11,7 +11,7 @@ import {UserAction} from '../../model/user-action';
 })
 export class PopulationComponent implements OnInit {
     private userPopulation: UserPopulation;
-    private isDataLoaded = false;
+    private isTrainingPossible = true;
     private userAction: UserAction;
 
     constructor(private _router: Router,
@@ -19,19 +19,32 @@ export class PopulationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._accountService.getUserAllInfo().subscribe(
-            user => {
-                this.userPopulation = user.population;
-                this.isDataLoaded = true;
-            }
-        );
+        this.userPopulation = this._accountService.userAccount.population;
     }
 
-    train(who : number){
+    train(who: number) {
         this.userAction = new UserAction();
         this.userAction.action = who;
-        this.userAction.data = "recruit";
-        this._accountService.postUserAction(this.userAction).subscribe();
-        console.log(this.userAction);
+        this.userAction.data = 'recruit';
+        this._accountService.populationAction(this.userAction).subscribe(
+            response => {
+                console.log(response);
+                if (response.statusCode == 200) {
+                    this.userPopulation.total--;
+                    if (who == 1) {
+                        this.userPopulation.builder++;
+                    } else if (who == 2) {
+                        this.userPopulation.scientist++;
+                    } else if (who == 3) {
+                        this.userPopulation.resources++;
+                    }
+                }
+                else{
+                    alert('Not enough free workers!');
+                }
+            },
+            err => {
+                alert(err);
+            });
     }
 }

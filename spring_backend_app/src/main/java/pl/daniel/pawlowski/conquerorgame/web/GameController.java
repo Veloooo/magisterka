@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.daniel.pawlowski.conquerorgame.data.GameService;
 import pl.daniel.pawlowski.conquerorgame.data.UserService;
+import pl.daniel.pawlowski.conquerorgame.model.Response;
 import pl.daniel.pawlowski.conquerorgame.model.User;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;
@@ -16,6 +17,7 @@ import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;
 public class GameController {
 
     ObjectMapper mapper = new ObjectMapper();
+    private final String OPERATION_SUCCESS_MESSAGE = "Ok";
 
     @Autowired
     UserService userService;
@@ -35,13 +37,17 @@ public class GameController {
         }
     }
 
-    @PostMapping(value = "/userAction")
-    public String getUserAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
-        System.out.println("Xsaxsaxasxasxas");
-        User userAuth = userService.getUserInfo(authorization);
-        User userAllInfo = gameService.getUser(userAuth.getId());
-        //userAction.setUser(userAllInfo);
-        //gameService.performAction(userAction);
-        return "sd";
+    @PostMapping(value = "/population")
+    public String populationAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.populationAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
+    
+    @PostMapping(value = "/resources")
+    public String resourcesAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.resourcesAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
 }

@@ -7,8 +7,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import pl.daniel.pawlowski.conquerorgame.model.Response;
 import pl.daniel.pawlowski.conquerorgame.model.User;
+import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
+import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;
 import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
+
+import static pl.daniel.pawlowski.conquerorgame.utils.Constants.OPERATION_SUCCESS_MESSAGE;
 
 @Service
 public class UserService {
@@ -30,8 +35,30 @@ public class UserService {
     public boolean hasAccount(User user){
         return repository.findAll().stream().anyMatch(t -> user.getId().equals(t.getId()));
     }
+    public User getUser(String userId){
+        return repository.findOneById(userId);
+    }
 
     public void addUser(User user){
         repository.save(user);
+    }
+
+    public UserAction getUserAction(String authorization, UserActionJSON userActionJSON){
+        User userAuth = getUserInfo(authorization);
+        User userAllInfo = getUser(userAuth.getId());
+        return new UserAction(userActionJSON, userAllInfo);
+    }
+
+    public Response returnResponse(String actionMessage){
+        Response response = new Response();
+        if(OPERATION_SUCCESS_MESSAGE.equals(actionMessage)){
+            response.setStatusCode(200);
+            response.setResponseMessage(OPERATION_SUCCESS_MESSAGE);
+        }
+        else{
+            response.setStatusCode(500);
+            response.setResponseMessage(actionMessage);
+        }
+        return response;
     }
 }
