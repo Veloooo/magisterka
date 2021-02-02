@@ -1,36 +1,29 @@
-<div class="entry">
-    Hall <br/>
-    <img src="../../../assets/images/buildings/hall.png"/> <br/>
-    Level: {{buildings.hall}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Barracks<br/>
-    <img src="../../../assets/images/buildings/barracks.png"/> <br/>
-    Level: {{buildings.barracks}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Research Institute<br/>
-    <img src="../../../assets/images/buildings/institute.png"/> <br/>
-    Level: {{buildings.research}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    War Institute<br/>
-    <img src="../../../assets/images/buildings/war_institute.png"/> <br/>
-    Level: {{buildings.war}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Farm<br/>
-    <img src="../../../assets/images/buildings/farm.png"/> <br/>
-    Level: {{buildings.farm}}<br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Warehouse<br/>
-    <img src="../../../assets/images/buildings/warehouse.png"/> <br/>
-    Level: {{buildings.warehouse}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
+<div class="entry" *ngFor="let building of buildingEntities">
+    {{building.name}}<br/>
+    <img src="../../../assets/images/buildings/{{building.name}}.png"/> <br/>
+    Level: {{building.level}} <br/>
+    <div class="resources">
+        <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
+            <br/> {{building.currentCost.gold}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
+            <br/> {{building.currentCost.wood}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
+            <br/> {{building.currentCost.stone}}
+        </div>
+    </div>
+    <div *ngIf="currentlyUpgrading == building.name">
+        <div class="progress">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
+                 role="progressbar" [attr.aria-valuenow]="percent"
+                 [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
+            </div>
+        </div>
+        <div> {{this.remainingTimeString}} </div>
+    </div>
+    <button [disabled]="currentlyUpgrading != building.name && currentlyUpgrading != null "
+            [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == building.name}"
+            class="btn-upgrade btn-success"
+            (click)="upgrade(building.name)">{{currentlyUpgrading == building.name ? 'Cancel' : 'Upgrade'}}</button>
 </div>

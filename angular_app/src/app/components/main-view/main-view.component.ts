@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserAccount} from '../../model/user-account';
 import {Router} from '@angular/router';
 import {AccountService} from '../../core/account.service';
+import moment = require('moment');
 
 @Component({
   selector: 'app-main-view',
@@ -11,29 +12,41 @@ import {AccountService} from '../../core/account.service';
 export class MainViewComponent implements OnInit {
 
   private account: UserAccount;
-  private isDataLoaded = false;
+  private ONE_MINUTE_IN_MILLIS = 60000;
 
   constructor(private _router: Router,
               private _accountService: AccountService) {
     setInterval(() => {
-      this.updateResources();
-    }, 1);
+      this.everySecond();
+    }, 1000);
   }
 
   ngOnInit() {
-    if(this._accountService.userAccount)
-      this.account = this._accountService.userAccount;
-    else
-      this._accountService.getUserAllInfo().subscribe(
-          user => {
-            this.account = user;
-            console.log(user.events);
-            this.isDataLoaded = true;
-          }
-      );
+    this._accountService.getAllUSerInfoNormal(true).subscribe(account => this.account= account);
+  }
+
+  everySecond(){
+    this.updateResources();
+
+    if(this.account.buildingFinishTime){
+      if(moment(this.account.buildingFinishTime).diff(moment()) < 0) {
+        console.log("RELOAD");
+        location.reload();
+      }
+    }
+    if(this.account.researchFinishTime) {
+      if (moment(this.account.researchFinishTime).diff(moment()) < 0)
+        location.reload();
+    }
   }
 
   updateResources(){
+    const date: number = new Date().getTime();
+    if(date % this.ONE_MINUTE_IN_MILLIS < 1000){
+      this.account.gold += this.account.goldProduction;
+      this.account.wood += this.account.woodProduction;
+      this.account.stone += this.account.stoneProduction;
+    }
 
   }
 }

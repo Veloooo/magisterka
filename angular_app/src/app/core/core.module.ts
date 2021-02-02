@@ -5,6 +5,7 @@ import { AuthService } from './auth-service.component';
 import { AccountService } from './account.service';
 import { GameRouteGuard } from './game-route-guard';
 import {CostService} from './cost.service';
+import {GameService} from './game-service';
 
 @NgModule({
     imports: [],
@@ -14,6 +15,7 @@ import {CostService} from './cost.service';
         AuthService,
         AccountService,
         CostService,
+        GameService,
         GameRouteGuard,
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
     ],

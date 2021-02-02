@@ -110,6 +110,7 @@ public class APIController {
         event.setContent("Ostry wpierdol");
         userInfo.addEvent(event);
         userService.addUser(userInfo);
+        gameService.addUser(userInfo);
         return mapper.writeValueAsString(userInfo);
     }
 

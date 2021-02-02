@@ -26,7 +26,13 @@ public class Buildings {
 
     private int farm;
 
-    private int warehouse;
+    private int vault;
+
+    @Column(name = "stone_warehouse")
+    private int stoneWarehouse;
+
+    @Column(name = "wood_warehouse")
+    private int woodWarehouse;
 
     @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "buildings")
     @JsonIgnore

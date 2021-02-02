@@ -1,14 +1,10 @@
 package pl.daniel.pawlowski.conquerorgame.utils;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 
-@Service
 @Getter
 @Setter
 @Builder
@@ -21,7 +17,7 @@ public class Cost {
     private int stone;
     private int minutes;
 
-    public Cost costOfLevel(int level){
-        return Cost.builder().wood(wood * level).stone(stone * level).gold(gold * level).minutes(minutes * level).build();
+    public Cost costOfLevel(int level, String type, String name){
+        return Cost.builder().wood(wood * level).stone(stone * level).gold(gold * level).minutes(minutes * level).type(type).name(name).build();
     }
 }

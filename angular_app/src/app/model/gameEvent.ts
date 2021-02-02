@@ -3,7 +3,4 @@ export class GameEvent {
     eventDate: Date;
     timeRemaining: number;
 
-    public getContents() : string {
-        return "ss";
-    }
 }

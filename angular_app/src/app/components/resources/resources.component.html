@@ -1,75 +1,43 @@
 <div style="width: 100%;">
-    <div class="entry">
-        Sawmill <br/>
-        <img src="../../../assets/images/buildings/sawmill.jpeg"/> <br/>
-        Level: {{resources.sawmillLvl}} <br/>
+    <div class="entry" *ngFor="let resource of resourceEntities">
+        {{resource.name}} <br/>
+        <img src="../../../assets/images/buildings/{{resource.name}}.jpeg"/> <br/>
+        Level: {{resource.level}} <br/>
         <div class="resources">
             <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
-                <br/> {{sawmillCost.gold}}
+                <br/> {{resource.currentCost.gold}}
             </div>
             <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
-                <br/> {{sawmillCost.wood}}
+                <br/> {{resource.currentCost.wood}}
             </div>
             <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
-                <br/> {{sawmillCost.stone}}
+                <br/> {{resource.currentCost.stone}}
             </div>
         </div>
-        <button class="btn-success btn-upgrade" (click)="upgrade('sawmill')">Upgrade</button>
+        <div *ngIf="currentlyUpgrading == resource.name">
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
+                     role="progressbar" [attr.aria-valuenow]="percent"
+                     [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
+                </div>
+            </div>
+            <div> {{this.remainingTimeString}} </div>
+        </div>
+        <button [disabled]="currentlyUpgrading != resource.name && currentlyUpgrading != null "
+                [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == resource.name}"
+                class="btn-upgrade btn-success"
+                (click)="upgrade(resource.name)">{{currentlyUpgrading == resource.name ? 'Cancel' : 'Upgrade'}}</button>
         <br/>
         Workers: <br/>
-        <button class="btn-success" (click)="substractWorker(1)" [disabled]="resources.sawmillWorkers == 0">-</button>
-        {{resources.sawmillWorkers}}
-        <button class="btn-success" (click)="addWorker(1)" [disabled]="resources.freeWorkers == 0">+</button>
+        <button class="btn-success" (click)="substractWorker(1)"
+                [disabled]="resource.workers == 0 || currentlyUpgrading != null">-
+        </button>
+        {{resource.workers}}
+        <button class="btn-success" (click)="addWorker(1)"
+                [disabled]="resources.freeWorkers == 0 || currentlyUpgrading != null">+
+        </button>
         <br/>
-        Current production: 100/min<br/>
-    </div>
-    <div class="entry">
-        Gold Mine<br/>
-        <img src="../../../assets/images/buildings/goldmine.jpeg"/> <br/>
-        Level: {{resources.goldmineLvl}} <br/>
-        <div class="resources">
-            <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
-                <br/> {{goldmineCost.gold}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
-                <br/> {{goldmineCost.wood}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
-                <br/> {{goldmineCost.stone}}
-            </div>
-        </div>
-        <button class="btn-success btn-upgrade" (click)="upgrade('goldmine')">Upgrade</button>
-        <br/>
-        Workers: <br/>
-        <button class="btn-success" (click)="substractWorker(2)" [disabled]="resources.goldmineWorkers == 0">-</button>
-        {{resources.goldmineWorkers}}
-        <button class="btn-success" (click)="addWorker(2)" [disabled]="resources.freeWorkers == 0">+</button>
-        <br/>
-        Current production: 100/min <br/>
-    </div>
-    <div class="entry">
-        Stone Pit<br/>
-        <img src="../../../assets/images/buildings/stonepit.jpeg"/> <br/>
-        Level: {{resources.stonepitLvl}} <br/>
-        <div class="resources">
-            <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
-                <br/> {{stonepitCost.gold}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
-                <br/> {{stonepitCost.wood}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
-                <br/> {{stonepitCost.stone}}
-            </div>
-        </div>
-        <button class="btn-success btn-upgrade" (click)="upgrade('stonepit')">Upgrade</button>
-        <br/>
-        Workers:<br/>
-        <button class="btn-success" (click)="substractWorker(3)" [disabled]="resources.stonepitWorkers == 0">-</button>
-        {{resources.stonepitWorkers}}
-        <button class="btn-success" (click)="addWorker(3)" [disabled]="resources.freeWorkers == 0">+</button>
-        <br/>
-        Current production: 100/min<br/>
+        Current production: {{resource.currentProduction}}/min<br/>
     </div>
     <div class="entry">
         <div class="entry-big">
@@ -78,9 +46,11 @@
             {{resources.freeWorkers}}
         </div>
     </div>
-</div>
 
-<div style="text-align: center; width: 100%;">
-    <br/>
-    <button class="btn-primary btn-lg btn-block" (click)="submitWorkers()">Save</button>
+    <div style="text-align: center; width: 100%;">
+        <br/>
+        <button class="btn-primary btn-lg btn-block" (click)="submitWorkers()" [disabled]="currentlyUpgrading != null">
+            Save
+        </button>
+    </div>
 </div>

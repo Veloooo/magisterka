@@ -13,7 +13,7 @@ import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;
 import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
 
-import static pl.daniel.pawlowski.conquerorgame.utils.Constants.OPERATION_SUCCESS_MESSAGE;
+import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
 
 @Service
 public class UserService {
@@ -23,7 +23,7 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public User getUserInfo(String authorization){
+    public User getUserInfo(String authorization) {
         RestTemplate template = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authorization);
@@ -32,33 +32,34 @@ public class UserService {
                 authServerUrl + "userinfo", HttpMethod.GET, entity, User.class).getBody();
     }
 
-    public boolean hasAccount(User user){
+    public boolean hasAccount(User user) {
         return repository.findAll().stream().anyMatch(t -> user.getId().equals(t.getId()));
     }
-    public User getUser(String userId){
+
+    public User getUser(String userId) {
         return repository.findOneById(userId);
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         repository.save(user);
     }
 
-    public UserAction getUserAction(String authorization, UserActionJSON userActionJSON){
+    public UserAction getUserAction(String authorization, UserActionJSON userActionJSON) {
         User userAuth = getUserInfo(authorization);
         User userAllInfo = getUser(userAuth.getId());
         return new UserAction(userActionJSON, userAllInfo);
     }
 
-    public Response returnResponse(String actionMessage){
+    public Response returnResponse(String actionMessage) {
         Response response = new Response();
-        if(OPERATION_SUCCESS_MESSAGE.equals(actionMessage)){
+        if (OPERATION_SUCCESS_MESSAGE.equals(actionMessage)) {
             response.setStatusCode(200);
-            response.setResponseMessage(OPERATION_SUCCESS_MESSAGE);
-        }
-        else{
+        } else if (SERVER_ERROR_MESSAGE.equals(actionMessage)) {
             response.setStatusCode(500);
-            response.setResponseMessage(actionMessage);
+        } else if (NOT_ENOUGH_RESOURCES_MESSAGE.equals(actionMessage)) {
+            response.setStatusCode(432);
         }
+        response.setResponseMessage(actionMessage);
         return response;
     }
 }

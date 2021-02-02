@@ -37,6 +37,8 @@ public class Resources {
     @Column(name = "free_workers")
     private int freeWorkers;
 
+
+
     @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "resources")
     @JsonIgnore
     private User user;

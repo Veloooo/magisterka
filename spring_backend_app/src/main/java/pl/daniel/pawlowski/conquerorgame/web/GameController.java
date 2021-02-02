@@ -12,6 +12,8 @@ import pl.daniel.pawlowski.conquerorgame.model.User;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(path = "api/game", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GameController {
@@ -43,11 +45,25 @@ public class GameController {
         String actionMessage = gameService.populationAction(action);
         return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
-    
+
     @PostMapping(value = "/resources")
-    public String resourcesAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
+    public String resourcesAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
         UserAction action = userService.getUserAction(authorization,userActionJSON);
         String actionMessage = gameService.resourcesAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
+
+    @PostMapping(value = "/research")
+    public String researchAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.upgradeAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
+
+    @PostMapping(value = "/buildings")
+    public String buildingsAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.upgradeAction(action);
         return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
 }

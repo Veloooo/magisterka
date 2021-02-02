@@ -20,4 +20,26 @@ export class UserAccount{
     wood: number;
     stone: number;
     people: number;
+    buildingQueue: string;
+    buildingFinishTime: Date;
+    buildingStartTime: Date;
+    researchQueue: string;
+    researchFinishTime: Date;
+    researchStartTime: Date;
+    woodProduction: number;
+    stoneProduction: number;
+    goldProduction: number;
+
+    getLevel(what) : number {
+        switch(what){
+            case 'Hall' : return this.buildings.hall;
+            case 'Barracks' : return this.buildings.barracks;
+            case 'War' : return this.buildings.war;
+            case 'Research' : return this.buildings.research;
+            case 'Stone' : return this.buildings.stoneWarehouse;
+            case 'Gold' : return this.buildings.vault;
+            case 'Wood' : return this.buildings.woodWarehouse;
+            case 'Farm' : return this.buildings.farm;
+        };
+    }
 }

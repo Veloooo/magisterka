@@ -5,6 +5,10 @@ import {Resources} from '../../model/resources';
 import {UserAction} from '../../model/user-action';
 import {Cost} from '../../model/cost';
 import {CostService} from '../../core/cost.service';
+import {UserAccount} from '../../model/user-account';
+import moment = require('moment');
+import {GameService} from '../../core/game-service';
+import {ResourceEntity} from '../../model/resource-entity';
 
 @Component({
     selector: 'app-resources',
@@ -13,48 +17,68 @@ import {CostService} from '../../core/cost.service';
 })
 export class ResourcesComponent implements OnInit {
     private resources: Resources;
-    private userAction: UserAction;
-    private sawmillCost : Cost;
-    private stonepitCost : Cost;
-    private goldmineCost : Cost;
+    private userAccount: UserAccount;
+    private resourceEntities: ResourceEntity[] = [];
+    private percent: number;
+    private remainingTime: number;
+    private remainingTimeString: string;
+    private currentlyUpgrading: string;
+    private stoneProduction: number;
+    private woodProduction: number;
+    private goldProduction: number;
+
 
     constructor(private _router: Router,
                 private _accountService: AccountService,
-                private _costService: CostService) {
+                private _gameService: GameService) {
     }
 
     ngOnInit() {
-        this.resources = this._accountService.userAccount.resources;
-        this.sawmillCost = this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == "Sawmill"), this.resources.sawmillLvl);
-        this.goldmineCost = this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == "Goldmine"), this.resources.goldmineLvl);
-        this.stonepitCost = this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == "Stonepit"), this.resources.stonepitLvl);
+        this.userAccount = this._accountService.userAccount;
+        this.resources = this.userAccount.resources;
+        this.resourceEntities.push((this._gameService.getResourceEntity('Sawmill', this.userAccount)));
+        this.resourceEntities.push((this._gameService.getResourceEntity('Goldmine', this.userAccount)));
+        this.resourceEntities.push((this._gameService.getResourceEntity('Stonepit', this.userAccount)));
+        this.currentlyUpgrading = this.userAccount.buildingQueue;
+        this.stoneProduction = this.userAccount.stoneProduction;
+        this.woodProduction= this.userAccount.woodProduction;
+        this.goldProduction = this.userAccount.goldProduction;
+        setInterval(() => {
+            this.updateQueue();
+        }, 1000);
     }
 
     submitWorkers() {
-        this.userAction = new UserAction();
-        this.userAction.action = 1;
-        this.userAction.data = JSON.stringify(this.resources);
-        this._accountService.resourcesAction(this.userAction).subscribe(
+        let userAction = new UserAction();
+        userAction.action = 3;
+        userAction.data = JSON.stringify(this.resources);
+        this._accountService.resourcesAction(userAction).subscribe(
             response => {
                 if (response.statusCode != 200) {
                     alert('Error on saving resources!');
                 }
+                location.reload();
             },
             err => {
                 alert(err);
             });
     }
 
-    upgrade(what : string){
-        this.userAction = new UserAction();
-        this.userAction.action = 2;
-        this.userAction.data = what;
-        this._accountService.resourcesAction(this.userAction).subscribe(
+    upgrade(what: string) {
+        let userAction = new UserAction();
+        if (this.currentlyUpgrading != null) {
+            userAction.action = 2;
+        } else {
+            userAction.action = 1;
+        }
+        userAction.data = what;
+        this._accountService.resourcesAction(userAction).subscribe(
             response => {
                 if (response.statusCode == 432) {
                     alert('Not enough resources!');
-                } else if(response.statusCode == 200){
-                    alert("Ok");
+                } else if (response.statusCode == 200) {
+                    location.reload();
+                    alert('Ok');
                 }
             },
             err => {
@@ -124,5 +148,22 @@ export class ResourcesComponent implements OnInit {
                 }
             }
         }
+    }
+
+    updateQueue() {
+        if (this.userAccount.buildingQueue) {
+            this.percent = Math.floor((new Date().getTime() - new Date(this.userAccount.buildingStartTime).getTime()) / (new Date(this.userAccount.buildingFinishTime).getTime()
+                - new Date(this.userAccount.buildingStartTime).getTime()) * 100);
+            this.remainingTime = moment(this.userAccount.buildingFinishTime).diff(moment());
+            if(this.remainingTime >= 0)
+                this.setDateString();
+        }
+    }
+
+    setDateString() {
+        const hours : number = Math.floor(this.remainingTime / 7200000);
+        const minutes : number = Math.floor((this.remainingTime % 7200000) / 60000);
+        const seconds : number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
+        this.remainingTimeString = (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
     }
 }

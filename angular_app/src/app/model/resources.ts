@@ -6,4 +6,5 @@ export class Resources{
     goldmineWorkers: number;
     stonepitLvl: number;
     stonepitWorkers: number;
+
 }

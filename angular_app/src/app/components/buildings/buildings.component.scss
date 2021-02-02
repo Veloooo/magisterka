@@ -1,10 +1,10 @@
 .entry{
-  width: 23%;
+  width: 20%;
   border: 1px solid gray;
   padding: 1%;
   min-height: 90%;
-  margin: 2% 5%;
-  float: left;
+  margin: 1% 2%;
+  display: inline-block;
   text-align: center;
 }
 
@@ -16,4 +16,13 @@
 .btn-upgrade{
   width: 40%;
   margin: 4%;
+}
+.resource-small{
+  width: 20%;
+  display: inline-block;
+  margin: 1% 2%;
+}
+
+.resource-small img{
+  width: 100%;
 }

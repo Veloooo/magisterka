@@ -1,38 +1,42 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 import {Constants} from '../constants';
 import {UserAccount} from '../model/user-account';
 import {UserAction} from '../model/user-action';
 import {ServerResponse} from '../model/server-response';
+import {tap} from 'rxjs/operators';
 
 
 @Injectable()
 export class AccountService {
 
-    userAccount: UserAccount;
+    get userAccount() {
+        return JSON.parse(localStorage.getItem('user'));
+    };
 
     constructor(private _httpClient: HttpClient) {
-        console.log("Service constructor")
-        this.getAllUSerInfoNormal();
     }
+
+
+    getAllUSerInfoNormal(forceBackendCall: boolean): Observable<UserAccount> {
+        if (this.userAccount && !forceBackendCall) {
+            return of(this.userAccount);
+        }
+
+        return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo')
+            .pipe(
+                tap(user => localStorage.setItem('user', JSON.stringify(user)))
+            );
+
+    }
+
 
     getUserAccount(): Observable<UserAccount> {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account');
     }
 
-    getAllUSerInfoNormal(): UserAccount {
-        if (!this.userAccount) {
-            this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo').subscribe(user => {
-                this.userAccount = user;
-                console.log("Data fetched");
-                return this.userAccount
-            })
-        } else {
-            return this.userAccount;
-        }
-    }
 
     getUserAllInfo(): Observable<UserAccount> {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo');
@@ -44,6 +48,14 @@ export class AccountService {
 
     resourcesAction(userAction: UserAction): Observable<ServerResponse> {
         return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/resources', userAction);
+    }
+
+    researchAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/research', userAction);
+    }
+
+    buildingsAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/buildings', userAction);
     }
 
     finalizeRegister(userAccount: UserAccount) {

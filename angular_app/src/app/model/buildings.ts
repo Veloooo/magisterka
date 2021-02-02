@@ -4,5 +4,7 @@ export class Buildings {
     research: number;
     war: number;
     farm: number;
-    warehouse: number;
+    vault: number;
+    woodWarehouse: number;
+    stoneWarehouse: number;
 }

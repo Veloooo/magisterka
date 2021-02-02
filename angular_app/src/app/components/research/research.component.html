@@ -1,36 +1,28 @@
-<div class="entry">
-    Building technology <br/>
-    <img src="../../../assets/images/research/building.png"/> <br/>
-    Level: {{research.building}}<br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Agriculture technology<br/>
-    <img src="../../../assets/images/research/agriculture.png"/> <br/>
-    Level: {{research.agriculture}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Logistics technology<br/>
-    <img src="../../../assets/images/research/logistics.png"/> <br/>
-    Level: {{research.logistics}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Attack technology<br/>
-    <img src="../../../assets/images/research/attack.png"/> <br/>
-    Level: {{research.attack}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Armour technology<br/>
-    <img src="../../../assets/images/research/armour.png"/> <br/>
-    Level: {{research.armour}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Mining technology<br/>
-    <img src="../../../assets/images/research/mining.png"/> <br/>
-    Level: {{research.mining}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
+<div class="entry" *ngFor="let research of researchEntities">
+        {{research.name}} technology <br/>
+        <img src="../../../assets/images/research/{{research.name}}.png"/> <br/>
+        Level: {{research.level}}<br/>
+        <div class="resources">
+            <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
+                <br/> {{research.currentCost.gold}}
+            </div>
+            <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
+                <br/> {{research.currentCost.wood}}
+            </div>
+            <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
+                <br/> {{research.currentCost.stone}}
+            </div>
+        </div>
+        <div *ngIf="currentlyUpgrading == research.name">
+            <div class="progress">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
+                     role="progressbar" [attr.aria-valuenow]="percent"
+                     [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
+                </div>
+            </div>
+            <div> {{this.remainingTimeString}} </div>
+        </div>
+    <button [disabled]="currentlyUpgrading != research.name && currentlyUpgrading != null " [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == research.name}"
+            class="btn-upgrade btn-success" (click)="upgrade(research.name)">{{currentlyUpgrading == research.name ? 'Cancel' : 'Upgrade'}}</button>
+
 </div>
