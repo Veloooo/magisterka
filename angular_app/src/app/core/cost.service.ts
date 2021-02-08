@@ -24,6 +24,9 @@ export class CostService {
         this.costs.push(new Cost(200, 100, 100, 5, "Vault"));
         this.costs.push(new Cost(100, 200, 100, 5, "StoneWarehouse"));
         this.costs.push(new Cost(100, 100, 200, 5, "WoodWarehouse"));
+        this.costs.push(new Cost(150, 300, 150, 10, "Wall"));
+        this.costs.push(new Cost(150, 300, 150, 13, "GuardTowers"));
+        this.costs.push(new Cost(220, 200, 240, 11, "Moat"));
     }
 
     costOfLevel(cost : Cost, level: number) : Cost{
@@ -33,5 +36,10 @@ export class CostService {
         costOfLevel.stone *= level;
         costOfLevel.minutes *= level;
         return costOfLevel;
+    }
+
+    isEnoughResources(cost: Cost, gold: number, stone: number, wood: number): boolean{
+
+        return true;
     }
 }

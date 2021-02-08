@@ -1,26 +1,29 @@
-<div class="entry">
-    City wall <br/>
-    <img src="../../../assets/images/defence/wall.jpeg"/> <br/>
-    Level: {{defence.cityWall}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-</div>
-<div class="entry">
-    Guard towers <br/>
-    <img src="../../../assets/images/defence/tower.jpeg"/> <br/>
-    Amount: {{defence.guardTowers}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
-    <br/>
-    Workers: <br/>
-    <button class="btn-success">-</button>
-    0
-    <button class="btn-success">+</button>
-    <br/>
-    Current production: 100/min<br/>
-    <button class="btn-primary">Save</button>
-</div>
-<div class="entry">
-    Moat <br/>
-    <img src="../../../assets/images/defence/moat.jpeg"/> <br/>
-    Level: {{defence.moat}} <br/>
-    <button class="btn-success btn-upgrade">Upgrade</button>
+<div class="entry" *ngFor="let defence of defenceEntities">
+    {{defence.name}} <br/>
+    <img src="../../../assets/images/defence/{{defence.name}}.jpeg"/> <br/>
+    Level: {{defence.level}} <br/>
+    <div class="resources">
+        <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
+            <br/> {{defence.currentCost.gold}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
+            <br/> {{defence.currentCost.wood}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
+            <br/> {{defence.currentCost.stone}}
+        </div>
+    </div>
+    <div *ngIf="currentlyUpgrading == defence.name">
+        <div class="progress">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
+                 role="progressbar" [attr.aria-valuenow]="percent"
+                 [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
+            </div>
+        </div>
+        <div> {{this.remainingTimeString}} </div>
+    </div>
+    <button [disabled]="currentlyUpgrading != defence.name && currentlyUpgrading != null "
+            [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == defence.name}"
+            class="btn-upgrade btn-success"
+            (click)="upgrade(defence.name)">{{currentlyUpgrading == defence.name ? 'Cancel' : 'Upgrade'}}</button>
 </div>

@@ -7,6 +7,7 @@ import {UserAccount} from '../../model/user-account';
 import {GameService} from '../../core/game-service';
 import {UserAction} from '../../model/user-action';
 import moment = require('moment');
+import {ResearchEntity} from '../../model/research-entity';
 
 @Component({
     selector: 'app-buildings',
@@ -83,5 +84,11 @@ export class BuildingsComponent implements OnInit {
         const minutes : number = Math.floor((this.remainingTime % 7200000) / 60000);
         const seconds : number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
         this.remainingTimeString = (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
+    }
+
+    isUpgradePossible(modelEntity: ModelEntity): boolean {
+        if(modelEntity.name == 'Hall')
+            return true;
+        return modelEntity.level < this.userAccount.buildings.hall;
     }
 }

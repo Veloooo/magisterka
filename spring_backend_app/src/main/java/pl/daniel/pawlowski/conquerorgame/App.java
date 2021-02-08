@@ -38,7 +38,6 @@ public class App {
 
     @PostConstruct
     public void scheduleRecurrently() {
-        jobScheduler.scheduleRecurrently(BackgroundService::executeSampleJob, "* * * * * *");
-        jobScheduler.scheduleRecurrently(BackgroundService::updateResources, Cron.minutely());
+        jobScheduler.scheduleRecurrently(BackgroundService::executeSampleJob, Cron.minutely());
     }
 }

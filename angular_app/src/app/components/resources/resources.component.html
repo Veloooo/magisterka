@@ -23,8 +23,8 @@
             </div>
             <div> {{this.remainingTimeString}} </div>
         </div>
-        <button [disabled]="currentlyUpgrading != resource.name && currentlyUpgrading != null "
-                [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == resource.name}"
+        <button [disabled]="(currentlyUpgrading != resource.name && currentlyUpgrading != null) || !isUpgradePossible(resource) "
+                [ngClass]="{'btn-success': currentlyUpgrading == null && isUpgradePossible(resource) , 'btn-danger' : currentlyUpgrading == resource.name}"
                 class="btn-upgrade btn-success"
                 (click)="upgrade(resource.name)">{{currentlyUpgrading == resource.name ? 'Cancel' : 'Upgrade'}}</button>
         <br/>

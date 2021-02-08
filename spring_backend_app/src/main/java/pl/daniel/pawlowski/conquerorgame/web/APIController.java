@@ -75,11 +75,9 @@ public class APIController {
         userInfo.setWood(100);
         userInfo.setStone(100);
         userInfo.setPeople(10);
-        Random rand = new Random();
 
         Population population = new Population();
         population.setUser(userInfo);
-        population.setTotal(rand.nextInt(50));
         userInfo.setPopulation(population);
 
         Resources resources = new Resources();

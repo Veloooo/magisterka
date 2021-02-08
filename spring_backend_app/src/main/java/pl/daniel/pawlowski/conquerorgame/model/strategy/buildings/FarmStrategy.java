@@ -9,6 +9,6 @@ public class FarmStrategy extends BuildingsUpgradeStrategy {
     @Override
     public void upgrade() {
         this.getUser().getBuildings().setFarm(this.getUser().getBuildings().getFarm() + 1);
-
+        setPeople();
     }
 }

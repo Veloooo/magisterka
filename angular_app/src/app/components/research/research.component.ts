@@ -7,6 +7,8 @@ import {CostService} from '../../core/cost.service';
 import {UserAction} from '../../model/user-action';
 import {UserAccount} from '../../model/user-account';
 import moment = require('moment');
+import {ResearchEntity} from '../../model/research-entity';
+import {GameService} from '../../core/game-service';
 
 @Component({
     selector: 'app-research',
@@ -16,7 +18,7 @@ import moment = require('moment');
 export class ResearchComponent implements OnInit {
 
     private research: Research;
-    private researchEntities: ModelEntity[] = [];
+    private researchEntities: ResearchEntity[] = [];
     private currentlyUpgrading: string;
     private userAccount: UserAccount;
     private percent: number;
@@ -25,49 +27,19 @@ export class ResearchComponent implements OnInit {
 
     constructor(private _router: Router,
                 private _accountService: AccountService,
-                private _costService: CostService) {
+                private _gameService: GameService) {
     }
 
     ngOnInit() {
         this.userAccount = this._accountService.userAccount;
         this.research = this.userAccount.research;
         this.currentlyUpgrading = this.userAccount.researchQueue;
-        const researchBuilding: ModelEntity = {
-            level: this.research.building,
-            name: 'Building',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Building'),this.userAccount.research.building)
-        };
-        const researchAgriculture: ModelEntity = {
-            level: this.research.agriculture,
-            name: 'Agriculture',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Agriculture'),this.userAccount.research.agriculture)
-        };
-        const researchLogistics: ModelEntity = {
-            level: this.research.logistics,
-            name: 'Logistics',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Logistics'),this.userAccount.research.logistics)
-        };
-        const researchAttack: ModelEntity = {
-            level: this.research.attack,
-            name: 'Attack',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Attack'),this.userAccount.research.attack)
-        };
-        const researchArmour: ModelEntity = {
-            level: this.research.armour,
-            name: 'Armour',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Armour'),this.userAccount.research.armour)
-        };
-        const researchMining: ModelEntity = {
-            level: this.research.mining,
-            name: 'Mining',
-            currentCost: this._costService.costOfLevel(this._costService.costs.find(cost => cost.name == 'Mining'),this.userAccount.research.mining)
-        };
-        this.researchEntities.push(researchBuilding);
-        this.researchEntities.push(researchAgriculture);
-        this.researchEntities.push(researchLogistics);
-        this.researchEntities.push(researchAttack);
-        this.researchEntities.push(researchArmour);
-        this.researchEntities.push(researchMining);
+        this.researchEntities.push((this._gameService.getResearchEntity('Building', this.userAccount)));
+        this.researchEntities.push((this._gameService.getResearchEntity('Agriculture', this.userAccount)));
+        this.researchEntities.push((this._gameService.getResearchEntity('Mining', this.userAccount)));
+        this.researchEntities.push((this._gameService.getResearchEntity('Logistics', this.userAccount)));
+        this.researchEntities.push((this._gameService.getResearchEntity('Attack', this.userAccount)));
+        this.researchEntities.push((this._gameService.getResearchEntity('Armour', this.userAccount)));
         setInterval(() => {
             this.updateQueue();
         }, 1000);
@@ -100,9 +72,12 @@ export class ResearchComponent implements OnInit {
         if (this.userAccount.researchQueue) {
             this.percent = Math.floor((new Date().getTime() - new Date(this.userAccount.researchStartTime).getTime()) / (new Date(this.userAccount.researchFinishTime).getTime()
                 - new Date(this.userAccount.researchStartTime).getTime()) * 100);
+            if(this.percent > 100)
+                this.percent = 100;
             this.remainingTime = moment(this.userAccount.researchFinishTime).diff(moment());
             if (this.remainingTime >= 0)
                 this.setDateString();
+            else this.remainingTimeString = "Finalizing upgrade..."
         }
     }
 
@@ -111,5 +86,12 @@ export class ResearchComponent implements OnInit {
         const minutes: number = Math.floor((this.remainingTime % 7200000) / 60000);
         const seconds: number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
         this.remainingTimeString = (hours < 10 ? '0' + hours : hours + '').concat(':').concat(minutes < 10 ? '0' + minutes : minutes + '').concat(':').concat(seconds < 10 ? "0" + seconds : seconds + "");
+    }
+
+    isUpgradePossible(modelEntity: ResearchEntity): boolean {
+        if(modelEntity.institute == 'War')
+            return modelEntity.level < this.userAccount.buildings.war;
+        else
+            return modelEntity.level < this.userAccount.buildings.research;
     }
 }

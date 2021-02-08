@@ -1,8 +1,10 @@
 package pl.daniel.pawlowski.conquerorgame.data;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jobrunr.jobs.annotations.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.daniel.pawlowski.conquerorgame.model.User;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +16,8 @@ import static pl.daniel.pawlowski.conquerorgame.utils.Constants.RESEARCH_INDICAT
 
 
 @Service
+@Transactional
+@Slf4j
 public class BackgroundService {
 
     @Autowired
@@ -28,19 +32,15 @@ public class BackgroundService {
 
     @Job(name = "The sample job with variable %0", retries = 2)
     public void executeSampleJob() {
-        List<User> usersWithQueuedBuildings = gameService.getUsersWithQueuedBuildings();
-        usersWithQueuedBuildings.stream()
+        getAllUsers();
+        log.info("Updating resources for all users");
+        allUsers.forEach(user -> gameService.updateResources(user));
+        log.info("Executing building upgrades");
+        allUsers.stream()
                 .filter(user -> user.getBuildingFinishTime() != null && user.getBuildingFinishTime().isBefore(LocalDateTime.now()))
                 .forEach(user -> gameService.finalizeUpgrade(user, BUILDING_INDICATOR));
-        List<User> usersWithQueuedResearch = gameService.getUsersWithQueuedResearch();
-        usersWithQueuedResearch.stream()
+        allUsers.stream()
                 .filter(user -> user.getResearchFinishTime() != null && user.getResearchFinishTime().isBefore(LocalDateTime.now()))
                 .forEach(user -> gameService.finalizeUpgrade(user, RESEARCH_INDICATOR));
     }
-
-    @Job(name = "Job updating resources for all users", retries = 2)
-    public void updateResources() {
-        allUsers.forEach(user -> gameService.updateResources(user));
-    }
-
 }

@@ -2,8 +2,10 @@ package pl.daniel.pawlowski.conquerorgame.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.daniel.pawlowski.conquerorgame.model.*;
 import pl.daniel.pawlowski.conquerorgame.model.strategy.UpgradeStrategy;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
@@ -14,12 +16,14 @@ import pl.daniel.pawlowski.conquerorgame.utils.UpgradeStrategyService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
 
 @Service
+@Slf4j
+@Transactional
 public class GameService {
 
     @Autowired
@@ -36,32 +40,11 @@ public class GameService {
 
     private List<User> allUsers;
 
-    private List<User> usersWithQueuedBuildings = new ArrayList<>();
-
-    private List<User> usersWithQueuedResearch = new ArrayList<>();
-
 
     List<User> getAllUsers() {
-        if (allUsers == null)
-            allUsers = userRepository.findAll();
-        return allUsers;
+        return userRepository.findAll();
     }
 
-    List<User> getUsersWithQueuedBuildings() {
-        return usersWithQueuedBuildings;
-    }
-
-    List<User> getUsersWithQueuedResearch() {
-        return usersWithQueuedResearch;
-    }
-
-    private void addUserToQueue(User user, List<User> queue) {
-        queue.add(user);
-    }
-
-    private void removeUserFromQueue(User user, List<User> queue) {
-        queue.removeIf(userList -> userList.getId().equals(user.getId()));
-    }
 
     public User getUser(String userId) {
         return userRepository.findOneById(userId);
@@ -75,7 +58,6 @@ public class GameService {
         user.setWood(user.getWood() + user.getWoodProduction());
         user.setGold(user.getGold() + user.getGoldProduction());
         user.setStone(user.getStone() + user.getStoneProduction());
-        userRepository.save(user);
     }
 
 
@@ -101,7 +83,7 @@ public class GameService {
         strategy.setUser(action.getUser());
         Cost cost = costsService.getCost(action.getData(), strategy.getLevel());
         if (action.getAction() == 1) {
-            if (costsService.isOperationPossible(cost, action.getUser()))
+            if (costsService.isOperationPossible(cost, action.getUser(), strategy))
                 return upgrade(action.getData(), action.getUser(), cost, strategy);
             else
                 return NOT_ENOUGH_RESOURCES_MESSAGE;
@@ -113,14 +95,14 @@ public class GameService {
 
     public String resourcesAction(UserAction action) throws IOException {
         if (action.getAction() == 3) {
-            setWorkers(action.getUser(), action.getData());
+            return setWorkers(action.getUser(), action.getData());
         } else if (action.getAction() == 2 || action.getAction() == 1) {
             upgradeAction(action);
         }
         return OPERATION_SUCCESS_MESSAGE;
     }
 
-    private void setWorkers(User user, String data) throws JsonProcessingException {
+    private String setWorkers(User user, String data) throws JsonProcessingException {
         Resources resources = mapper.readValue(data, Resources.class);
         user.getResources().setFreeWorkers(resources.getFreeWorkers());
         user.getResources().setGoldmineWorkers(resources.getGoldmineWorkers());
@@ -129,21 +111,16 @@ public class GameService {
         user.setWoodProduction(resources.getSawmillWorkers() * 6);
         user.setGoldProduction(resources.getGoldmineWorkers() * (2 + user.getResearch().getMining()));
         user.setStoneProduction(resources.getStonepitWorkers() * (4 + user.getResearch().getMining()));
-        userRepository.save(user);
+        return saveUser(user) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
     private String upgrade(String what, User user, Cost cost, UpgradeStrategy strategy) {
         user.setStone(user.getStone() - cost.getStone());
         user.setGold(user.getGold() - cost.getGold());
         user.setWood(user.getWood() - cost.getWood());
-        strategy.setQueue(what, LocalDateTime.now(), LocalDateTime.now().plusMinutes(cost.getMinutes()));
-        if (cost.getType().equals(BUILDING_INDICATOR)) {
-            addUserToQueue(user, this.usersWithQueuedBuildings);
-        } else if (cost.getType().equals(RESEARCH_INDICATOR)) {
-            addUserToQueue(user, this.usersWithQueuedResearch);
-        }
-        userRepository.save(user);
-        return OPERATION_SUCCESS_MESSAGE;
+        strategy.setUser(user);
+        strategy.setQueue(what, LocalDateTime.now(), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).plusMinutes(cost.getMinutes() + 1));
+        return saveUser(user) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
     private String cancelUpgrade(User user, Cost cost, UpgradeStrategy strategy) {
@@ -151,27 +128,36 @@ public class GameService {
         user.setGold(user.getGold() + cost.getGold());
         user.setWood(user.getWood() + cost.getWood());
         strategy.clearQueue();
-        if (cost.getType().equals(BUILDING_INDICATOR)) {
-            removeUserFromQueue(user, this.usersWithQueuedBuildings);
-        } else if (cost.getType().equals(RESEARCH_INDICATOR)) {
-            removeUserFromQueue(user, this.usersWithQueuedResearch);
-        }
-        userRepository.save(user);
-        return OPERATION_SUCCESS_MESSAGE;
+        return saveUser(user) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
-    void finalizeUpgrade(User user, String upgrading) {
+    String finalizeUpgrade(User user, String upgrading) {
+        log.info("Finalizing update of user: " + user + " upgrading: " + upgrading);
         String queue = "";
-        if(RESEARCH_INDICATOR.equals(upgrading))
+        if(RESEARCH_INDICATOR.equals(upgrading)) {
             queue = user.getResearchQueue();
-        else if (BUILDING_INDICATOR.equals(upgrading))
+        }
+        else if (BUILDING_INDICATOR.equals(upgrading)) {
             queue = user.getBuildingQueue();
+        }
+
         UpgradeStrategy strategy = upgradeStrategyService.getUpgradeStrategy(queue);
-        strategy.setUser(user);
+        User savingUser = getUser(user.getId());
+        strategy.setUser(savingUser);
         strategy.upgrade();
         strategy.clearQueue();
-        userRepository.save(user);
+        return saveUser(savingUser) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
+    private boolean saveUser(User user){
+        if(user.equals(userRepository.save(user))) {
+            log.info("Save operation successful!");
+            return true;
+        }
+        else {
+            log.error("Operation failed!");
+            return false;
+        }
+    }
 
 }

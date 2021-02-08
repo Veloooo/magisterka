@@ -21,6 +21,9 @@ public class Constants {
     public static final String VAULT_INDICATOR = "Vault";
     public static final String WOOD_WAREHOUSE_INDICATOR = "WoodWarehouse";
     public static final String STONE_WAREHOUSE_INDICATOR = "StoneWarehouse";
+    public static final String WALL_INDICATOR = "Wall";
+    public static final String GUARD_TOWERS_INDICATOR = "GuardTowers";
+    public static final String MOAT_INDICATOR = "Moat";
 
 
     // Research

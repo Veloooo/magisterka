@@ -1,6 +1,6 @@
 package pl.daniel.pawlowski.conquerorgame.model.strategy.research;
 
-public class BuildingStrategy extends ResearchUpgradeStrategy {
+public class BuildingStrategy extends EconomicResearchStrategy {
 
     public int getLevel() {
         return this.getUser().getResearch().getBuilding();

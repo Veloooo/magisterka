@@ -105,5 +105,30 @@ public class User {
         events.remove(event);
         event.setUser(null);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", cityCoordinates='" + cityCoordinates + '\'' +
+                ", fraction='" + fraction + '\'' +
+                ", gold=" + gold +
+                ", wood=" + wood +
+                ", stone=" + stone +
+                ", people=" + people +
+                ", buildingQueue='" + buildingQueue + '\'' +
+                ", buildingFinishTime=" + buildingFinishTime +
+                ", buildingStartTime=" + buildingStartTime +
+                ", researchQueue='" + researchQueue + '\'' +
+                ", researchFinishTime=" + researchFinishTime +
+                ", researchStartTime=" + researchStartTime +
+                ", stoneProduction=" + stoneProduction +
+                ", woodProduction=" + woodProduction +
+                ", goldProduction=" + goldProduction +
+                ", points=" + points +
+                '}';
+    }
 }
 

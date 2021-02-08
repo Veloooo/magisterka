@@ -1,28 +1,30 @@
 <div class="entry" *ngFor="let research of researchEntities">
-        {{research.name}} technology <br/>
-        <img src="../../../assets/images/research/{{research.name}}.png"/> <br/>
-        Level: {{research.level}}<br/>
-        <div class="resources">
-            <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
-                <br/> {{research.currentCost.gold}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
-                <br/> {{research.currentCost.wood}}
-            </div>
-            <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
-                <br/> {{research.currentCost.stone}}
+    {{research.name}} technology <br/>
+    <img src="../../../assets/images/research/{{research.name}}.png"/> <br/>
+    Level: {{research.level}}<br/>
+    <div class="resources">
+        <div class="resource-small"><img src="../../../assets/images/resources/gold.png" title="Gold"/>
+            <br/> {{research.currentCost.gold}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/wood.png" title="Wood"/>
+            <br/> {{research.currentCost.wood}}
+        </div>
+        <div class="resource-small"><img src="../../../assets/images/resources/stone.png" title="Stone"/>
+            <br/> {{research.currentCost.stone}}
+        </div>
+    </div>
+    <div *ngIf="currentlyUpgrading == research.name">
+        <div class="progress">
+            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
+                 role="progressbar" [attr.aria-valuenow]="percent"
+                 [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
             </div>
         </div>
-        <div *ngIf="currentlyUpgrading == research.name">
-            <div class="progress">
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated progbar"
-                     role="progressbar" [attr.aria-valuenow]="percent"
-                     [style.width.%]="percent" aria-valuemin="0" aria-valuemax="100"> Upgrading: {{percent}}%
-                </div>
-            </div>
-            <div> {{this.remainingTimeString}} </div>
-        </div>
-    <button [disabled]="currentlyUpgrading != research.name && currentlyUpgrading != null " [ngClass]="{'btn-success': currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == research.name}"
-            class="btn-upgrade btn-success" (click)="upgrade(research.name)">{{currentlyUpgrading == research.name ? 'Cancel' : 'Upgrade'}}</button>
+        <div> {{this.remainingTimeString}} </div>
+    </div>
+    <button [disabled]="(currentlyUpgrading != research.name && currentlyUpgrading != null) || !isUpgradePossible(research)"
+            [ngClass]="{'btn-success': isUpgradePossible(research) && currentlyUpgrading == null , 'btn-danger' : currentlyUpgrading == research.name }"
+            class="btn-upgrade btn-success"
+            (click)="upgrade(research.name)">{{currentlyUpgrading == research.name ? 'Cancel' : 'Upgrade'}}</button>
 
 </div>
