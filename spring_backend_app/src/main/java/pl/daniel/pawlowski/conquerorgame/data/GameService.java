@@ -17,6 +17,7 @@ import pl.daniel.pawlowski.conquerorgame.utils.UpgradeStrategyService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 
 import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
@@ -60,6 +61,49 @@ public class GameService {
         user.setStone(user.getStone() + user.getStoneProduction());
     }
 
+    public String heroAction(UserAction action) {
+        if(action.getAction() == 1){
+            if(action.getUser().getHeroes().size() * 10 <= action.getUser().getBuildings().getHall()) {
+                Hero hero = new Hero();
+                action.getUser().addHero(hero);
+                Statistics statistics = new Statistics();
+                hero.setHeroClass(action.getData());
+                hero.setLevel(1);
+                statistics.setHero(hero);
+                statistics.setAgility(10);
+                statistics.setStrength(20);
+                statistics.setIntelligence(15);
+                statistics.setCharisma(13);
+                hero.setStatistics(statistics);
+
+                hero.addItem(createItem("czapa puchata", "Head"));
+                hero.addItem(createItem("Skorzana kurtka", "Body"));
+                hero.addItem(createItem("trzypasowy dres", "Legs"));
+                hero.addItem(createItem("Sandaly judasza", "Boots"));
+
+                userRepository.save(action.getUser());
+            }
+            else
+                return "Too Many heroes!";
+        }
+        return "";
+    }
+
+    private Item createItem(String name, String part) {
+        Item item = new Item();
+        item.setName(name);
+        item.setPart(part);
+        ItemStatistics itemStatistics = new ItemStatistics();
+        itemStatistics.setItem(item);
+        item.setStatistics(itemStatistics);
+
+        itemStatistics.setAgility(1);
+        itemStatistics.setStrength(1);
+        itemStatistics.setIntelligence(1);
+        itemStatistics.setCharisma(1);
+
+        return item;
+    }
 
     public String populationAction(UserAction action) {
         Population population = action.getUser().getPopulation();

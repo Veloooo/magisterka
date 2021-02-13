@@ -57,6 +57,9 @@ export class AccountService {
     buildingsAction(userAction: UserAction): Observable<ServerResponse> {
         return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/buildings', userAction);
     }
+    heroAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/tavern', userAction);
+    }
 
     finalizeRegister(userAccount: UserAccount) {
         return this._httpClient.post(`${Constants.apiRoot}account/finalize`, userAccount);

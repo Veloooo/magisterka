@@ -16,6 +16,8 @@ import {DefenceComponent} from './components/defence/defence.component';
 import {PopulationComponent} from './components/population/population.component';
 import {ResearchComponent} from './components/research/research.component';
 import {ResourcesComponent} from './components/resources/resources.component';
+import {HeroComponent} from './components/hero/hero.component';
+import {HeroesComponent} from './components/heroes/heroes.component';
 
 
 const routes: Routes = [
@@ -28,11 +30,19 @@ const routes: Routes = [
         path: 'main-view',
         component: MainViewComponent,
         children: [
-            {path: '', redirectTo: 'overview', pathMatch: "full"},
+            {path: '', redirectTo: 'overview', pathMatch: 'full'},
             {path: 'overview', component: OverviewComponent},
             {path: 'buildings', component: BuildingsComponent},
             {path: 'barracks', component: BarracksComponent},
-            {path: 'tavern', component: TavernComponent},
+            {
+                path: 'heroes',
+                component: HeroesComponent,
+                children: [
+                    {path: '', redirectTo: 'tavern', pathMatch: 'full'},
+                    {path: 'tavern', component: TavernComponent},
+                    {path: 'hero', component: HeroComponent},
+                    ]
+            },
             {path: 'resources', component: ResourcesComponent},
             {path: 'defence', component: DefenceComponent},
             {path: 'population', component: PopulationComponent},

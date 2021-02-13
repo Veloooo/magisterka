@@ -1,16 +1,8 @@
-.hero{
-  width: 22%;
-  display: inline-block;
-  min-height: 40%;
-  border: 1px solid violet;
-  margin: 1%;
-}
-
-.hero img{
-  width: 50%;
-}
-
 .heroes-link {
+  display: inline-block;
+}
+
+.heroes-link a {
   background-color: darkslateblue;
   font-size: 30px;
   border: 1px solid black;
@@ -21,12 +13,12 @@
   text-decoration: none;
 }
 
-.heroes-link {
+.heroes-link a.active {
   background-color: #4CAF50;
   color: white;
 }
 
-.heroes-link hover:not(.active) {
+.heroes-link a:hover:not(.active) {
   background-color: #555;
   color: white;
 }

@@ -106,6 +106,23 @@ public class User {
         event.setUser(null);
     }
 
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Hero> heroes = new ArrayList<>();
+
+    public void addHero(Hero hero) {
+        heroes.add(hero);
+        hero.setUser(this);
+    }
+
+    public void removeHero(Hero hero) {
+        events.remove(hero);
+        hero.setUser(null);
+    }
+
     @Override
     public String toString() {
         return "User{" +

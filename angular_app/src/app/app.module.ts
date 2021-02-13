@@ -30,6 +30,8 @@ import { DefenceComponent } from './components/defence/defence.component';
 import { PopulationComponent } from './components/population/population.component';
 import { ResearchComponent } from './components/research/research.component';
 import { ResourcesComponent } from './components/resources/resources.component';
+import { HeroComponent } from './components/hero/hero.component';
+import { HeroesComponent } from './components/heroes/heroes.component';
 
 @NgModule({
     declarations: [
@@ -48,7 +50,9 @@ import { ResourcesComponent } from './components/resources/resources.component';
         DefenceComponent,
         PopulationComponent,
         ResearchComponent,
-        ResourcesComponent
+        ResourcesComponent,
+        HeroComponent,
+        HeroesComponent
     ],
     imports: [
         BrowserModule,

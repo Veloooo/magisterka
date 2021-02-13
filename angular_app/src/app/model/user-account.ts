@@ -5,6 +5,7 @@ import {Defence} from './defence';
 import {Research} from './research';
 import {Units} from './units';
 import {GameEvent} from './gameEvent';
+import {Hero} from './hero';
 
 export class UserAccount{
     fraction: string;
@@ -29,17 +30,5 @@ export class UserAccount{
     woodProduction: number;
     stoneProduction: number;
     goldProduction: number;
-
-    getLevel(what) : number {
-        switch(what){
-            case 'Hall' : return this.buildings.hall;
-            case 'Barracks' : return this.buildings.barracks;
-            case 'War' : return this.buildings.war;
-            case 'Research' : return this.buildings.research;
-            case 'Stone' : return this.buildings.stoneWarehouse;
-            case 'Gold' : return this.buildings.vault;
-            case 'Wood' : return this.buildings.woodWarehouse;
-            case 'Farm' : return this.buildings.farm;
-        };
-    }
+    heroes: Hero[];
 }

@@ -1,28 +1,26 @@
-<div style="text-align: center">Your heroes : <br/>
-    <div class="hero"> Crusader <br/>
-        <img src="../../../assets/images/heroes/crusader.jpeg"/></div>
-    <div class="hero"> Assassin <br/>
-        <img src="../../../assets/images/heroes/assassin.jpeg"/></div>
-    <div class="hero"> Paladin <br/>
-        <img src="../../../assets/images/heroes/paladin.jpeg"/></div>
+<div style="text-align: center; width: 100%">Your heroes : <br/>
+    <div class="hero" *ngFor="let hero of heroes"> {{hero.heroClass}} <br/>
+        <img src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/> <br/>
+        <button class="heroes-link" >View</button>
+    </div>
     <br/>
 
     Heroes in tavern : <br/>
     <div class="hero"> Crusader <br/>
         <img src="../../../assets/images/heroes/crusader.jpeg"/> <br/>
-        <button class="btn-primary">Recruit</button>
+        <button class="btn-primary" (click)="recruit('Crusader')">Recruit</button>
     </div>
 
     <div class="hero"> Assassin <br/>
         <img src="../../../assets/images/heroes/assassin.jpeg"/> <br/>
-        <button class="btn-primary">Recruit</button>
+        <button class="btn-primary" (click)="recruit('Assassin')">Recruit</button>
     </div>
     <div class="hero"> Paladin <br/>
         <img src="../../../assets/images/heroes/paladin.jpeg"/> <br/>
-        <button class="btn-primary">Recruit</button>
+        <button class="btn-primary" (click)="recruit('Paladin')">Recruit</button>
     </div>
     <div class="hero"> Wizard <br/>
         <img src="../../../assets/images/heroes/wizard.jpg"/> <br/>
-        <button class="btn-primary">Recruit</button>
+        <button class="btn-primary" (click)="recruit('Wizard')">Recruit</button>
     </div>
 </div>

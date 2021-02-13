@@ -66,4 +66,10 @@ public class GameController {
         String actionMessage = gameService.upgradeAction(action);
         return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
+    @PostMapping(value = "/tavern")
+    public String tavernAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.heroAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
 }
