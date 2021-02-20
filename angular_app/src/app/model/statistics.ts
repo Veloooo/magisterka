@@ -3,4 +3,5 @@ export interface Statistics {
     intelligence: number;
     agility: number;
     charisma: number;
+    skillPoints: number;
 }

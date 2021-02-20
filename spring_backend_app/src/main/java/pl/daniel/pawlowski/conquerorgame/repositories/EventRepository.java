@@ -5,5 +5,4 @@ import pl.daniel.pawlowski.conquerorgame.model.Event;
 import pl.daniel.pawlowski.conquerorgame.model.Units;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-
 }

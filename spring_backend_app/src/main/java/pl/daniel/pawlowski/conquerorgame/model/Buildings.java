@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
 @Getter
 @Setter
 @Entity
@@ -38,4 +37,14 @@ public class Buildings {
     @JsonIgnore
     private User user;
 
+    public Buildings() {
+        this.hall = 1;
+        this.barracks = 1;
+        this.research = 1;
+        this.war = 1;
+        this.farm = 1;
+        this.vault = 1;
+        this.stoneWarehouse = 1;
+        this.woodWarehouse= 1;
+    }
 }

@@ -58,6 +58,8 @@ public class UserService {
             response.setStatusCode(500);
         } else if (NOT_ENOUGH_RESOURCES_MESSAGE.equals(actionMessage)) {
             response.setStatusCode(432);
+        } else if (TOO_MANY_HEROES_MESSAGE.equals(actionMessage)){
+            response.setStatusCode(433);
         }
         response.setResponseMessage(actionMessage);
         return response;

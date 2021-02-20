@@ -24,6 +24,11 @@ public abstract class BuildingsUpgradeStrategy extends UpgradeStrategy {
     }
 
     @Override
+    public void updateStatistics() {
+        this.getUser().getPlayerStatistics().updateBuildings();
+    }
+
+    @Override
     public boolean areRequirementsFulfilled() {
         return this.getUser().getBuildings().getHall() > getLevel();
     }

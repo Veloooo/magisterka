@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
 @Getter
 @Setter
 @Entity
@@ -28,4 +27,9 @@ public class Defence {
     @JsonIgnore
     private User user;
 
+    public Defence() {
+        this.cityWall = 1;
+        this.moat = 1;
+        this.guardTowers = 1;
+    }
 }

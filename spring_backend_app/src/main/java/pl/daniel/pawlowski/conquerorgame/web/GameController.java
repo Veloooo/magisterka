@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.daniel.pawlowski.conquerorgame.data.GameService;
 import pl.daniel.pawlowski.conquerorgame.data.UserService;
-import pl.daniel.pawlowski.conquerorgame.model.Response;
 import pl.daniel.pawlowski.conquerorgame.model.User;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserActionJSON;

@@ -1,0 +1,107 @@
+.statistics {
+  float: left;
+  width: 36%;
+  min-height: 500px;
+  margin: 2%;
+}
+
+.equipment {
+  float: left;
+  width: 50%;
+  min-height: 500px;
+
+}
+
+.backpack {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 1%;
+}
+
+.hero {
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  min-height: 40%;
+  border: 1px solid violet;
+  margin: 2%;
+  font-size: 21px;
+  line-height: 35px;
+}
+
+.hero img {
+  width: 50%;
+}
+
+.part {
+  border: 1px solid violet;
+  text-align: center;
+  width: 100%;
+}
+
+.item {
+  width: 110px;
+  font-size: 15px;
+  padding: 0;
+  text-align: center;
+  display: inline-block;
+  margin: 2%;
+}
+
+.item img {
+  width: 50%;
+}
+
+.backpack .item {
+  width: 110px;
+}
+
+.backpack-item img {
+  width: 100%;
+}
+
+.statistics-icon {
+  width: 15%;
+  margin-top: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.hero .statistics-icon {
+  width: 100%;
+  font-size: 20px;
+}
+
+.item-worn .statistics-icon {
+  float: left;
+}
+.backpack .item-worn {
+  width: 150px;
+}
+.statistics-icon img {
+  width: 100%;
+}
+
+.hero .statistics-icon img {
+  width: 10%;
+}
+
+tr td {
+  width: 33%;
+}
+
+th {
+  text-align: center;
+}
+
+.item-worn{
+  width: 25%;
+  float: left;
+  border: 1px solid violet;
+  text-align: center;
+}
+
+button a {
+  color: whitesmoke;
+}

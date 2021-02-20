@@ -22,4 +22,9 @@ public abstract class ResearchUpgradeStrategy extends UpgradeStrategy {
         this.getUser().setResearchFinishTime(null);
         log.info("ResearchQueue cleared");
     }
+
+    @Override
+    public void updateStatistics() {
+        this.getUser().getPlayerStatistics().updateResearch();
+    }
 }

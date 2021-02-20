@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.daniel.pawlowski.conquerorgame.model.*;
 import pl.daniel.pawlowski.conquerorgame.model.strategy.UpgradeStrategy;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
+import pl.daniel.pawlowski.conquerorgame.repositories.HeroesRepository;
 import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
 import pl.daniel.pawlowski.conquerorgame.utils.Cost;
 import pl.daniel.pawlowski.conquerorgame.utils.CostsService;
@@ -17,9 +18,12 @@ import pl.daniel.pawlowski.conquerorgame.utils.UpgradeStrategyService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
 import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
 
 @Service
@@ -32,6 +36,8 @@ public class GameService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private HeroesRepository heroesRepository;
 
     @Autowired
     ObjectMapper mapper;
@@ -39,7 +45,6 @@ public class GameService {
     @Autowired
     UpgradeStrategyService upgradeStrategyService;
 
-    private List<User> allUsers;
 
 
     List<User> getAllUsers() {
@@ -51,9 +56,6 @@ public class GameService {
         return userRepository.findOneById(userId);
     }
 
-    public void addUser(User user) {
-        this.allUsers.add(user);
-    }
 
     public void updateResources(User user) {
         user.setWood(user.getWood() + user.getWoodProduction());
@@ -61,9 +63,9 @@ public class GameService {
         user.setStone(user.getStone() + user.getStoneProduction());
     }
 
-    public String heroAction(UserAction action) {
-        if(action.getAction() == 1){
-            if(action.getUser().getHeroes().size() * 10 <= action.getUser().getBuildings().getHall()) {
+    public String heroAction(UserAction action) throws JsonProcessingException {
+        if (action.getAction() == 1) {
+            if (action.getUser().getHeroes().size() * 10 <= action.getUser().getBuildings().getHall()) {
                 Hero hero = new Hero();
                 action.getUser().addHero(hero);
                 Statistics statistics = new Statistics();
@@ -74,25 +76,47 @@ public class GameService {
                 statistics.setStrength(20);
                 statistics.setIntelligence(15);
                 statistics.setCharisma(13);
+                statistics.setSkillPoints(10);
                 hero.setStatistics(statistics);
 
-                hero.addItem(createItem("czapa puchata", "Head"));
-                hero.addItem(createItem("Skorzana kurtka", "Body"));
-                hero.addItem(createItem("trzypasowy dres", "Legs"));
-                hero.addItem(createItem("Sandaly judasza", "Boots"));
+                hero.addItem(createItem("czapa puchata", "Head", 1));
+                hero.addItem(createItem("Skorzana kurtka", "Body", 1));
+                hero.addItem(createItem("trzypasowy dres", "Legs", 1));
+                hero.addItem(createItem("Sandaly judasza", "Boots", 1));
+                hero.addItem(createItem("Zapasowa czapa puchata", "Head", 0));
+                hero.addItem(createItem("Zapasowa Skorzana kurtka", "Body", 0));
+                hero.addItem(createItem("Zapasowa trzypasowy dres", "Legs", 0));
+                hero.addItem(createItem("Zapasowe Sandaly judasza", "Boots", 0));
 
                 userRepository.save(action.getUser());
-            }
-            else
-                return "Too Many heroes!";
+            } else
+                return TOO_MANY_HEROES_MESSAGE;
+        } else if (action.getAction() == 2) {
+            return updateHero(action);
         }
         return "";
     }
 
-    private Item createItem(String name, String part) {
+    private String updateHero(UserAction action) throws JsonProcessingException {
+        Hero hero = mapper.readValue(action.getData(), Hero.class);
+        Optional<Hero> currentHero = action.getUser().getHeroes().stream().filter(heroList -> heroList.getId() == hero.getId()).findFirst();
+        if (!currentHero.isPresent())
+            return NO_HERO_FOUND_MESSAGE;
+        List<Item> pairedItems = hero.getItems().stream().filter(item -> currentHero.get().getItems().stream().anyMatch(itemHero -> itemHero.getId() == item.getId())).collect(Collectors.toList());
+        currentHero.get().getItems().clear();
+        pairedItems.forEach(item -> {
+            item.setHero(currentHero.get());
+            currentHero.get().addItem(item);
+        });
+        return saveHero(currentHero.get()) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
+    }
+
+    private Item createItem(String name, String part, int isWorn) {
         Item item = new Item();
         item.setName(name);
         item.setPart(part);
+        item.setIsWorn(isWorn);
+        item.setLevelRequired(1);
         ItemStatistics itemStatistics = new ItemStatistics();
         itemStatistics.setItem(item);
         item.setStatistics(itemStatistics);
@@ -178,10 +202,9 @@ public class GameService {
     String finalizeUpgrade(User user, String upgrading) {
         log.info("Finalizing update of user: " + user + " upgrading: " + upgrading);
         String queue = "";
-        if(RESEARCH_INDICATOR.equals(upgrading)) {
+        if (RESEARCH_INDICATOR.equals(upgrading)) {
             queue = user.getResearchQueue();
-        }
-        else if (BUILDING_INDICATOR.equals(upgrading)) {
+        } else if (BUILDING_INDICATOR.equals(upgrading)) {
             queue = user.getBuildingQueue();
         }
 
@@ -193,12 +216,21 @@ public class GameService {
         return saveUser(savingUser) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
-    private boolean saveUser(User user){
-        if(user.equals(userRepository.save(user))) {
+    private boolean saveUser(User user) {
+        if (user.equals(userRepository.save(user))) {
             log.info("Save operation successful!");
             return true;
+        } else {
+            log.error("Operation failed!");
+            return false;
         }
-        else {
+    }
+
+    private boolean saveHero(Hero hero) {
+        if (hero.equals(heroesRepository.save(hero))) {
+            log.info("Save operation successful!");
+            return true;
+        } else {
             log.error("Operation failed!");
             return false;
         }

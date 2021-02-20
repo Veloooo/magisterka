@@ -7,9 +7,9 @@
     <div class="entry"> City coordinates: 1:1</div>
     <div class="entry"> Heroes:</div>
     <div class="entry"> Units:</div>
-    <div class="entry"> Sawmill:</div>
-    <div class="entry"> Stone pit:</div>
-    <div class="entry"> Gold mine:</div>
+    <div class="entry"> Gold mine: {{account.goldProduction}} gold/min</div>
+    <div class="entry"> Sawmill: {{account.woodProduction}} wood/min</div>
+    <div class="entry"> Stone pit: {{account.stoneProduction}} stone/min</div>
 </div>
 <div class="right-pane">
     <div class="log">
@@ -22,10 +22,9 @@
     </div>
     <div class="statistics">
         <div style="text-align: center">Statistics:</div>
-        <div class="entry">Buildings statistics:</div>
-        <div class="entry">Units statistics:</div>
-        <div class="entry">Resources statistics:</div>
-        <div class="entry">Research statistics:</div>
-        <div class="entry">Overall statistics:</div>
+        <div class="entry">Buildings statistics: {{account.playerStatistics.buildings}} points</div>
+        <div class="entry">Units statistics: {{account.playerStatistics.units}} points</div>
+        <div class="entry">Research statistics: {{account.playerStatistics.research}} points</div>
+        <div class="entry">Overall statistics: {{account.playerStatistics.overall}} points</div>
     </div>
 </div>

@@ -15,6 +15,7 @@ export class OverviewComponent implements OnInit {
 
   constructor(private _router: Router,
               private _accountService: AccountService) {
+
     setInterval(() => {
       this.calculateDiff();
     }, 1);
@@ -22,6 +23,7 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.account = this._accountService.userAccount;
+    console.log(this.account.playerStatistics);
   }
 
   calculateDiff(){

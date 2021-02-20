@@ -77,6 +77,7 @@ public class APIController {
         userInfo.setPeople(10);
 
         Population population = new Population();
+        population.setTotal(10);
         population.setUser(userInfo);
         userInfo.setPopulation(population);
 
@@ -103,12 +104,15 @@ public class APIController {
         defence.setUser(userInfo);
         userInfo.setDefence(defence);
 
+        PlayerStatistics playerStatistics= new PlayerStatistics();
+        playerStatistics.setUser(userInfo);
+        userInfo.setPlayerStatistics(playerStatistics);
+
         Event event = new Event();
         event.setEventDate(LocalDateTime.now().plusHours(30));
         event.setContent("Ostry wpierdol");
         userInfo.addEvent(event);
         userService.addUser(userInfo);
-        gameService.addUser(userInfo);
         return mapper.writeValueAsString(userInfo);
     }
 

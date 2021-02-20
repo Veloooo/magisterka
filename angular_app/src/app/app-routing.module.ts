@@ -40,7 +40,7 @@ const routes: Routes = [
                 children: [
                     {path: '', redirectTo: 'tavern', pathMatch: 'full'},
                     {path: 'tavern', component: TavernComponent},
-                    {path: 'hero', component: HeroComponent},
+                    {path: 'hero/:id', component: HeroComponent},
                     ]
             },
             {path: 'resources', component: ResourcesComponent},

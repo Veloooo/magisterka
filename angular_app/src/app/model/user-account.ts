@@ -6,6 +6,7 @@ import {Research} from './research';
 import {Units} from './units';
 import {GameEvent} from './gameEvent';
 import {Hero} from './hero';
+import {PlayerStatistics} from './player-statistics';
 
 export class UserAccount{
     fraction: string;
@@ -16,6 +17,7 @@ export class UserAccount{
     research: Research;
     units: Units;
     defence: Defence;
+    playerStatistics: PlayerStatistics;
     events: GameEvent[];
     gold: number;
     wood: number;

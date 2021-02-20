@@ -2,9 +2,11 @@ package pl.daniel.pawlowski.conquerorgame.utils;
 
 public class Constants {
     public static final String OPERATION_SUCCESS_MESSAGE = "Ok";
+    public static final String NO_HERO_FOUND_MESSAGE = "No hero found for given id!";
     public static final String NO_SUCH_OPERATION_MESSAGE = "There is no such operation!";
     public static final String NOT_ENOUGH_RESOURCES_MESSAGE = "Not enough resources!";
     public static final String SERVER_ERROR_MESSAGE = "An error occured!";
+    public static final String TOO_MANY_HEROES_MESSAGE = "Too many heroes!";
 
     public static final String BUILDING_INDICATOR = "Building";
     public static final String RESEARCH_INDICATOR = "Research";

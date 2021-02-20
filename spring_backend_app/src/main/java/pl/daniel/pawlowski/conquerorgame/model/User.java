@@ -89,6 +89,10 @@ public class User {
     @JoinColumn(name = "defence_id", referencedColumnName = "id")
     private Defence defence;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "statistics_id", referencedColumnName = "id")
+    private PlayerStatistics playerStatistics;
+
     @OneToMany(
             mappedBy = "user",
             fetch = FetchType.LAZY,

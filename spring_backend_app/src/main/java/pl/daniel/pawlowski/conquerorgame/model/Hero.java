@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @Getter
@@ -50,4 +51,28 @@ public class Hero {
     @JoinColumn(name="user_id")
     @JsonIgnore
     private User user;
+
+    @Override
+    public String toString() {
+        return "Hero{" +
+                "id=" + id +
+                ", heroClass='" + heroClass + '\'' +
+                ", level=" + level +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hero hero = (Hero) o;
+        return id == hero.id &&
+                level == hero.level &&
+                Objects.equals(heroClass, hero.heroClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, heroClass, level);
+    }
 }

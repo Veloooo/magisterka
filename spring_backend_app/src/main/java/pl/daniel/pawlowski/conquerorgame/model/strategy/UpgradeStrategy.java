@@ -14,6 +14,7 @@ public abstract class UpgradeStrategy {
     public abstract void clearQueue();
     public abstract void setQueue(String what, LocalDateTime startTime, LocalDateTime finishTime);
     public abstract boolean areRequirementsFulfilled();
+    public abstract void updateStatistics();
 
     public User getUser() {
         return user;
@@ -35,4 +36,5 @@ public abstract class UpgradeStrategy {
         this.getUser().getPopulation().setTotal(this.getUser().getPeople() - currentPeople + currentFree);
         log.info("Free workers after update: " + this.getUser().getPopulation().getTotal());
     }
+
 }

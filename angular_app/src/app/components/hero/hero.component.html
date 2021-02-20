@@ -1,1 +1,86 @@
-<p>hero works!</p>
+<div class="statistics">
+    <div class="hero"> {{hero.heroClass}} <br/>
+        <img src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/> <br/>
+        Level: {{hero.level}}
+        <table style="width:100%; text-align: left">
+            <tr>
+                <th>Statistic</th>
+                <th>Build</th>
+                <th>With items</th>
+            </tr>
+            <ng-container *ngFor="let statistic of statistics">
+                <tr>
+                    <td>
+                        <div class="statistics-icon">
+                            <img src="../../../assets/images/statistics/{{statistic}}.png"> {{statistic}}:
+                        </div>
+                    </td>
+                    <td>{{getStatistics(statistic, false)}}
+                        <button [disabled]="!isButtonActive(statistic, '-')"
+                                (click)="performStatisticsAction(statistic, -1)"
+                                [ngClass]="{'btn-danger' : isButtonActive(statistic, '-')}"
+                                class="btn-danger text-monospace btn-sm">-
+                        </button>
+                        <button [disabled]="!isButtonActive(statistic, '+')"
+                                (click)="performStatisticsAction(statistic, 1)"
+                                [ngClass]="{'btn-success': isButtonActive(statistic, '+')}"
+                                class="btn-success text-monospace btn-sm">+
+                        </button>
+                    </td>
+                    <td>{{getStatistics(statistic, true)}}</td>
+                </tr>
+            </ng-container>
+        </table>
+
+        Skill points: {{heroTmp.statistics.skillPoints}}
+    </div>
+
+</div>
+
+<div class="equipment">
+    Items worn: <br/>
+    <div class="item-worn" *ngFor="let part of parts">
+        <div class="part">
+            {{part}}
+        </div>
+        {{getItemOfPart(part).name}}
+        <div class="item">
+            <img src="../../../assets/images/items/{{getItemImage(getItemOfPart(part))}}">
+        </div>
+        <div class="statistics-icon" *ngFor="let stat of statistics">
+            <img src="../../../assets/images/statistics/{{stat}}.png"> {{getStatOfItem(stat, getItemOfPart(part))}}
+        </div>
+        <button [disabled]="!isPartWorn(part)" class="btn btn-success" (click)="takeOff(getItemOfPart(part))">Take off</button>
+    </div>
+    <br/>
+    Backpack:
+    <br/>
+    <div class="backpack">
+        <div [style.width.px]="getItemFromBackpack().length * 150">
+            <div class="item-worn" *ngFor="let item of getItemFromBackpack()">
+                <div class="part">
+                    {{item.name}}
+                </div>
+                <div class="item">
+                    <img src="../../../assets/images/items/{{getItemImage(item)}}">
+                </div>
+                <div class="statistics-icon" *ngFor="let stat of statistics">
+                    <img src="../../../assets/images/statistics/{{stat}}.png"> {{getStatOfItem(stat, item)}}
+                </div>
+                <button class="btn btn-success" [disabled]="isPartWorn(item.part)" (click)="putOn(item)">Put on</button>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; width: 100%;">
+        <br/>
+        <button class="btn-primary btn-lg btn-block" (click)="saveHero()">
+            Save
+        </button>
+        <br/>
+        <button class="btn-info btn-lg btn-block" (click)="backToTavern()">
+           Tavern
+        </button>
+    </div>
+</div>
+<br/>
+
