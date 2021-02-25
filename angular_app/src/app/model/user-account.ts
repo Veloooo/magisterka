@@ -11,6 +11,8 @@ import {PlayerStatistics} from './player-statistics';
 export class UserAccount{
     fraction: string;
     nick: string;
+    cityPosition: number;
+    cityName: string;
     population: UserPopulation;
     resources: Resources;
     buildings: Buildings;

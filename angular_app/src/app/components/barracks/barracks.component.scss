@@ -1,15 +1,15 @@
 .entry{
-  width: 22%;
+  width: 30%;
   border: 1px solid gray;
   padding: 1%;
   min-height: 90%;
-  margin: 2% 5%;
-  text-align: center;
+  margin: 1% 1%;
   display: inline-block;
+  text-align: center;
 }
 
 .entry img{
-  width: 40%;
+  width: 30%;
   height: 10%;
 }
 
@@ -21,4 +21,37 @@
 .btn-upgrade{
   width: 40%;
   margin: 4%;
+}
+
+.entry-big{
+  width: 100%;
+  display: block;
+}
+
+.entry-big img{
+  width: 100%;
+  min-height: 30%;
+}
+
+.resource-small{
+  width: 20%;
+  display: inline-block;
+  margin: 1% 4%;
+}
+
+.resource-small img{
+  width: 100%;
+}
+
+.unit-info{
+  float: left;
+  width: 40%;
+}
+.unit-info img{
+  width: 100%;
+}
+
+.recruit{
+  float: left;
+  width: 60%;
 }

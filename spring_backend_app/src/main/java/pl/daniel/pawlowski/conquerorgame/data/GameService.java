@@ -46,7 +46,6 @@ public class GameService {
     UpgradeStrategyService upgradeStrategyService;
 
 
-
     List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -61,6 +60,44 @@ public class GameService {
         user.setWood(user.getWood() + user.getWoodProduction());
         user.setGold(user.getGold() + user.getGoldProduction());
         user.setStone(user.getStone() + user.getStoneProduction());
+    }
+
+    public String barracksAction(UserAction action) {
+        if(Integer.valueOf(action.getData()) < 0 ){
+            return BAD_REQUEST;
+        }
+        String unit = UNIT_INDICATOR + action.getAction();
+        Cost cost = costsService.getCostOfNumber(unit, Integer.valueOf(action.getData()));
+        if (costsService.isOperationPossible(cost, action.getUser())) {
+            Units units = action.getUser().getUnits();
+            int amount = Integer.valueOf(action.getData());
+            switch (action.getAction()) {
+                case 1:
+                    units.setUnit1(units.getUnit1() + amount);
+                    break;
+                case 2:
+                    units.setUnit2(units.getUnit2() + amount);
+                    break;
+                case 3:
+                    units.setUnit3(units.getUnit3() + amount);
+                    break;
+                case 4:
+                    units.setUnit4(units.getUnit4() + amount);
+                    break;
+                case 5:
+                    units.setUnit5(units.getUnit5() + amount);
+                    break;
+                case 6:
+                    units.setUnit6(units.getUnit6() + amount);
+                    break;
+            }
+            action.getUser().setStone(action.getUser().getStone() - cost.getStone());
+            action.getUser().setGold(action.getUser().getGold() - cost.getGold());
+            action.getUser().setWood(action.getUser().getWood() - cost.getWood());
+            return saveUser(action.getUser()) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
+        } else {
+            return NOT_ENOUGH_RESOURCES_MESSAGE;
+        }
     }
 
     public String heroAction(UserAction action) throws JsonProcessingException {
@@ -151,7 +188,7 @@ public class GameService {
         strategy.setUser(action.getUser());
         Cost cost = costsService.getCost(action.getData(), strategy.getLevel());
         if (action.getAction() == 1) {
-            if (costsService.isOperationPossible(cost, action.getUser(), strategy))
+            if (costsService.isOperationPossible(cost, action.getUser()))
                 return upgrade(action.getData(), action.getUser(), cost, strategy);
             else
                 return NOT_ENOUGH_RESOURCES_MESSAGE;
@@ -197,6 +234,26 @@ public class GameService {
         user.setWood(user.getWood() + cost.getWood());
         strategy.clearQueue();
         return saveUser(user) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
+    }
+
+    public List<User> getAllUsersCityInfo() {
+        List<User> allUsers = userRepository.findAllByOrderByCityPosition();
+        List<User> allUsersCityInfo = new ArrayList<>();
+        allUsers.forEach(user -> allUsersCityInfo.add(createUserInfoFromUser(user)));
+        return allUsersCityInfo;
+    }
+
+    private User createUserInfoFromUser(User user){
+        User userCityInfo = new User();
+        userCityInfo.setGold(user.getGold());
+        userCityInfo.setWood(user.getWood());
+        userCityInfo.setStone(user.getStone());
+        userCityInfo.setFraction(user.getFraction());
+        userCityInfo.setNick(user.getNick());
+        userCityInfo.setCityPosition(user.getCityPosition());
+        userCityInfo.setCityName(user.getCityName());
+        userCityInfo.setUnits(user.getUnits());
+        return userCityInfo;
     }
 
     String finalizeUpgrade(User user, String upgrading) {

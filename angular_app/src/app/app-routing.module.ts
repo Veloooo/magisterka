@@ -18,6 +18,9 @@ import {ResearchComponent} from './components/research/research.component';
 import {ResourcesComponent} from './components/resources/resources.component';
 import {HeroComponent} from './components/hero/hero.component';
 import {HeroesComponent} from './components/heroes/heroes.component';
+import {MapComponent} from './components/map/map.component';
+import {MissionComponent} from './components/mission/mission.component';
+import {DungeonsComponent} from './components/dungeons/dungeons.component';
 
 
 const routes: Routes = [
@@ -46,7 +49,10 @@ const routes: Routes = [
             {path: 'resources', component: ResourcesComponent},
             {path: 'defence', component: DefenceComponent},
             {path: 'population', component: PopulationComponent},
-            {path: 'research', component: ResearchComponent}
+            {path: 'research', component: ResearchComponent},
+            {path: 'map', component: MapComponent},
+            {path: 'mission', component: MissionComponent},
+            {path: 'dungeons', component: DungeonsComponent}
         ]
     },
     {path: 'private', component: UnauthorizedComponent}

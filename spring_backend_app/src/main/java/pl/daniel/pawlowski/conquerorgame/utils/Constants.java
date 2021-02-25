@@ -7,6 +7,7 @@ public class Constants {
     public static final String NOT_ENOUGH_RESOURCES_MESSAGE = "Not enough resources!";
     public static final String SERVER_ERROR_MESSAGE = "An error occured!";
     public static final String TOO_MANY_HEROES_MESSAGE = "Too many heroes!";
+    public static final String BAD_REQUEST = "Bad request!";
 
     public static final String BUILDING_INDICATOR = "Building";
     public static final String RESEARCH_INDICATOR = "Research";
@@ -35,6 +36,15 @@ public class Constants {
     public static final String ATTACK_RESEARCH_INDICATOR = "Attack";
     public static final String ARMOUR_RESEARCH_INDICATOR = "Armour";
     public static final String MINING_RESEARCH_INDICATOR = "Mining";
+
+    // Units
+    public static final String UNIT_INDICATOR = "Unit";
+    public static final String UNIT1_INDICATOR = "Unit1";
+    public static final String UNIT2_INDICATOR = "Unit2";
+    public static final String UNIT3_INDICATOR = "Unit3";
+    public static final String UNIT4_INDICATOR = "Unit4";
+    public static final String UNIT5_INDICATOR = "Unit5";
+    public static final String UNIT6_INDICATOR = "Unit6";
 }
 
 

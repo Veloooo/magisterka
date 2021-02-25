@@ -1,0 +1,54 @@
+.resource-small {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  margin: 1% 1%;
+}
+
+.resource-small img {
+  width: 100%;
+}
+
+.hero {
+  width: 15%;
+  text-align: center;
+  float: left;
+}
+
+.hero img {
+  width: 100%;
+}
+
+.heroes {
+  width: 55%;
+  display: inline-block;
+}
+
+.mission-type {
+  width: 10%;
+  display: inline-block;
+}
+
+.mission-details{
+  margin-left: 2%;
+  margin-right: 2%;
+  width: 11%;
+  display: inline-block;
+}
+
+
+.army{
+  width: 100%;
+  text-align: center;
+  border: 1px solid goldenrod;
+}
+
+th {
+  width: 14%;
+  margin: 3%;
+}
+
+.bottom-mission {
+  width: 100%;
+  border: 2px solid burlywood;
+}

@@ -35,6 +35,12 @@ public class CostsService {
         allCosts.add(Cost.builder().name(WALL_INDICATOR).type(BUILDING_INDICATOR).gold(150).stone(300).wood(150).minutes(13).build());
         allCosts.add(Cost.builder().name(GUARD_TOWERS_INDICATOR).type(BUILDING_INDICATOR).gold(150).stone(350).wood(150).minutes(10).build());
         allCosts.add(Cost.builder().name(MOAT_INDICATOR).type(BUILDING_INDICATOR).gold(220).stone(200).wood(240).minutes(11).build());
+        allCosts.add(Cost.builder().name(UNIT1_INDICATOR).gold(100).stone(100).wood(100).build());
+        allCosts.add(Cost.builder().name(UNIT2_INDICATOR).gold(200).stone(200).wood(200).build());
+        allCosts.add(Cost.builder().name(UNIT3_INDICATOR).gold(300).stone(300).wood(300).build());
+        allCosts.add(Cost.builder().name(UNIT4_INDICATOR).gold(400).stone(400).wood(400).build());
+        allCosts.add(Cost.builder().name(UNIT5_INDICATOR).gold(500).stone(500).wood(500).build());
+        allCosts.add(Cost.builder().name(UNIT6_INDICATOR).gold(600).stone(600).wood(600).build());
     }
 
     public Cost getCost(String what, int level) {
@@ -44,8 +50,15 @@ public class CostsService {
         else
             return cost.costOfLevel(level, cost.getType(), cost.getName());
     }
+    public Cost getCostOfNumber(String what, int number) {
+        Cost cost = allCosts.stream().filter(e -> e.getName().equals(what)).findFirst().orElse(null);
+        if(cost == null)
+            return null;
+        else
+            return cost.costOfNumber(number, cost.getName());
+    }
 
-    public boolean isOperationPossible(Cost cost, User user, UpgradeStrategy strategy){
+    public boolean isOperationPossible(Cost cost, User user){
         return cost.getGold() <= user.getGold() && cost.getStone() <= user.getStone() && cost.getWood() <= user.getWood();
     }
 

@@ -38,8 +38,10 @@ export class CostService {
         return costOfLevel;
     }
 
+    getCostOfUnit(unit: number){
+        return new Cost(100 * unit, 100 * unit, 100 * unit, 0, "");
+    }
     isEnoughResources(cost: Cost, gold: number, stone: number, wood: number): boolean{
-
         return true;
     }
 }

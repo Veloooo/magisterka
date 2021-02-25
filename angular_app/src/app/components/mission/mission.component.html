@@ -1,0 +1,103 @@
+<h1>Send mission: </h1>
+<div class="army">
+    <table>
+        <tr>
+            <th></th>
+            <th>{{getUnitNameByFraction(account.fraction, 1)}} <br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 1)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 1)}}"/></div>
+            </th>
+            <th>{{getUnitNameByFraction(account.fraction, 2)}}<br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 2)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 2)}}"/></div>
+            </th>
+            <th>{{getUnitNameByFraction(account.fraction, 3)}}<br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 3)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 3)}}"/></div>
+            </th>
+            <th>{{getUnitNameByFraction(account.fraction, 4)}}<br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 4)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 4)}}"/></div>
+            </th>
+            <th>{{getUnitNameByFraction(account.fraction, 5)}}<br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 5)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 5)}}"/></div>
+            </th>
+            <th>{{getUnitNameByFraction(account.fraction, 6)}}<br/>
+                <div class="resource-small"><img
+                        src="../../../assets/images/units/{{account.fraction}}/{{getUnitNameByFraction(account.fraction, 6)}}.jpeg"
+                        title="{{getUnitNameByFraction(account.fraction, 6)}}"/></div>
+            </th>
+        </tr>
+        <tr>
+            <td> In barracks:</td>
+            <td>{{getUnitCountById(1, account.units)}}</td>
+            <td>{{getUnitCountById(2, account.units)}}</td>
+            <td>{{getUnitCountById(3, account.units)}}</td>
+            <td>{{getUnitCountById(4, account.units)}}</td>
+            <td>{{getUnitCountById(5, account.units)}}</td>
+            <td>{{getUnitCountById(6, account.units)}}</td>
+        </tr>
+
+        <tr>
+            <td> In mission:</td>
+            <ng-container *ngFor="let unit of unitsMissionIndex">
+                <td>
+                    <button [ngClass]="{'btn-success' : getUnitCountById(unit, unitsMission) > 0}"
+                            [disabled]="getUnitCountById(unit, unitsMission) < 1" (click)="changeUnit(unit, -1)"
+                            class="btn-success text-monospace btn-sm">-
+                    </button>
+                    {{getUnitCountById(unit, unitsMission)}}
+                    <button [ngClass]="{'btn-success' : getUnitCountById(unit, unitsMission) < getUnitCountById(unit, account.units)}"
+                            [disabled]="getUnitCountById(unit, unitsMission) >= getUnitCountById(unit, account.units)"
+                            (click)="changeUnit(unit, 1)" class="btn-success text-monospace btn-sm">+
+                    </button>
+                </td>
+            </ng-container>
+        </tr>
+    </table>
+</div>
+
+<div class="bottom-mission">
+
+    <div class="heroes">
+        <label>Select hero:</label> <br/>
+        <mat-radio-group
+                aria-labelledby="radio-group-label"
+                [(ngModel)]="selectedHero">
+            <mat-radio-button class="hero" *ngFor="let hero of heroes" [value]="hero">
+                {{hero.heroClass}} <br/>
+                <img
+                        src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/>
+                <br/> Level {{hero.level}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="mission-type">
+        <label>Select a mission</label> <br/>
+        <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="mission">
+            <mat-radio-button class="example-radio-button" *ngFor="let mission of getAvailableMissions('d')"
+                              [value]="mission">
+                {{mission}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="mission=='Station'">
+            For how long?
+        </div>
+    </div>
+
+    <div class="mission-details">
+        Hours:
+    </div>
+
+
+</div>
+<button class="btn btn-info btn-block">Submit</button>

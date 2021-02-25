@@ -5,7 +5,7 @@ import {
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule,
+    MatInputModule, MatRadioModule,
     MatSelectModule,
     MatTableModule,
     MatToolbarModule
@@ -32,6 +32,10 @@ import { ResearchComponent } from './components/research/research.component';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
+import { DungeonsComponent } from './components/dungeons/dungeons.component';
+import { MapComponent } from './components/map/map.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { MissionComponent } from './components/mission/mission.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +56,11 @@ import { HeroesComponent } from './components/heroes/heroes.component';
         ResearchComponent,
         ResourcesComponent,
         HeroComponent,
-        HeroesComponent
+        HeroesComponent,
+        DungeonsComponent,
+        MapComponent,
+        MessagesComponent,
+        MissionComponent
     ],
     imports: [
         BrowserModule,
@@ -68,7 +76,8 @@ import { HeroesComponent } from './components/heroes/heroes.component';
         MatSelectModule,
         CoreModule,
         AppRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatRadioModule
     ],
     providers: [],
     bootstrap: [AppComponent],

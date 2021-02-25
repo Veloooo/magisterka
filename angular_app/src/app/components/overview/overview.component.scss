@@ -32,3 +32,22 @@
 .statistics{
   border: 1px goldenrod solid;
 }
+.resource-small{
+  width: 25%;
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+  margin: 1% 4%;
+}
+
+.resource-small img{
+  width: 100%;
+}
+
+.army .resource-small {
+  width: 8%;
+}
+
+.heroes .resource-small img{
+  width: 50%;
+}

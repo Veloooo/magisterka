@@ -61,6 +61,14 @@ export class AccountService {
         return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/tavern', userAction);
     }
 
+    barracksAction(userAction: UserAction): Observable<ServerResponse> {
+        return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/barracks', userAction);
+    }
+
+    getAllUsers(): Observable<UserAccount[]> {
+        return this._httpClient.get<UserAccount[]>(Constants.apiRoot + 'account/allUsers');
+    }
+
     finalizeRegister(userAccount: UserAccount) {
         return this._httpClient.post(`${Constants.apiRoot}account/finalize`, userAccount);
     }

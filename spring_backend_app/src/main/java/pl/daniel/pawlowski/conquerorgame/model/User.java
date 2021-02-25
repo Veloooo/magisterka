@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Slf4j
 public class User {
     @Id
     @JsonProperty("sub")
@@ -21,10 +23,12 @@ public class User {
 
     private String name;
 
+    private String nick;
+
     @Column(name = "city_name")
     private String cityName;
-    @Column(name = "city_coordinates")
-    private String cityCoordinates;
+    @Column(name = "city_position")
+    private Integer cityPosition;
 
     private String fraction;
 
@@ -133,7 +137,7 @@ public class User {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", cityName='" + cityName + '\'' +
-                ", cityCoordinates='" + cityCoordinates + '\'' +
+                ", cityPosition='" + cityPosition + '\'' +
                 ", fraction='" + fraction + '\'' +
                 ", gold=" + gold +
                 ", wood=" + wood +

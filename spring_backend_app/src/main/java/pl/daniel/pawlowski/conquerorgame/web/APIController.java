@@ -54,14 +54,10 @@ public class APIController {
         return mapper.writeValueAsString(userAllInfo);
     }
 
-    @GetMapping(value = "/account/userAction")
-    public String getUserAction(@RequestHeader(value = "Authorization") String authorization) throws JsonProcessingException {
-        System.out.println("Xsaxsaxasxasxas");
-        User userAuth = userService.getUserInfo(authorization);
-        User userAllInfo = gameService.getUser(userAuth.getId());
-        //userAction.setUser(userAllInfo);
-        //gameService.performAction(userAction);
-        return "sd";
+    @GetMapping(value = "/account/allUsers")
+    public String getAllUsersCityInfo() throws JsonProcessingException {
+        List<User> allUsers = gameService.getAllUsersCityInfo();
+        return mapper.writeValueAsString(allUsers);
     }
 
     @PostMapping(value = "/account/finalize")
@@ -70,7 +66,7 @@ public class APIController {
         User userInfo = userService.getUserInfo(authorization);
         userInfo.setFraction(user.getFraction());
         userInfo.setCityName("City");
-        userInfo.setCityCoordinates("1:1:1");
+        userInfo.setCityPosition(1);
         userInfo.setGold(200);
         userInfo.setWood(100);
         userInfo.setStone(100);

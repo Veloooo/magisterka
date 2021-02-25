@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {AccountService} from '../../core/account.service';
 import {UserAccount} from '../../model/user-account';
 import moment = require('moment');
+import {GameService} from '../../core/game-service';
 
 @Component({
   selector: 'app-overview',
@@ -14,7 +15,8 @@ export class OverviewComponent implements OnInit {
   private account: UserAccount;
 
   constructor(private _router: Router,
-              private _accountService: AccountService) {
+              private _accountService: AccountService,
+              private _gameService: GameService) {
 
     setInterval(() => {
       this.calculateDiff();
@@ -23,11 +25,19 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit() {
     this.account = this._accountService.userAccount;
-    console.log(this.account.playerStatistics);
   }
 
   calculateDiff(){
       this.account.events.forEach(e => e.timeRemaining = moment(e.eventDate).diff(moment()));
   }
 
+  getCityCoords(){
+    let row = Math.ceil(this.account.cityPosition/4);
+    let column = (this.account.cityPosition - 4 * (row - 1));
+    return row + ":" + column;
+  }
+
+  getUnitNameByFraction(fraction: string, id: number){
+    return this._gameService.getUnitNameByFraction(fraction, id);
+  }
 }

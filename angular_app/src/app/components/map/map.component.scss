@@ -1,0 +1,41 @@
+.player-position {
+  width: 24%;
+  float: left;
+  min-height: 165px;
+  border: 1px solid gray;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.player-position img {
+  width: 100%;
+}
+
+.position-info{
+  width: 45%;
+  float: left;
+  color: black;
+}
+.right-position-info{
+  width: 55%;
+  float: left;
+  color: black;
+}
+
+.resource-small{
+  width: 25%;
+  font-size: 12px;
+  display: inline-block;
+  text-align: center;
+  margin: 1% 4%;
+}
+
+.resource-small img{
+  width: 100%;
+}
+
+.army .resource-small {
+  width: 8%;
+}

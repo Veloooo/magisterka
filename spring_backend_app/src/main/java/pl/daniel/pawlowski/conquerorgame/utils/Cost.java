@@ -20,4 +20,8 @@ public class Cost {
     public Cost costOfLevel(int level, String type, String name){
         return Cost.builder().wood(wood * level).stone(stone * level).gold(gold * level).minutes(minutes * level).type(type).name(name).build();
     }
+
+    public Cost costOfNumber(int number, String name){
+        return Cost.builder().wood(wood * number).stone(stone * number).gold(gold * number).minutes(minutes * number).name(name).build();
+    }
 }
