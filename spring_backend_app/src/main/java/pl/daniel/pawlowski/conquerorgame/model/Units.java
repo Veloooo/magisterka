@@ -38,4 +38,8 @@ public class Units {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "units")
     @JsonIgnore
     private User user;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "units")
+    @JsonIgnore
+    private Mission mission;
 }

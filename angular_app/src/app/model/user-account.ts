@@ -7,6 +7,7 @@ import {Units} from './units';
 import {GameEvent} from './gameEvent';
 import {Hero} from './hero';
 import {PlayerStatistics} from './player-statistics';
+import {Mission} from './mission';
 
 export class UserAccount{
     fraction: string;
@@ -35,4 +36,5 @@ export class UserAccount{
     stoneProduction: number;
     goldProduction: number;
     heroes: Hero[];
+    missions: Mission[];
 }

@@ -52,6 +52,11 @@ public class Hero {
     @JsonIgnore
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "hero")
+    @JsonIgnore
+    private Mission mission;
+
+
     @Override
     public String toString() {
         return "Hero{" +

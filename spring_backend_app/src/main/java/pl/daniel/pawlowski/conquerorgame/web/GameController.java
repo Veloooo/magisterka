@@ -78,4 +78,11 @@ public class GameController {
         String actionMessage = gameService.barracksAction(action);
         return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
+
+    @PostMapping(value = "/mission")
+    public String missionAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.missionAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
 }

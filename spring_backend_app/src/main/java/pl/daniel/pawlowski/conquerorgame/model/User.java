@@ -103,7 +103,6 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Event> events = new ArrayList<>();
-
     public void addEvent(Event event) {
         events.add(event);
         event.setUser(this);
@@ -112,6 +111,23 @@ public class User {
     public void removeEvent(Event event) {
         events.remove(event);
         event.setUser(null);
+    }
+
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Mission> missions = new ArrayList<>();
+
+    public void addMission(Mission mission) {
+        missions.add(mission);
+        mission.setUser(this);
+    }
+
+    public void removeMission(Mission mission) {
+        missions.remove(mission);
+        mission.setUser(null);
     }
 
     @OneToMany(

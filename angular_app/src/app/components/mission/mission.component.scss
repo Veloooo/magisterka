@@ -32,7 +32,7 @@
 .mission-details{
   margin-left: 2%;
   margin-right: 2%;
-  width: 11%;
+  width: 20%;
   display: inline-block;
 }
 
@@ -51,4 +51,9 @@ th {
 .bottom-mission {
   width: 100%;
   border: 2px solid burlywood;
+}
+
+.error-message {
+  color: red;
+  font-size: 70px;
 }

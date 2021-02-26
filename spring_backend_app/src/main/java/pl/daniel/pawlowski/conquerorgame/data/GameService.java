@@ -13,6 +13,7 @@ import pl.daniel.pawlowski.conquerorgame.repositories.HeroesRepository;
 import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
 import pl.daniel.pawlowski.conquerorgame.utils.Cost;
 import pl.daniel.pawlowski.conquerorgame.utils.CostsService;
+import pl.daniel.pawlowski.conquerorgame.utils.MappingService;
 import pl.daniel.pawlowski.conquerorgame.utils.UpgradeStrategyService;
 
 import java.io.IOException;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
 import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
 
 @Service
@@ -38,6 +38,9 @@ public class GameService {
     private UserRepository userRepository;
     @Autowired
     private HeroesRepository heroesRepository;
+
+    @Autowired
+    private MappingService mappingService;
 
     @Autowired
     ObjectMapper mapper;
@@ -62,8 +65,17 @@ public class GameService {
         user.setStone(user.getStone() + user.getStoneProduction());
     }
 
+    public String missionAction(UserAction action) throws JsonProcessingException {
+        MissionJSON missionJson = mapper.readValue(action.getData(), MissionJSON.class);
+        Mission mission = mappingService.mapMissionJsonToDTO(missionJson, action.getUser().getCityPosition());
+        mission.getHero().setUser(action.getUser());
+        mission.getHero().getItems().forEach(item -> item.setHero(mission.getHero()));
+        action.getUser().addMission(mission);
+        return saveUser(action.getUser()) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
+    }
+
     public String barracksAction(UserAction action) {
-        if(Integer.valueOf(action.getData()) < 0 ){
+        if (Integer.valueOf(action.getData()) < 0) {
             return BAD_REQUEST;
         }
         String unit = UNIT_INDICATOR + action.getAction();
@@ -243,7 +255,7 @@ public class GameService {
         return allUsersCityInfo;
     }
 
-    private User createUserInfoFromUser(User user){
+    private User createUserInfoFromUser(User user) {
         User userCityInfo = new User();
         userCityInfo.setGold(user.getGold());
         userCityInfo.setWood(user.getWood());

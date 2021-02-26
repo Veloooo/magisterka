@@ -6,12 +6,12 @@
     <div class="entry"> City name: Name</div>
     <div class="entry"> City coordinates: {{ getCityCoords()}}</div>
     <div class="entry"> Heroes:</div>
-    <div class="heroes" *ngFor="let hero of account.heroes">
-        <div class="resource-small">
-            {{hero.heroClass}}
+    <div class="heroes" >
+        <div *ngFor="let hero of account.heroes" class="hero">
+            {{hero.heroClass}} <br/>
             <img
-                src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/>
-            <br/> Level {{hero.level}}
+                src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/> <br/>
+             Level {{hero.level}}
         </div>
     </div>
     <div class="entry"> Units:
