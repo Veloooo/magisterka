@@ -3,9 +3,7 @@ import {UserAccount} from '../../model/user-account';
 import {GameService} from '../../core/game-service';
 import {AccountService} from '../../core/account.service';
 import {Hero} from '../../model/hero';
-import {FormControl, FormGroup} from '@angular/forms';
 import {Units} from '../../model/units';
-import {Mission} from '../../model/mission';
 import {UserAction} from '../../model/user-action';
 
 @Component({
@@ -24,6 +22,7 @@ export class MissionComponent implements OnInit {
     private isMissionPossible: boolean;
     private message = 'No free heroes available!';
     private unitCount = 0;
+    private target: number;
 
     constructor(private _accountService: AccountService,
                 private _gameService: GameService) {
@@ -31,10 +30,15 @@ export class MissionComponent implements OnInit {
 
     ngOnInit() {
         this.account = this._accountService.userAccount;
+        this.target = this._gameService.missionTarget;
         let heroesDuringMission: Hero [] = [];
         this.account.missions.forEach(mission => heroesDuringMission.push(mission.hero));
         this.heroes = this.account.heroes.filter(hero =>  heroesDuringMission.find(heroMission => hero.id == heroMission.id) == null);
         this.isMissionPossible = this.heroes.length > 0;
+        if(this._gameService.heroDungeon != null){
+            this.selectedHero = this._gameService.heroDungeon.heroClass;
+        }
+        console.log(this.target);
     }
 
     getUnitNameByFraction(fraction: string, id: number) {
@@ -104,7 +108,7 @@ export class MissionComponent implements OnInit {
     sendMission() {
         let mission = {
             hero: this.selectedHero,
-            target: 0,
+            target: this.target,
             type: this.mission,
             time: this.mission == 'Station' ? this.hours : 0,
             units: this.unitsMission

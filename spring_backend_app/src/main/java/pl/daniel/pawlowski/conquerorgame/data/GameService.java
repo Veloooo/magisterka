@@ -13,7 +13,6 @@ import pl.daniel.pawlowski.conquerorgame.repositories.HeroesRepository;
 import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
 import pl.daniel.pawlowski.conquerorgame.utils.Cost;
 import pl.daniel.pawlowski.conquerorgame.utils.CostsService;
-import pl.daniel.pawlowski.conquerorgame.utils.MappingService;
 import pl.daniel.pawlowski.conquerorgame.utils.UpgradeStrategyService;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class GameService {
     private HeroesRepository heroesRepository;
 
     @Autowired
-    private MappingService mappingService;
+    private MissionService missionService;
 
     @Autowired
     ObjectMapper mapper;
@@ -59,20 +58,16 @@ public class GameService {
     }
 
 
+
+
+
     public void updateResources(User user) {
         user.setWood(user.getWood() + user.getWoodProduction());
         user.setGold(user.getGold() + user.getGoldProduction());
         user.setStone(user.getStone() + user.getStoneProduction());
     }
 
-    public String missionAction(UserAction action) throws JsonProcessingException {
-        MissionJSON missionJson = mapper.readValue(action.getData(), MissionJSON.class);
-        Mission mission = mappingService.mapMissionJsonToDTO(missionJson, action.getUser().getCityPosition());
-        mission.getHero().setUser(action.getUser());
-        mission.getHero().getItems().forEach(item -> item.setHero(mission.getHero()));
-        action.getUser().addMission(mission);
-        return saveUser(action.getUser()) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
-    }
+
 
     public String barracksAction(UserAction action) {
         if (Integer.valueOf(action.getData()) < 0) {

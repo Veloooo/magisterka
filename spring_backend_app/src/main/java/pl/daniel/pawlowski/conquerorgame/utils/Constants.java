@@ -12,6 +12,10 @@ public class Constants {
     public static final String BUILDING_INDICATOR = "Building";
     public static final String RESEARCH_INDICATOR = "Research";
 
+
+    public static final String MISSION_ATTACK = "Attack";
+    public static final String MISSION_STATION = "Station";
+
     // Buildings
     public static final String SAWMILL_INDICATOR = "Sawmill";
     public static final String GOLDMINE_INDICATOR = "Goldmine";

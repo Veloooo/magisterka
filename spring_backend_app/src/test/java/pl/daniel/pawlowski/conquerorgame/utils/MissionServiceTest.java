@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import pl.daniel.pawlowski.conquerorgame.data.MissionService;
 import pl.daniel.pawlowski.conquerorgame.model.Mission;
 import pl.daniel.pawlowski.conquerorgame.model.MissionJSON;
 
@@ -16,11 +17,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {ObjectMapper.class, MappingService.class})
-public class MappingServiceTest {
+@SpringBootTest(classes = {ObjectMapper.class, MissionService.class})
+public class MissionServiceTest {
 
     @Autowired
-    MappingService mappingService;
+    MissionService missionService;
 
     @Autowired
     ObjectMapper mapper;
@@ -37,35 +38,35 @@ public class MappingServiceTest {
     @Test
     public void calculateTimeToDungeons() {
         missionJSON.setTarget(0);
-        mission = mappingService.mapMissionJsonToDTO(missionJSON, 1);
+        mission = missionService.mapMissionJsonToDTO(missionJSON, 1);
         compareTimes(30);
     }
 
     @Test
     public void calculateTimeFromPosition1To2(){
         missionJSON.setTarget(2);
-        mission = mappingService.mapMissionJsonToDTO(missionJSON, 1);
+        mission = missionService.mapMissionJsonToDTO(missionJSON, 1);
         compareTimes(30);
     }
 
     @Test
     public void calculateTimeFromPosition1To3() {
         missionJSON.setTarget(3);
-        mission = mappingService.mapMissionJsonToDTO(missionJSON, 1);
+        mission = missionService.mapMissionJsonToDTO(missionJSON, 1);
         compareTimes(60);
     }
 
     @Test
     public void getMissionFinishTimeEqual() {
         missionJSON.setTime(0);
-        mission = mappingService.mapMissionJsonToDTO(missionJSON, 1);
+        mission = missionService.mapMissionJsonToDTO(missionJSON, 1);
         Assert.assertEquals(mission.getMissionArrivalTime(), mission.getMissionFinishTime());
     }
 
     @Test
     public void getMissionFinishTimeDifferenceOneHour() {
         missionJSON.setTime(1);
-        mission = mappingService.mapMissionJsonToDTO(missionJSON, 1);
+        mission = missionService.mapMissionJsonToDTO(missionJSON, 1);
         Assert.assertEquals(mission.getMissionArrivalTime().plusHours(1), mission.getMissionFinishTime());
     }
 

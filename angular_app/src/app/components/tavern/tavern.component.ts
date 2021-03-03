@@ -53,8 +53,8 @@ export class TavernComponent implements OnInit {
             });
     }
 
-    viewHero() {
-        this._router.navigate(['../hero', 0], {relativeTo: this.route});
+    viewHero(id: number) {
+        this._router.navigate(['../hero', id], {relativeTo: this.route});
     }
 
     isRecruitPossible(): boolean {

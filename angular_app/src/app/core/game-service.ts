@@ -4,11 +4,14 @@ import {UserAccount} from '../model/user-account';
 import {ResearchEntity} from '../model/research-entity';
 import {Item} from '../model/item';
 import {Statistics} from '../model/statistics';
+import {Hero} from '../model/hero';
 
 @Injectable()
 export class GameService {
 
     private unitNames;
+    public missionTarget;
+    public heroDungeon: Hero;
 
     constructor(private _costService: CostService) {
         this.setUnitNames();
@@ -24,7 +27,14 @@ export class GameService {
         humanUnits.set(5, "GriphonRider");
         humanUnits.set(6, "Cavalry");
         this.unitNames.set("Human", humanUnits);
-        this.unitNames.set("Demon", humanUnits);
+        let demonUnits = new Map();
+        demonUnits.set(1, "GoblinMage");
+        demonUnits.set(2, "Lizardman");
+        demonUnits.set(3, "Lifestealer");
+        demonUnits.set(4, "Behemoth");
+        demonUnits.set(5, "Banshee");
+        demonUnits.set(6, "Devil");
+        this.unitNames.set("Demon", demonUnits);
         this.unitNames.set("Druid", humanUnits);
         this.unitNames.set("Orc", humanUnits);
     }
@@ -39,25 +49,25 @@ export class GameService {
         let heroes = [];
         switch (fraction) {
             case 'Orc':
-                heroes.push('Crusader');
+                heroes.push('Warrior');
                 heroes.push('Assassin');
                 heroes.push('Wizard');
                 heroes.push('Paladin');
                 return heroes;
             case 'Demon':
-                heroes.push('Crusader');
-                heroes.push('Assassin');
-                heroes.push('Wizard');
-                heroes.push('Paladin');
+                heroes.push('DarkKnight');
+                heroes.push('DemonicAssassin');
+                heroes.push('Sorcerer');
+                heroes.push('Anubis');
                 return heroes;
             case 'Druid':
-                heroes.push('Crusader');
+                heroes.push('Warrior');
                 heroes.push('Assassin');
                 heroes.push('Wizard');
                 heroes.push('Paladin');
                 return heroes;
             case 'Human': {
-                heroes.push('Crusader');
+                heroes.push('Warrior');
                 heroes.push('Assassin');
                 heroes.push('Wizard');
                 heroes.push('Paladin');

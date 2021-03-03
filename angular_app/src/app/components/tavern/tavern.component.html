@@ -1,14 +1,14 @@
 <div style="text-align: center; width: 100%">Your heroes : <br/>
     <div class="hero" *ngFor="let hero of heroes"> {{hero.heroClass}} <br/>
-        <img src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/> <br/>
-        <button class="heroes-link" (click)="viewHero()">View</button>
+        <img src="../../../assets/images/heroes/{{hero.heroClass}}.png"/> <br/>
+        <button class="heroes-link" (click)="viewHero(hero.id)">View</button>
     </div>
     <br/>
 
     Heroes in tavern : <br/>
     <div class="hero" *ngFor="let hero of availableHeroes">
         {{hero}}<br/>
-        <img src="../../../assets/images/heroes/{{hero}}.jpeg"/> <br/>
+        <img src="../../../assets/images/heroes/{{hero}}.png"/> <br/>
         <button [ngClass]="{'btn-success': isRecruitPossible()}" [disabled]="!isRecruitPossible()"
                 (click)="recruit(hero)">Recruit
         </button>

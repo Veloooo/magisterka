@@ -1,4 +1,4 @@
-<div *ngIf="isMissionPossible">
+<div *ngIf="isMissionPossible" style="width:100%">
     <h1>Send mission: </h1>
     <div class="army">
         <table>
@@ -63,24 +63,21 @@
             </tr>
         </table>
     </div>
-
+    <div class="heroes">
+        <mat-radio-group
+                aria-labelledby="radio-group-label"
+                [(ngModel)]="selectedHero">
+            <mat-radio-button class="hero" *ngFor="let hero of heroes" [value]="hero">
+                {{hero.heroClass}} <br/>
+                <img
+                        src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/>
+                <br/> Level {{hero.level}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <br/>
     <div class="bottom-mission">
-
-        <div class="heroes">
-            <label>Select hero:</label> <br/>
-            <mat-radio-group
-                    aria-labelledby="radio-group-label"
-                    [(ngModel)]="selectedHero">
-                <mat-radio-button class="hero" *ngFor="let hero of heroes" [value]="hero">
-                    {{hero.heroClass}} <br/>
-                    <img
-                            src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/>
-                    <br/> Level {{hero.level}}
-                </mat-radio-button>
-            </mat-radio-group>
-        </div>
         <div class="mission-type">
-            <label>Select a mission</label> <br/>
             <mat-radio-group
                     aria-labelledby="example-radio-group-label"
                     class="example-radio-group"
@@ -104,8 +101,6 @@
                     (click)="changeTime(1)" class="btn-success text-monospace btn-sm">+
             </button>
         </div>
-
-
     </div>
     <button [disabled]="!isMissionReady()" class="btn btn-info btn-block" (click)="sendMission()">Send mission</button>
 </div>

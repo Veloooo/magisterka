@@ -1,5 +1,6 @@
 package pl.daniel.pawlowski.conquerorgame.data;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -16,6 +17,7 @@ import pl.daniel.pawlowski.conquerorgame.repositories.UserRepository;
 import static pl.daniel.pawlowski.conquerorgame.utils.Constants.*;
 
 @Service
+@Slf4j
 public class UserService {
     @Value("${auth0.issuer}")
     private String authServerUrl;
@@ -42,6 +44,16 @@ public class UserService {
 
     public void addUser(User user) {
         repository.save(user);
+    }
+
+    public boolean saveUser(User user) {
+        if (user.equals(repository.save(user))) {
+            log.info("Save operation successful!");
+            return true;
+        } else {
+            log.error("Operation failed!");
+            return false;
+        }
     }
 
     public UserAction getUserAction(String authorization, UserActionJSON userActionJSON) {

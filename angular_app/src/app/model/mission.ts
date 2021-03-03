@@ -7,4 +7,8 @@ export interface Mission {
     time: number;
     type: string;
     target: number;
+    message: string;
+    missionArrivalTime: Date;
+    missionFinishTime: Date;
+    missionReturnTime: Date;
 }

@@ -1,0 +1,76 @@
+.hero-dungeon {
+  width: 23%;
+  margin: 1%;
+  min-height: 500px;
+  text-align: center;
+  float: left;
+  border: 1px solid black;
+}
+
+.hero-dungeon img {
+  width: 100%;
+}
+
+.hero-dungeon-hero {
+  width: 45%;
+  float: left;
+  padding: 1%;
+  border: 1px solid ghostwhite;
+}
+
+.hero-dungeon-hero img {
+  width: 100%;
+}
+
+.dungeon-guardians {
+  width: 100%;
+  text-align: center;
+}
+
+.dungeon-unit {
+  width: 20%;
+  margin-left: 1%;
+  margin-right: 1%;
+  float: left;
+  font-size: 10px;
+}
+
+.dungeon-unit img {
+  width: 100%;
+}
+
+.item-reward {
+  text-align: center;
+  width: 100%;
+}
+
+.statistics {
+  width: 100%;
+  margin-left: 53%;
+  text-align: center;
+}
+
+.item {
+  width: 45%;
+  font-size: 15px;
+  padding: 0;
+  text-align: center;
+  display: inline-block;
+  margin: 2%;
+}
+
+.item img {
+  width: 50%;
+}
+
+.statistics-icon {
+  width: 5%;
+  margin-top: 1%;
+  margin-left: 2%;
+  margin-right: 2%;
+  float: left;
+}
+
+.statistics-icon img {
+  width: 100%;
+}

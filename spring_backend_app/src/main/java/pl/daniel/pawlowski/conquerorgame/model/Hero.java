@@ -25,6 +25,8 @@ public class Hero {
 
     private int level;
 
+    private int dungeonsCompleted;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "statistics_id", referencedColumnName = "id")
     private Statistics statistics;

@@ -10,7 +10,7 @@
         <div *ngFor="let hero of account.heroes" class="hero">
             {{hero.heroClass}} <br/>
             <img
-                src="../../../assets/images/heroes/{{hero.heroClass}}.jpeg"/> <br/>
+                src="../../../assets/images/heroes/{{hero.heroClass}}.png"/> <br/>
              Level {{hero.level}}
         </div>
     </div>
@@ -54,10 +54,10 @@
 </div>
 <div class="right-pane">
     <div class="log">
-        <div style="text-align: center">Recent events:</div>
-        <div *ngFor="let x of account.events">
+        <div style="text-align: center">Current missions:</div>
+        <div *ngFor="let x of account.missions">
             <div class="entry">
-                {{x.content}} at {{x.timeRemaining | date:'HH:mm:ss'}}
+                {{getMissionMessage(x)}}
             </div>
         </div>
     </div>

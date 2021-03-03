@@ -20,12 +20,13 @@
 }
 
 .heroes {
-  width: 55%;
-  display: inline-block;
+  width: 25%;
+  float: left;
 }
 
 .mission-type {
-  width: 10%;
+  width: 50%;
+  font-size: 70px;
   display: inline-block;
 }
 
@@ -38,9 +39,9 @@
 
 
 .army{
-  width: 100%;
+  width: 75%;
   text-align: center;
-  border: 1px solid goldenrod;
+  float: left;
 }
 
 th {
@@ -50,7 +51,9 @@ th {
 
 .bottom-mission {
   width: 100%;
-  border: 2px solid burlywood;
+  float:left;
+  border-top: 1px solid goldenrod;
+  margin-top: 5%;
 }
 
 .error-message {

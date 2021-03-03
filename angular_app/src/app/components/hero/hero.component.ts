@@ -30,7 +30,7 @@ export class HeroComponent implements OnInit {
 
     ngOnInit() {
         this.userAccount = this._accountService.userAccount;
-        this.hero = this.userAccount.heroes[0]; //.find(e => e.id.toString() == this.route.snapshot.paramMap.get("id"));
+        this.hero = this.userAccount.heroes.find(e => e.id.toString() == this.route.snapshot.paramMap.get("id"));
         this.heroTmp = JSON.parse(JSON.stringify(this.hero));
         this.calculateStatistics();
     }

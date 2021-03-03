@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.daniel.pawlowski.conquerorgame.data.GameService;
+import pl.daniel.pawlowski.conquerorgame.data.MissionService;
 import pl.daniel.pawlowski.conquerorgame.data.UserService;
 import pl.daniel.pawlowski.conquerorgame.model.User;
 import pl.daniel.pawlowski.conquerorgame.model.useractions.UserAction;
@@ -25,6 +26,9 @@ public class GameController {
 
     @Autowired
     GameService gameService;
+
+    @Autowired
+    MissionService missionService;
 
     @GetMapping(value = "/population")
     public String getPopulation(@RequestHeader(value = "Authorization") String authorization) throws JsonProcessingException {
@@ -82,7 +86,7 @@ public class GameController {
     @PostMapping(value = "/mission")
     public String missionAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {
         UserAction action = userService.getUserAction(authorization,userActionJSON);
-        String actionMessage = gameService.missionAction(action);
+        String actionMessage = missionService.missionAction(action);
         return mapper.writeValueAsString(userService.returnResponse(actionMessage));
     }
 }

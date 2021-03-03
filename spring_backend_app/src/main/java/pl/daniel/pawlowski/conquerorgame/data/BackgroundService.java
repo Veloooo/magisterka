@@ -23,12 +23,17 @@ public class BackgroundService {
     @Autowired
     GameService gameService;
 
+    @Autowired
+    MissionService missionService;
+
     private List<User> allUsers;
+
 
     @PostConstruct
     private void getAllUsers() {
         allUsers = gameService.getAllUsers();
     }
+
 
     @Job(name = "The sample job with variable %0", retries = 2)
     public void executeSampleJob() {
@@ -42,5 +47,11 @@ public class BackgroundService {
         allUsers.stream()
                 .filter(user -> user.getResearchFinishTime() != null && user.getResearchFinishTime().isBefore(LocalDateTime.now()))
                 .forEach(user -> gameService.finalizeUpgrade(user, RESEARCH_INDICATOR));
+        allUsers.forEach(user -> user.getMissions().stream()
+                .filter(mission -> (mission.getCalculations() == 0 && mission.getMissionArrivalTime().isBefore(LocalDateTime.now()))
+                || (mission.getCalculations() == 1 && mission.getMissionFinishTime().isBefore(LocalDateTime.now()))
+                || (mission.getCalculations() == 2 && mission.getMissionReturnTime().isBefore(LocalDateTime.now())))
+                .forEach(mission -> missionService.calculateMission(mission, user)));
+        missionService.deleteFinishedMissions();
     }
 }

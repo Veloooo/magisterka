@@ -55,6 +55,7 @@ export class MapComponent implements OnInit {
   }
 
   sendMission(position: number){
+    this._gameService.missionTarget = position;
     this._router.navigate(['../mission'], {relativeTo: this.route});
   }
 }
