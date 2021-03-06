@@ -1,9 +1,10 @@
 import {Item} from './item';
 import {DungeonUnit} from './dungeon-unit';
 
-export interface DungeonLevel {
+export interface Dungeon {
     id: number;
     level: number;
     reward: Item;
-    guardians: DungeonUnit[];
+    dungeonUnits: DungeonUnit[];
+    completed: number;
 }

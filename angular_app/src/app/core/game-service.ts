@@ -5,6 +5,7 @@ import {ResearchEntity} from '../model/research-entity';
 import {Item} from '../model/item';
 import {Statistics} from '../model/statistics';
 import {Hero} from '../model/hero';
+import {Dungeon} from '../model/dungeon';
 
 @Injectable()
 export class GameService {
@@ -17,32 +18,31 @@ export class GameService {
         this.setUnitNames();
     }
 
-    setUnitNames(){
+    setUnitNames() {
         this.unitNames = new Map();
         let humanUnits = new Map();
-        humanUnits.set(1, "Axeman");
-        humanUnits.set(2, "Knight");
-        humanUnits.set(3, "Archer");
-        humanUnits.set(4, "Paladin");
-        humanUnits.set(5, "GriphonRider");
-        humanUnits.set(6, "Cavalry");
-        this.unitNames.set("Human", humanUnits);
+        humanUnits.set(1, 'Axeman');
+        humanUnits.set(2, 'Knight');
+        humanUnits.set(3, 'Archer');
+        humanUnits.set(4, 'Paladin');
+        humanUnits.set(5, 'GriphonRider');
+        humanUnits.set(6, 'Cavalry');
+        this.unitNames.set('Human', humanUnits);
         let demonUnits = new Map();
-        demonUnits.set(1, "GoblinMage");
-        demonUnits.set(2, "Lizardman");
-        demonUnits.set(3, "Lifestealer");
-        demonUnits.set(4, "Behemoth");
-        demonUnits.set(5, "Banshee");
-        demonUnits.set(6, "Devil");
-        this.unitNames.set("Demon", demonUnits);
-        this.unitNames.set("Druid", humanUnits);
-        this.unitNames.set("Orc", humanUnits);
+        demonUnits.set(1, 'GoblinMage');
+        demonUnits.set(2, 'Lizardman');
+        demonUnits.set(3, 'Lifestealer');
+        demonUnits.set(4, 'Behemoth');
+        demonUnits.set(5, 'Banshee');
+        demonUnits.set(6, 'Devil');
+        this.unitNames.set('Demon', demonUnits);
+        this.unitNames.set('Druid', humanUnits);
+        this.unitNames.set('Orc', humanUnits);
     }
 
-    getUnitNameByFraction(fraction: string, name: number){
+    getUnitNameByFraction(fraction: string, name: number) {
         return this.unitNames.get(fraction).get(name);
     }
-
 
 
     getAllAvailableHeroesByFraction(fraction: string): string[] {
@@ -189,13 +189,17 @@ export class GameService {
         }
     }
 
-    getDummyItems() : Item[]{
-        let zeroStatistics: Statistics = { strength: 0, agility: 0, charisma: 0 , intelligence: 0} as Statistics;
+    getDummyItems(): Item[] {
+        let zeroStatistics: Statistics = {strength: 0, agility: 0, charisma: 0, intelligence: 0} as Statistics;
         let itemsDummy: Item[] = [];
-        itemsDummy.push({id:0, name: "no hat", isWorn : 1, statistics: zeroStatistics, levelRequired: 1, part: "Head", heroId: 0});
-        itemsDummy.push({id:0, name: "no armour", isWorn : 1, statistics: zeroStatistics, levelRequired: 1,  part: "Body", heroId: 0});
-        itemsDummy.push({id:0, name: "no legs armour", isWorn : 1, statistics: zeroStatistics, levelRequired: 1, part: "Legs", heroId: 0});
-        itemsDummy.push({id:0, name: "no boots", isWorn : 1, statistics: zeroStatistics, levelRequired: 1,  part: "Boots", heroId: 0});
+        itemsDummy.push({id: 0, name: 'no hat', isWorn: 1, statistics: zeroStatistics, levelRequired: 1, part: 'Head', heroId: 0});
+        itemsDummy.push({id: 0, name: 'no armour', isWorn: 1, statistics: zeroStatistics, levelRequired: 1, part: 'Body', heroId: 0});
+        itemsDummy.push({id: 0, name: 'no legs armour', isWorn: 1, statistics: zeroStatistics, levelRequired: 1, part: 'Legs', heroId: 0});
+        itemsDummy.push({id: 0, name: 'no boots', isWorn: 1, statistics: zeroStatistics, levelRequired: 1, part: 'Boots', heroId: 0});
         return itemsDummy;
+    }
+
+    getCurrentDungeon(hero: Hero){
+        hero.nextDungeon = hero.dungeons.find(dungeon => dungeon.completed == 0);
     }
 }

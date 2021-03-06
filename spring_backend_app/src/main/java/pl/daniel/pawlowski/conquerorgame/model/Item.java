@@ -47,6 +47,9 @@ public class Item {
                 ", levelRequired=" + levelRequired +
                 '}';
     }
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "reward")
+    @JsonIgnore
+    private Dungeon dungeon;
 
     @Override
     public boolean equals(Object o) {

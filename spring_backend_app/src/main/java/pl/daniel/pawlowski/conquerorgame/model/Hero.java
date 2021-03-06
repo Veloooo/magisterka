@@ -48,6 +48,23 @@ public class Hero {
         item.setHero(null);
     }
 
+    @OneToMany(
+            mappedBy = "hero",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Dungeon> dungeons = new ArrayList<>();
+
+    public void addDungeon(Dungeon dungeon) {
+        dungeons.add(dungeon);
+        dungeon.setHero(this);
+    }
+
+    public void removeDungeon(Dungeon dungeon) {
+        dungeons.remove(dungeon);
+        dungeon.setHero(null);
+    }
+
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")

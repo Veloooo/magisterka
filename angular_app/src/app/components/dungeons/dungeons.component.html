@@ -5,10 +5,11 @@
         Level: {{hero.level}}<br/>
     </div>
     <div style="width: 50%; float: left">
-        Next dungeon: {{hero.dungeonsCompleted + 1}} <br/>
+        Next dungeon: {{hero.nextDungeon.level}} <br/>
         <img src="../../../assets/images/dungeons/dungeon1.jpeg"/> <br/>
     </div>
     <br/>
+
     <div class="item-reward">
         Reward: <br/>
         <div class="item">
@@ -16,7 +17,7 @@
         </div>
         <div class="statistics">
             <div class="statistics-icon" *ngFor="let stat of statistics">
-                <img src="../../../assets/images/statistics/{{stat}}.png"> 1
+                <img src="../../../assets/images/statistics/{{stat}}.png"> {{getStatOfItem(stat, hero.nextDungeon.reward)}}
             </div>
         </div>
     </div>
@@ -24,28 +25,12 @@
 
 
     <div class="dungeon-guardians">
-        <div class="dungeon-unit">
-            <img src="../../../assets/images/dungeons/monsters/Amalgam.png"/> <br/>
-            Amalgam<br/>
-            1
-        </div>
-        <div class="dungeon-unit">
-            <img src="../../../assets/images/dungeons/monsters/Murloc.png"/> <br/>
-            Murloc<br/>
-            21
-        </div>
-        <div class="dungeon-unit">
-            <img src="../../../assets/images/dungeons/monsters/Troll.png"/> <br/>
-            Troll<br/>
-            11
-        </div>
-        <div class="dungeon-unit">
-            <img src="../../../assets/images/dungeons/monsters/TrollBrute.png"/><br/>
-            TrollBrute <br/>
-            19
+        <div class="dungeon-unit" *ngFor="let unit of hero.nextDungeon.dungeonUnits">
+            <img src="../../../assets/images/dungeons/monsters/{{unit.name}}.png"/> <br/>
+            {{unit.name}}<br/>
+            {{unit.amount}}
         </div>
     </div>
     <br/>
-
-    <button class="btn-warning btn-block" (click)="sendMission(hero.id)">Enter dungeon!</button>
+    <button class="btn-warning btn-block" (click)="sendMission(hero)">Enter dungeon!</button>
 </div>

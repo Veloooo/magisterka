@@ -42,6 +42,9 @@ public class GameService {
     private MissionService missionService;
 
     @Autowired
+    private DungeonsService dungeonsService;
+
+    @Autowired
     ObjectMapper mapper;
 
     @Autowired
@@ -122,6 +125,9 @@ public class GameService {
                 statistics.setCharisma(13);
                 statistics.setSkillPoints(10);
                 hero.setStatistics(statistics);
+
+                Dungeon dungeon = dungeonsService.createDungeonLevel(1);
+                hero.addDungeon(dungeon);
 
                 hero.addItem(createItem("czapa puchata", "Head", 1));
                 hero.addItem(createItem("Skorzana kurtka", "Body", 1));

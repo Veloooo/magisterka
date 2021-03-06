@@ -40,31 +40,22 @@ public class User {
 
     private Integer people;
 
-    @Column(name = "building_queue")
     private String buildingQueue;
 
-    @Column(name = "building_finish_time")
     private LocalDateTime buildingFinishTime;
 
-    @Column(name = "building_start_time")
     private LocalDateTime buildingStartTime;
 
-    @Column(name = "research_queue")
     private String researchQueue;
 
-    @Column(name = "research_finish_time")
     private LocalDateTime researchFinishTime;
 
-    @Column(name = "research_start_time")
     private LocalDateTime researchStartTime;
 
-    @Column(name = "stone_production")
     private int stoneProduction;
 
-    @Column(name = "wood_production")
     private int woodProduction;
 
-    @Column(name = "gold_production")
     private int goldProduction;
 
     private Integer points;
