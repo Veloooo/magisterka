@@ -1,10 +1,11 @@
 package pl.daniel.pawlowski.conquerorgame.data;
 
 import org.springframework.stereotype.Service;
-import pl.daniel.pawlowski.conquerorgame.model.Dungeon;
-import pl.daniel.pawlowski.conquerorgame.model.DungeonUnit;
-import pl.daniel.pawlowski.conquerorgame.model.Item;
-import pl.daniel.pawlowski.conquerorgame.model.ItemStatistics;
+import pl.daniel.pawlowski.conquerorgame.model.*;
+import pl.daniel.pawlowski.conquerorgame.model.battle.Unit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DungeonsService {
@@ -41,5 +42,12 @@ public class DungeonsService {
         itemStatistics.setCharisma(1 + level);
 
         return item;
+    }
+
+    public List<Unit> getLevelUnits(Hero hero) {
+        List<Unit> units = new ArrayList<>();
+        Dungeon dungeonLevel = hero.getDungeons().stream().filter(dungeon -> dungeon.getCompleted() == 0).findFirst().get();
+        dungeonLevel.getDungeonUnits().forEach(unit -> units.add(new Unit(unit.getName(), unit.getAmount())));
+        return units;
     }
 }

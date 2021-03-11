@@ -42,6 +42,9 @@ public class GameService {
     private MissionService missionService;
 
     @Autowired
+    private HeroService heroService;
+
+    @Autowired
     private DungeonsService dungeonsService;
 
     @Autowired
@@ -61,15 +64,11 @@ public class GameService {
     }
 
 
-
-
-
     public void updateResources(User user) {
         user.setWood(user.getWood() + user.getWoodProduction());
         user.setGold(user.getGold() + user.getGoldProduction());
         user.setStone(user.getStone() + user.getStoneProduction());
     }
-
 
 
     public String barracksAction(UserAction action) {
@@ -113,32 +112,9 @@ public class GameService {
     public String heroAction(UserAction action) throws JsonProcessingException {
         if (action.getAction() == 1) {
             if (action.getUser().getHeroes().size() * 10 <= action.getUser().getBuildings().getHall()) {
-                Hero hero = new Hero();
-                action.getUser().addHero(hero);
-                Statistics statistics = new Statistics();
-                hero.setHeroClass(action.getData());
-                hero.setLevel(1);
-                statistics.setHero(hero);
-                statistics.setAgility(10);
-                statistics.setStrength(20);
-                statistics.setIntelligence(15);
-                statistics.setCharisma(13);
-                statistics.setSkillPoints(10);
-                hero.setStatistics(statistics);
-
                 Dungeon dungeon = dungeonsService.createDungeonLevel(1);
-                hero.addDungeon(dungeon);
-
-                hero.addItem(createItem("czapa puchata", "Head", 1));
-                hero.addItem(createItem("Skorzana kurtka", "Body", 1));
-                hero.addItem(createItem("trzypasowy dres", "Legs", 1));
-                hero.addItem(createItem("Sandaly judasza", "Boots", 1));
-                hero.addItem(createItem("Zapasowa czapa puchata", "Head", 0));
-                hero.addItem(createItem("Zapasowa Skorzana kurtka", "Body", 0));
-                hero.addItem(createItem("Zapasowa trzypasowy dres", "Legs", 0));
-                hero.addItem(createItem("Zapasowe Sandaly judasza", "Boots", 0));
-
-                userRepository.save(action.getUser());
+                Hero hero = heroService.createHero(action, dungeon);
+                saveUser(action.getUser());
             } else
                 return TOO_MANY_HEROES_MESSAGE;
         } else if (action.getAction() == 2) {
@@ -161,23 +137,6 @@ public class GameService {
         return saveHero(currentHero.get()) ? OPERATION_SUCCESS_MESSAGE : "ERROR";
     }
 
-    private Item createItem(String name, String part, int isWorn) {
-        Item item = new Item();
-        item.setName(name);
-        item.setPart(part);
-        item.setIsWorn(isWorn);
-        item.setLevelRequired(1);
-        ItemStatistics itemStatistics = new ItemStatistics();
-        itemStatistics.setItem(item);
-        item.setStatistics(itemStatistics);
-
-        itemStatistics.setAgility(1);
-        itemStatistics.setStrength(1);
-        itemStatistics.setIntelligence(1);
-        itemStatistics.setCharisma(1);
-
-        return item;
-    }
 
     public String populationAction(UserAction action) {
         Population population = action.getUser().getPopulation();

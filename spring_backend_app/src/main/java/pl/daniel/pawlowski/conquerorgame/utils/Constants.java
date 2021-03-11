@@ -12,6 +12,21 @@ public class Constants {
     public static final String BUILDING_INDICATOR = "Building";
     public static final String RESEARCH_INDICATOR = "Research";
 
+    public static final String HERO_CLASS_ASSASSIN = "Assassin";
+    public static final String HERO_CLASS_WIZARD = "Wizard";
+    public static final String HERO_CLASS_WARRIOR = "Warrior";
+    public static final String HERO_CLASS_PALADIN = "Paladin";
+
+    public static final String HERO_CLASS_DEMONIC_ASSASSIN = "DemonicAssassin";
+    public static final String HERO_CLASS_SORCERER = "Sorcerer";
+    public static final String HERO_CLASS_ANUBIS = "Anubis";
+    public static final String HERO_CLASS_DARK_KNIGHT = "DarkKnight";
+
+    public static final String STATISTIC_INTELLIGENCE = "Intelligence";
+    public static final String STATISTIC_STRENGTH = "Strength";
+    public static final String STATISTIC_AGILITY = "Agility";
+    public static final String STATISTIC_CHARISMA = "Charisma";
+
 
     public static final String MISSION_ATTACK = "Attack";
     public static final String MISSION_STATION = "Station";

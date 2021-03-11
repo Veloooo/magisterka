@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findOneById(String id);
+    User findOneByCityPosition(int position);
     List<User> findAllByOrderByCityPosition();
 }

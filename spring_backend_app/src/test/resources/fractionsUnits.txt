@@ -1,0 +1,98 @@
+[{
+        "level": 1,
+        "name": "Axeman",
+        "armyId": "Army 1",
+        "amount": 30,
+        "healthPoints": 40,
+        "damageMin": 5.0,
+        "damageMax": 10.0,
+        "armour": 4.0,
+        "speed": 7.0,
+        "unitAttackStrategy": {
+            "@type": "Default"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }, {
+        "level": 2,
+        "name": "Knight",
+        "armyId": "Army 1",
+        "amount": 25,
+        "healthPoints": 50,
+        "damageMin": 6.0,
+        "damageMax": 12.0,
+        "armour": 8.0,
+        "speed": 4.0,
+        "unitAttackStrategy": {
+            "@type": "Default"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }, {
+        "level": 3,
+        "name": "Archer",
+        "armyId": "Army 1",
+        "amount": 20,
+        "healthPoints": 32,
+        "damageMin": 3.0,
+        "damageMax": 10.0,
+        "armour": 3.0,
+        "speed": 4.0,
+        "unitAttackStrategy": {
+            "@type": "Ranged"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }, {
+        "level": 4,
+        "name": "Paladin",
+        "armyId": "Army 1",
+        "amount": 10,
+        "healthPoints": 60,
+        "damageMin": 7.0,
+        "damageMax": 14.0,
+        "armour": 9.0,
+        "speed": 5.0,
+        "unitAttackStrategy": {
+            "@type": "Default"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }, {
+        "level": 5,
+        "name": "Griphon Rider",
+        "armyId": "Army 1",
+        "amount": 10,
+        "healthPoints": 50,
+        "damageMin": 6.0,
+        "damageMax": 16.0,
+        "armour": 6.0,
+        "speed": 13.0,
+        "unitAttackStrategy": {
+            "@type": "Default"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }, {
+        "level": 6,
+        "name": "Cavalry",
+        "armyId": "Army 1",
+        "amount": 5,
+        "healthPoints": 60,
+        "damageMin": 10.0,
+        "damageMax": 24.0,
+        "armour": 10.0,
+        "speed": 10.0,
+        "unitAttackStrategy": {
+            "@type": "Default"
+        },
+        "receiveDamageStrategy": {
+            "@type": "Default"
+        }
+    }
+]
