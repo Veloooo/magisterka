@@ -21,6 +21,7 @@ import {HeroesComponent} from './components/heroes/heroes.component';
 import {MapComponent} from './components/map/map.component';
 import {MissionComponent} from './components/mission/mission.component';
 import {DungeonsComponent} from './components/dungeons/dungeons.component';
+import {MessagesComponent} from './components/messages/messages.component';
 
 
 const routes: Routes = [
@@ -52,7 +53,8 @@ const routes: Routes = [
             {path: 'research', component: ResearchComponent},
             {path: 'map', component: MapComponent},
             {path: 'mission', component: MissionComponent},
-            {path: 'dungeons', component: DungeonsComponent}
+            {path: 'dungeons', component: DungeonsComponent},
+            {path: 'messages', component: MessagesComponent}
         ]
     },
     {path: 'private', component: UnauthorizedComponent}

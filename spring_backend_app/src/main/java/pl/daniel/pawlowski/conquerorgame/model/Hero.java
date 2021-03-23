@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Hero {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "class")
     private String heroClass;
@@ -26,6 +26,8 @@ public class Hero {
     private int level;
 
     private int dungeonsCompleted;
+
+    private int exp;
 
     private String mainStatistic;
 
@@ -77,6 +79,9 @@ public class Hero {
     @JsonIgnore
     private Mission mission;
 
+    public void addExp(int exp){
+        this.exp += exp;
+    }
 
     @Override
     public String toString() {

@@ -27,6 +27,9 @@ public class Constants {
     public static final String STATISTIC_AGILITY = "Agility";
     public static final String STATISTIC_CHARISMA = "Charisma";
 
+    public static final String DEFENDING_ARMY_INDICATOR = "DEFENDING";
+    public static final String ATTACKING_ARMY_INDICATOR = "ATTACKING";
+
 
     public static final String MISSION_ATTACK = "Attack";
     public static final String MISSION_STATION = "Station";

@@ -1,13 +1,34 @@
 package pl.daniel.pawlowski.conquerorgame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Data
+@Getter
+@Setter
+@Entity
+@Table(name = "messages")
 public class Message {
-    private final String text;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    public Message(String text) {
-        this.text = text;
-    }
+    private String content;
 
-    public String getText() {
-        return this.text;
-    }
+    private String title;
+
+    private LocalDateTime date;
+
+    private int read;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    @JsonIgnore
+    private User user;
+
 }

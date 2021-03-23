@@ -8,6 +8,7 @@ import {GameEvent} from './gameEvent';
 import {Hero} from './hero';
 import {PlayerStatistics} from './player-statistics';
 import {Mission} from './mission';
+import {GameMessage} from './game-message';
 
 export class UserAccount{
     fraction: string;
@@ -22,6 +23,7 @@ export class UserAccount{
     defence: Defence;
     playerStatistics: PlayerStatistics;
     events: GameEvent[];
+    messages: GameMessage[];
     gold: number;
     wood: number;
     stone: number;

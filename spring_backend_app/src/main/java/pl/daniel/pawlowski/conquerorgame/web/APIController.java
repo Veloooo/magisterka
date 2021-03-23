@@ -29,12 +29,6 @@ public class APIController {
     @Autowired
     GameService gameService;
 
-    @GetMapping(value = "/public")
-    public Message publicEndpoint() {
-        System.out.println("Message called");
-        return new Message("All good. You DO NOT need to be authenticated to call /api/public.");
-    }
-
     @GetMapping(value = "/account")
     public String logIn(@RequestHeader(value = "Authorization") String authorization) throws JsonProcessingException {
         User userInfo = userService.getUserInfo(authorization);
@@ -104,17 +98,7 @@ public class APIController {
         playerStatistics.setUser(userInfo);
         userInfo.setPlayerStatistics(playerStatistics);
 
-        Event event = new Event();
-        event.setEventDate(LocalDateTime.now().plusHours(30));
-        event.setContent("Ostry wpierdol");
-        userInfo.addEvent(event);
         userService.addUser(userInfo);
         return mapper.writeValueAsString(userInfo);
-    }
-
-
-    @GetMapping(value = "/private-scoped")
-    public Message privateScopedEndpoint() {
-        return new Message("All good. You can see this because you are Authenticated with a Token granted the 'read:messages' scope");
     }
 }

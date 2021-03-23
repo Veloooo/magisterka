@@ -5,6 +5,7 @@ import {Dungeon} from './dungeon';
 export interface Hero {
     id: number;
     level: number;
+    exp: number;
     dungeonsCompleted: number;
     heroClass: string;
     items: Item[];

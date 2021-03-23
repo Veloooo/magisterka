@@ -1,1 +1,18 @@
-<p>messages works!</p>
+<h1>Your messages:</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Date</th>
+    </tr>
+    <ng-container class="message"  *ngFor="let message of messages">
+        <tr [style.font-weight]="message.read == 0 ? 'bold' : 'normal'">
+            <td>
+                {{message.id}}
+            </td>
+            <td>{{message.title}}
+            </td>
+            <td>{{message.date}}</td>
+        </tr>
+    </ng-container>
+</table>

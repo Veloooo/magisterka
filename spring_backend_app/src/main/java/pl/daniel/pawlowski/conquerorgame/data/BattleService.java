@@ -1,6 +1,5 @@
 package pl.daniel.pawlowski.conquerorgame.data;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +10,16 @@ import pl.daniel.pawlowski.conquerorgame.model.battle.Unit;
 import pl.daniel.pawlowski.conquerorgame.model.battle.attack.Attack;
 import pl.daniel.pawlowski.conquerorgame.model.battle.attack.DefaultAttackStrategy;
 import pl.daniel.pawlowski.conquerorgame.model.battle.attack.RangedAttackStrategy;
-import pl.daniel.pawlowski.conquerorgame.model.battle.attack.UnitAttackStrategy;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static pl.daniel.pawlowski.conquerorgame.utils.Constants.ATTACKING_ARMY_INDICATOR;
+import static pl.daniel.pawlowski.conquerorgame.utils.Constants.DEFENDING_ARMY_INDICATOR;
+
 @Service
 @Slf4j
 public class BattleService {
-
-    private final String DEFENDING_ARMY_INDICATOR = "DEFENDING";
-    private final String ATTACKING_ARMY_INDICATOR = "ATTACKING";
 
     @Autowired
     ObjectMapper mapper;
@@ -38,8 +36,8 @@ public class BattleService {
         defendingArmies.forEach(defendingArmiesTogether::addAll);
 
         sortUnits(allUnits);
-        battleTillEnd(allUnits, attackingArmy, defendingArmiesTogether);
-
+        battleTillEnd(result, allUnits, attackingArmy, defendingArmiesTogether);
+        result.calculateLoss();
 
         return result;
     }
@@ -49,71 +47,83 @@ public class BattleService {
         attackingArmy.forEach(
                 unit -> attackingArmyBegginingAmount.put(unit.getName(), unit.getAmount()));
         result.setAttackingArmyBeginning(attackingArmyBegginingAmount);
+        result.setAttackingArmyId(attackingArmy.get(0).getArmyId());
 
-        List<HashMap<String, Integer>> defendingArmyBegginingAmount = new ArrayList<>();
+        HashMap<String, HashMap<String, Integer>> defendingArmyBegginingAmount = new HashMap<>();
         defendingArmy.forEach(army -> {
             HashMap<String, Integer> defendingArmyBegginingAmountMap = new HashMap<>();
             army.forEach(unit -> defendingArmyBegginingAmountMap.put(unit.getName(), unit.getAmount()));
-            defendingArmyBegginingAmount.add(defendingArmyBegginingAmountMap);
+            defendingArmyBegginingAmount.put(army.get(0).getArmyId(), defendingArmyBegginingAmountMap);
         });
         result.setDefendingArmyBeginning(defendingArmyBegginingAmount);
     }
 
-    private void sortUnits(List<Unit> allUnits){
+    private void sortUnits(List<Unit> allUnits) {
         allUnits.sort(new Comparator<Unit>() {
             @Override
             public int compare(Unit u1, Unit u2) {
                 int unit1Index = getOrderIndex(u1);
                 int unit2Index = getOrderIndex(u2);
-                if(unit1Index == unit2Index)
-                    return (int)(u2.getSpeed() - u1.getSpeed());
+                if (unit1Index == unit2Index)
+                    return (int) (u2.getSpeed() - u1.getSpeed());
                 else
                     return unit1Index - unit2Index;
             }
 
-            private int getOrderIndex(Unit unit){
-                if(unit == null)
+            private int getOrderIndex(Unit unit) {
+                if (unit == null)
                     return 0;
-                else if(unit.getUnitAttackStrategy() instanceof RangedAttackStrategy)
+                else if (unit.getUnitAttackStrategy() instanceof RangedAttackStrategy)
                     return 1;
-                else if(unit.getUnitAttackStrategy() instanceof DefaultAttackStrategy)
+                else if (unit.getUnitAttackStrategy() instanceof DefaultAttackStrategy)
                     return 2;
                 else throw new RuntimeException("Unexpected Attack strategy");
             }
         });
     }
 
-    private void battleTillEnd(List<Unit> allUnits, List<Unit> attackingArmy, List<Unit> defendingArmy){
+    private BattleResult battleTillEnd(BattleResult result, List<Unit> allUnits, List<Unit> attackingArmy, List<Unit> defendingArmy) {
         int indexAttacking = 0;
         boolean battleOnGoing = true;
-        while(battleOnGoing) {
-            log.info("Attacking army : ");
-            attackingArmy.forEach(unit -> log.info(unit.getName() + " " + unit.getAmount()));
-            log.info("Defending army : ");
-            defendingArmy.forEach(unit -> log.info(unit.getName() + " " + unit.getAmount()));
+        while (battleOnGoing) {
             Unit attackingUnit = allUnits.get(indexAttacking);
             String side = getSideOfArmy(attackingUnit.getArmyId(), attackingArmy);
             Unit attackedUnit;
-            if (ATTACKING_ARMY_INDICATOR.equals(side)){
+            if (ATTACKING_ARMY_INDICATOR.equals(side)) {
                 attackedUnit = attackingUnit.getUnitAttackStrategy().getAttackedUnit(defendingArmy);
             } else {
                 attackedUnit = attackingUnit.getUnitAttackStrategy().getAttackedUnit(attackingArmy);
             }
             attack(attackingUnit, attackedUnit);
-            if(ATTACKING_ARMY_INDICATOR.equals(side)){
+            if (ATTACKING_ARMY_INDICATOR.equals(side)) {
                 attackingArmy = updateUnitList(attackingArmy, attackingUnit);
                 defendingArmy = updateUnitList(defendingArmy, attackedUnit);
-            }
-            else {
+            } else {
                 defendingArmy = updateUnitList(defendingArmy, attackingUnit);
                 attackingArmy = updateUnitList(attackingArmy, attackedUnit);
             }
 
             battleOnGoing = defendingArmy.size() > 0 && attackingArmy.size() > 0;
             indexAttacking++;
-            if(indexAttacking == allUnits.size())
+            if (indexAttacking == allUnits.size())
                 indexAttacking = 0;
         }
+
+
+        attackingArmy.forEach(unit -> result.getAttackingArmyEnd().put(unit.getName(), unit.getAmount()));
+        defendingArmy.forEach(
+                unit -> {
+                    if(result.getDefendingArmyEnd().keySet().contains(unit.getArmyId())) {
+                        result.getDefendingArmyEnd().get(unit.getArmyId()).put(unit.getName(), unit.getAmount());
+                    }
+                    else{
+                        result.getDefendingArmyEnd().put(unit.getArmyId(),new HashMap<>());
+                    }
+                }
+        );
+
+        return result;
+
     }
 
     private void attack(Unit unit, Unit defending) {
@@ -122,8 +132,8 @@ public class BattleService {
         defending.receiveDamage(attack.getDamageGiven());
     }
 
-    private String getSideOfArmy(String armyId, List<Unit> attackingArmy){
-        if(attackingArmy.stream().anyMatch(armyIdStream -> armyId.equals(armyIdStream.getArmyId())))
+    private String getSideOfArmy(String armyId, List<Unit> attackingArmy) {
+        if (attackingArmy.stream().anyMatch(armyIdStream -> armyId.equals(armyIdStream.getArmyId())))
             return ATTACKING_ARMY_INDICATOR;
         else
             return DEFENDING_ARMY_INDICATOR;
@@ -141,8 +151,8 @@ public class BattleService {
                 .collect(Collectors.toList());
     }
 
-    private Unit updateUnit(Unit unit, int amount, String name, String armyId){
-        if(name.equals(unit.getName()) && armyId.equals(unit.getArmyId()))
+    private Unit updateUnit(Unit unit, int amount, String name, String armyId) {
+        if (name.equals(unit.getName()) && armyId.equals(unit.getArmyId()))
             unit.setAmount(amount);
         return unit;
     }

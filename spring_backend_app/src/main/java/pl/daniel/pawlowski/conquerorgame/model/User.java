@@ -1,5 +1,6 @@
 package pl.daniel.pawlowski.conquerorgame.model;
 
+import antlr.debug.MessageAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -88,20 +89,21 @@ public class User {
     @JoinColumn(name = "statistics_id", referencedColumnName = "id")
     private PlayerStatistics playerStatistics;
 
+
     @OneToMany(
             mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Event> events = new ArrayList<>();
-    public void addEvent(Event event) {
-        events.add(event);
-        event.setUser(this);
+    private List<Message> messages = new ArrayList<>();
+    public void addMessage(Message message) {
+        messages.add(message);
+        message.setUser(this);
     }
 
-    public void removeEvent(Event event) {
-        events.remove(event);
-        event.setUser(null);
+    public void removeMessage(Message message) {
+        messages.remove(message);
+        message.setUser(null);
     }
 
     @OneToMany(
@@ -134,7 +136,7 @@ public class User {
     }
 
     public void removeHero(Hero hero) {
-        events.remove(hero);
+        heroes.remove(hero);
         hero.setUser(null);
     }
 

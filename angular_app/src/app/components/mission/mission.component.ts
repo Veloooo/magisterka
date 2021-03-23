@@ -15,7 +15,7 @@ export class MissionComponent implements OnInit {
     private account: UserAccount;
     private heroes: Hero[];
     private mission: string;
-    private selectedHero: string;
+    private selectedHero: Hero;
     private unitsMissionIndex: number[] = [1, 2, 3, 4, 5, 6];
     private unitsMission: Units = new Units();
     private hours = 1;
@@ -36,7 +36,7 @@ export class MissionComponent implements OnInit {
         this.heroes = this.account.heroes.filter(hero =>  heroesDuringMission.find(heroMission => hero.id == heroMission.id) == null);
         this.isMissionPossible = this.heroes.length > 0;
         if(this._gameService.heroDungeon != null){
-            this.selectedHero = this._gameService.heroDungeon.heroClass;
+            this.selectedHero = this._gameService.heroDungeon;
         }
         console.log(this.target);
     }

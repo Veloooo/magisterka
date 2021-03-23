@@ -14,6 +14,7 @@ import pl.daniel.pawlowski.conquerorgame.model.battle.receive.UnitReceiveDamageS
 public class Unit {
 
     private int level;
+    private int id;
     private String armyId;
 
     private String name;
@@ -27,6 +28,7 @@ public class Unit {
     private double damageMax;
     private double armour;
     private double speed;
+    private double experience;
 
     private UnitAttackStrategy unitAttackStrategy;
     private UnitReceiveDamageStrategy receiveDamageStrategy;
@@ -46,9 +48,11 @@ public class Unit {
         this.amount = amount;
     }
 
+
     public Unit(Unit unit) {
         this.level = unit.level;
         this.name = unit.name;
+        this.amount = unit.amount;
         this.healthPoints = unit.healthPoints;
         this.damageMax = unit.damageMax;
         this.damageMin = unit.damageMin;
@@ -60,6 +64,7 @@ public class Unit {
 
     public void copyUnitValues(Unit unit){
         this.level = unit.level;
+        this.id = unit.id;
         this.healthPoints = unit.healthPoints;
         this.damageMax = unit.damageMax;
         this.damageMin = unit.damageMin;
