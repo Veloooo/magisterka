@@ -37,11 +37,6 @@ export class AccountService {
         return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account');
     }
 
-
-    getUserAllInfo(): Observable<UserAccount> {
-        return this._httpClient.get<UserAccount>(Constants.apiRoot + 'account/accountInfo');
-    }
-
     populationAction(userAction: UserAction): Observable<ServerResponse> {
         return this._httpClient.post<ServerResponse>(Constants.apiRoot + 'game/population', userAction);
     }

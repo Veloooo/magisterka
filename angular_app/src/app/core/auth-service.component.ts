@@ -3,7 +3,6 @@ import { UserManager, User } from 'oidc-client';
 import { Constants } from '../constants';
 import {from, Observable, Subject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { AuthContext } from '../model/auth-context';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +11,7 @@ export class AuthService {
   private _loginChangedSubject = new Subject<boolean>();
 
   loginChanged = this._loginChangedSubject.asObservable();
-  authContext: AuthContext;
+
 
   constructor(private _httpClient: HttpClient) {
     const stsSettings = {
@@ -21,16 +20,14 @@ export class AuthService {
       redirect_uri: `${Constants.clientRoot}signin-callback`,
       scope: 'openid profile conqueror-api',
       response_type: 'code',
-      //post_logout_redirect_uri: `${Constants.clientRoot}signout-callback`,
-      //automaticSilentRenew: true,
-      //silent_redirect_uri: `${Constants.clientRoot}assets/silent-callback.html`,
       metadata: {
         issuer: `${Constants.stsAuthority}`,
         authorization_endpoint: `${Constants.stsAuthority}authorize?audience=conqueror-api`,
         jwks_uri: `${Constants.stsAuthority}.well-known/jwks.json`,
         token_endpoint: `${Constants.stsAuthority}oauth/token`,
         userinfo_endpoint: `${Constants.stsAuthority}userinfo`,
-        end_session_endpoint: `${Constants.stsAuthority}v2/logout?client_id=${Constants.clientId}&returnTo=${encodeURI(Constants.clientRoot)}signout-callback`
+        end_session_endpoint: `${Constants.stsAuthority}v2/logout?client_id=
+        ${Constants.clientId}&returnTo=${encodeURI(Constants.clientRoot)}signout-callback`
       }
     };
     this._userManager = new UserManager(stsSettings);

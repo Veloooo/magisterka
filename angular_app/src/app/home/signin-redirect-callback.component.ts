@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/auth-service.component';
 import { Router } from '@angular/router';
 import {UserAccount} from '../model/user-account';
-import {state} from '@angular/animations';
 import {AccountService} from '../core/account.service';
 
 @Component({
@@ -22,7 +21,6 @@ export class SigninRedirectCallbackComponent implements OnInit {
       this._accountService.getUserAccount().subscribe(
           user => {
               this.userAccount = user;
-              console.log(this.userAccount);
               if(this.userAccount)
                   this._router.navigate(['main-view'], { replaceUrl: true });
               else

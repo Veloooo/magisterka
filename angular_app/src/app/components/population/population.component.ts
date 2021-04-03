@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UserPopulation} from '../../model/user-population';
+import {Population} from '../../model/population';
 import {Router} from '@angular/router';
 import {AccountService} from '../../core/account.service';
 import {UserAction} from '../../model/user-action';
@@ -10,9 +10,8 @@ import {UserAction} from '../../model/user-action';
     styleUrls: ['./population.component.scss']
 })
 export class PopulationComponent implements OnInit {
-    private userPopulation: UserPopulation;
+    private userPopulation: Population;
     private isTrainingPossible = true;
-    private userAction: UserAction;
 
     constructor(private _router: Router,
                 private _accountService: AccountService) {
@@ -22,20 +21,20 @@ export class PopulationComponent implements OnInit {
         this.userPopulation = this._accountService.userAccount.population;
     }
 
-    train(who: number) {
-        this.userAction = new UserAction();
-        this.userAction.action = who;
-        this.userAction.data = 'recruit';
-        this._accountService.populationAction(this.userAction).subscribe(
+    train(id: number) {
+        let userAction = new UserAction();
+        userAction.action = id;
+        userAction.data = 'recruit';
+        this._accountService.populationAction(userAction).subscribe(
             response => {
                 console.log(response);
                 if (response.statusCode == 200) {
                     this.userPopulation.total--;
-                    if (who == 1) {
+                    if (id == 1) {
                         this.userPopulation.builder++;
-                    } else if (who == 2) {
+                    } else if (id == 2) {
                         this.userPopulation.scientist++;
-                    } else if (who == 3) {
+                    } else if (id == 3) {
                         this.userPopulation.resources++;
                     }
                 }

@@ -74,21 +74,24 @@ export class BuildingsComponent implements OnInit {
             this.percent = Math.floor((new Date().getTime() - new Date(this.userAccount.buildingStartTime).getTime()) / (new Date(this.userAccount.buildingFinishTime).getTime()
                 - new Date(this.userAccount.buildingStartTime).getTime()) * 100);
             this.remainingTime = moment(this.userAccount.buildingFinishTime).diff(moment());
-            if (this.remainingTime >= 0)
+            if (this.remainingTime >= 0) {
                 this.setDateString();
+            }
         }
     }
 
     setDateString() {
-        const hours : number = Math.floor(this.remainingTime / 7200000);
-        const minutes : number = Math.floor((this.remainingTime % 7200000) / 60000);
-        const seconds : number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
-        this.remainingTimeString = (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
+        this.remainingTimeString = this._gameService.getDateString(this.remainingTime);
     }
 
     isUpgradePossible(modelEntity: ModelEntity): boolean {
-        if(modelEntity.name == 'Hall')
-            return true;
-        return modelEntity.level < this.userAccount.buildings.hall;
+        if (this._gameService.isUpgradePossible(modelEntity.currentCost, this.userAccount.gold, this.userAccount.stone, this.userAccount.wood)) {
+            if (modelEntity.name == 'Hall') {
+                return true;
+            }
+            return modelEntity.level < this.userAccount.buildings.hall;
+        } else {
+            return false;
+        }
     }
 }

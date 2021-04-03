@@ -1,4 +1,4 @@
-import {UserPopulation} from './user-population';
+import {Population} from './population';
 import {Resources} from './resources';
 import {Buildings} from './buildings';
 import {Defence} from './defence';
@@ -15,7 +15,7 @@ export class UserAccount{
     nick: string;
     cityPosition: number;
     cityName: string;
-    population: UserPopulation;
+    population: Population;
     resources: Resources;
     buildings: Buildings;
     research: Research;

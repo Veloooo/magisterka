@@ -44,7 +44,6 @@ import { MissionComponent } from './components/mission/mission.component';
         SigninRedirectCallbackComponent,
         SignoutRedirectCallbackComponent,
         UnauthorizedComponent,
-        TestComponent,
         CreateAccountComponent,
         MainViewComponent,
         OverviewComponent,

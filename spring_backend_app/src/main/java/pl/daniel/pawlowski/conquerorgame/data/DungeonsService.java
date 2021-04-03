@@ -6,8 +6,12 @@ import pl.daniel.pawlowski.conquerorgame.model.*;
 import pl.daniel.pawlowski.conquerorgame.model.battle.Unit;
 import pl.daniel.pawlowski.conquerorgame.model.battle.UnitService;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class DungeonsService {
@@ -67,24 +71,30 @@ public class DungeonsService {
     }
 
     private void setDungeonUnits(Dungeon dungeon, int level){
-        int dungeonToughness = (int)(Math.random() * level * 15);
+        Random random = null;
+        try {
+            random = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        int dungeonToughness = Objects.requireNonNull(random).nextInt(level * 15 - level * 10) + level * 10;
         int currentToughness = 0;
-        int maxLevelUnit = level / 4;
+        int maxLevelUnit = (int) Math.ceil((double) level / 4);
 
         List<Unit> possibleUnits = unitService.getUnitsOfMaxLevel(maxLevelUnit);
         Unit[] selectedUnits = new Unit[4];
 
         for(int i = 0 ; i < 4 ; i++){
-            int unit = (int) (Math.random() * possibleUnits.size());
+            int unit = random.nextInt(possibleUnits.size());
             selectedUnits[i] = possibleUnits.get(unit);
             selectedUnits[i].setAmount(1);
             currentToughness += selectedUnits[i].getLevel();
-            possibleUnits.remove(possibleUnits.get(i));
+            possibleUnits.remove(possibleUnits.get(unit));
         }
 
         while(currentToughness != dungeonToughness){
-            int unit = (int) (Math.random() * 4);
-            if(currentToughness + selectedUnits[unit].getLevel() < dungeonToughness) {
+            int unit = random.nextInt(4);
+            if(currentToughness + selectedUnits[unit].getLevel() <= dungeonToughness) {
                 selectedUnits[unit].setAmount(selectedUnits[unit].getAmount() + selectedUnits[unit].getLevel());
                 currentToughness += selectedUnits[unit].getLevel();
             }

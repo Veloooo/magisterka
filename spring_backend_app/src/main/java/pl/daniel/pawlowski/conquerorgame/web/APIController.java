@@ -36,7 +36,6 @@ public class APIController {
         if (hasAccount)
             return mapper.writeValueAsString(userInfo);
         else {
-            //return "{\"race\": \"race\", \"nick\":\"nick\"}";
             return "";
         }
     }
@@ -56,7 +55,6 @@ public class APIController {
 
     @PostMapping(value = "/account/finalize")
     public String finalizeRegister(@RequestHeader(value = "Authorization") String authorization, @RequestBody User user) throws JsonProcessingException {
-        System.out.println("Finalize");
         User userInfo = userService.getUserInfo(authorization);
         userInfo.setFraction(user.getFraction());
         userInfo.setCityName("City");

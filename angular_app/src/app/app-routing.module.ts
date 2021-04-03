@@ -29,10 +29,10 @@ const routes: Routes = [
     {path: 'signin-callback', component: SigninRedirectCallbackComponent},
     {path: 'create-account', component: CreateAccountComponent, canActivate: [GameRouteGuard]},
     {path: 'signout-callback', component: SignoutRedirectCallbackComponent},
-    {path: 'public', component: TestComponent},
     {
         path: 'main-view',
         component: MainViewComponent,
+        canActivate: [GameRouteGuard],
         children: [
             {path: '', redirectTo: 'overview', pathMatch: 'full'},
             {path: 'overview', component: OverviewComponent},
@@ -56,8 +56,7 @@ const routes: Routes = [
             {path: 'dungeons', component: DungeonsComponent},
             {path: 'messages', component: MessagesComponent}
         ]
-    },
-    {path: 'private', component: UnauthorizedComponent}
+    }
 ];
 
 @NgModule({

@@ -19,7 +19,6 @@ import java.io.IOException;
 public class GameController {
 
     ObjectMapper mapper = new ObjectMapper();
-    private final String OPERATION_SUCCESS_MESSAGE = "Ok";
 
     @Autowired
     UserService userService;

@@ -76,9 +76,6 @@ export class DefenceComponent implements OnInit {
     }
 
     setDateString() {
-        const hours : number = Math.floor(this.remainingTime / 7200000);
-        const minutes : number = Math.floor((this.remainingTime % 7200000) / 60000);
-        const seconds : number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
-        this.remainingTimeString = (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
+        this.remainingTimeString = this._gameService.getDateString(this.remainingTime);
     }
 }

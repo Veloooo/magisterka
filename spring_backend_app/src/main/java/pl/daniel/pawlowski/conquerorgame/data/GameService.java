@@ -39,9 +39,6 @@ public class GameService {
     private HeroesRepository heroesRepository;
 
     @Autowired
-    private MissionService missionService;
-
-    @Autowired
     private HeroService heroService;
 
     @Autowired
@@ -65,9 +62,18 @@ public class GameService {
 
 
     public void updateResources(User user) {
-        user.setWood(user.getWood() + user.getWoodProduction());
-        user.setGold(user.getGold() + user.getGoldProduction());
-        user.setStone(user.getStone() + user.getStoneProduction());
+        int newGold = user.getGold() + user.getGoldProduction();
+        int newStone = user.getStone() + user.getStoneProduction();
+        int newWood = user.getWood() + user.getWoodProduction();
+
+        int goldCapacity = user.getBuildings().getVault() * 500 + 1000;
+        int stoneCapacity = user.getBuildings().getStoneWarehouse() * 500 + 1000;
+        int woodCapacity = user.getBuildings().getWoodWarehouse() * 500 + 1000;
+
+        user.setGold(newGold >= goldCapacity ? goldCapacity : newGold);
+        user.setWood(newWood >= woodCapacity ? woodCapacity : newWood);
+        user.setStone(newStone >= stoneCapacity ? stoneCapacity : newStone);
+
     }
 
 
@@ -79,7 +85,7 @@ public class GameService {
         Cost cost = costsService.getCostOfNumber(unit, Integer.valueOf(action.getData()));
         if (costsService.isOperationPossible(cost, action.getUser())) {
             Units units = action.getUser().getUnits();
-            int amount = Integer.valueOf(action.getData());
+            int amount = Integer.parseInt(action.getData());
             switch (action.getAction()) {
                 case 1:
                     units.setUnit1(units.getUnit1() + amount);
@@ -113,7 +119,7 @@ public class GameService {
         if (action.getAction() == 1) {
             if (action.getUser().getHeroes().size() * 10 <= action.getUser().getBuildings().getHall()) {
                 Dungeon dungeon = dungeonsService.createDungeonLevel(1);
-                Hero hero = heroService.createHero(action, dungeon);
+                heroService.createHero(action, dungeon);
                 saveUser(action.getUser());
             } else
                 return TOO_MANY_HEROES_MESSAGE;

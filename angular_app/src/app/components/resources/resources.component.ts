@@ -3,13 +3,10 @@ import {Router} from '@angular/router';
 import {AccountService} from '../../core/account.service';
 import {Resources} from '../../model/resources';
 import {UserAction} from '../../model/user-action';
-import {Cost} from '../../model/cost';
-import {CostService} from '../../core/cost.service';
 import {UserAccount} from '../../model/user-account';
 import moment = require('moment');
 import {GameService} from '../../core/game-service';
 import {ResourceEntity} from '../../model/resource-entity';
-import {ResearchEntity} from '../../model/research-entity';
 
 @Component({
     selector: 'app-resources',
@@ -52,6 +49,9 @@ export class ResourcesComponent implements OnInit {
     submitWorkers() {
         let userAction = new UserAction();
         userAction.action = 3;
+        this.resources.sawmillWorkers = this.resourceEntities.find(resource => resource.name == 'Sawmill').workers;
+        this.resources.stonepitWorkers = this.resourceEntities.find(resource => resource.name == 'Stonepit').workers;
+        this.resources.goldmineWorkers = this.resourceEntities.find(resource => resource.name == 'Goldmine').workers;
         userAction.data = JSON.stringify(this.resources);
         this._accountService.resourcesAction(userAction).subscribe(
             response => {
@@ -88,66 +88,17 @@ export class ResourcesComponent implements OnInit {
     }
 
 
-    substractWorker(where: number) {
-        switch (where) {
-            case 1: {
-                if (this.resources.sawmillWorkers > 0) {
-                    this.resources.sawmillWorkers--;
-                    this.resources.freeWorkers++;
-                } else {
-                    alert('Operation not possible');
-                }
-                break;
-            }
-            case 2: {
-                if (this.resources.goldmineWorkers > 0) {
-                    this.resources.goldmineWorkers--;
-                    this.resources.freeWorkers++;
-                } else {
-                    alert('Operation not possible');
-                }
-                break;
-            }
-            case 3: {
-                if (this.resources.stonepitWorkers > 0) {
-                    this.resources.stonepitWorkers--;
-                    this.resources.freeWorkers++;
-                } else {
-                    alert('Operation not possible');
-                }
-                break;
-            }
+    subtractWorker(resource: ResourceEntity) {
+        if(resource.workers > 0) {
+            resource.workers -= 1;
+            this.resources.freeWorkers++;
         }
     }
 
-    addWorker(where: number) {
-        switch (where) {
-            case 1: {
-                if (this.resources.freeWorkers > 0) {
-                    this.resources.sawmillWorkers++;
-                    this.resources.freeWorkers--;
-                } else {
-                    alert('Operation not possible');
-                }
-                break;
-            }
-            case 2: {
-                if (this.resources.freeWorkers > 0) {
-                    this.resources.goldmineWorkers++;
-                    this.resources.freeWorkers--;
-                } else {
-                    alert('Operation not possible');
-                }
-                break;
-            }
-            case 3: {
-                if (this.resources.freeWorkers > 0) {
-                    this.resources.stonepitWorkers++;
-                    this.resources.freeWorkers--;
-                } else {
-                    alert('Operation not possible');
-                }
-            }
+    addWorker(resource: ResourceEntity) {
+        if(this.resources.freeWorkers > 0) {
+            resource.workers += 1;
+            this.resources.freeWorkers--;
         }
     }
 
@@ -162,10 +113,7 @@ export class ResourcesComponent implements OnInit {
     }
 
     setDateString() {
-        const hours : number = Math.floor(this.remainingTime / 7200000);
-        const minutes : number = Math.floor((this.remainingTime % 7200000) / 60000);
-        const seconds : number = Math.floor(((this.remainingTime % 7200000) % 60000) / 1000);
-        this.remainingTimeString = (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
+         this.remainingTimeString = this._gameService.getDateString(this.remainingTime);
     }
 
     isUpgradePossible(modelEntity: ResourceEntity): boolean {

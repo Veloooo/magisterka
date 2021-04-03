@@ -29,11 +29,11 @@
                 (click)="upgrade(resource.name)">{{currentlyUpgrading == resource.name ? 'Cancel' : 'Upgrade'}}</button>
         <br/>
         Workers: <br/>
-        <button class="btn-success" (click)="substractWorker(1)"
+        <button class="btn-success" (click)="subtractWorker(resource)"
                 [disabled]="resource.workers == 0 || currentlyUpgrading != null">-
         </button>
         {{resource.workers}}
-        <button class="btn-success" (click)="addWorker(1)"
+        <button class="btn-success" (click)="addWorker(resource)"
                 [disabled]="resources.freeWorkers == 0 || currentlyUpgrading != null">+
         </button>
         <br/>

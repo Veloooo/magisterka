@@ -42,6 +42,6 @@ export class CostService {
         return new Cost(100 * unit, 100 * unit, 100 * unit, 0, "");
     }
     isEnoughResources(cost: Cost, gold: number, stone: number, wood: number): boolean{
-        return true;
+        return cost.gold < gold && cost.wood < wood && cost.stone < stone;
     }
 }

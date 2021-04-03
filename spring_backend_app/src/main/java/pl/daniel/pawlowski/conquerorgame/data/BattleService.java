@@ -103,7 +103,7 @@ public class BattleService {
                 attackingArmy = updateUnitList(attackingArmy, attackedUnit);
             }
 
-            battleOnGoing = defendingArmy.size() > 0 && attackingArmy.size() > 0;
+            battleOnGoing = !defendingArmy.isEmpty() && !attackingArmy.isEmpty();
             indexAttacking++;
             if (indexAttacking == allUnits.size())
                 indexAttacking = 0;

@@ -5,7 +5,7 @@ import {ResearchEntity} from '../model/research-entity';
 import {Item} from '../model/item';
 import {Statistics} from '../model/statistics';
 import {Hero} from '../model/hero';
-import {Dungeon} from '../model/dungeon';
+import {Cost} from '../model/cost';
 
 @Injectable()
 export class GameService {
@@ -74,6 +74,10 @@ export class GameService {
                 return heroes;
             }
         }
+    }
+
+    isUpgradePossible(cost: Cost, gold: number, stone: number, wood: number): boolean {
+        return this._costService.isEnoughResources(cost, gold, stone, wood);
     }
 
     getResearchEntity(what: string, user: UserAccount): ResearchEntity {
@@ -201,5 +205,12 @@ export class GameService {
 
     getCurrentDungeon(hero: Hero){
         hero.nextDungeon = hero.dungeons.find(dungeon => dungeon.completed == 0);
+    }
+
+    getDateString(remainingTime: number) : string{
+        const hours : number = Math.floor(remainingTime / 7200000);
+        const minutes : number = Math.floor((remainingTime % 7200000) / 60000);
+        const seconds : number = Math.floor(((remainingTime % 7200000) % 60000) / 1000);
+        return (hours < 10 ? "0" + hours : hours + "").concat(":").concat(minutes < 10 ? "0" + minutes : minutes + "").concat(":").concat(seconds < 10 ? "0" + seconds : seconds + "");
     }
 }

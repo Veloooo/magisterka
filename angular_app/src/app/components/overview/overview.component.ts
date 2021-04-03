@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
                 private _gameService: GameService) {
 
         setInterval(() => {
-            this.calculateDiff();
+            this.updateMissionsMessages();
         }, 1);
     }
 
@@ -28,7 +28,7 @@ export class OverviewComponent implements OnInit {
         this.account = this._accountService.userAccount;
     }
 
-    calculateDiff() {
+    updateMissionsMessages() {
         this.account.missions.forEach(m => m.message = this.getMissionMessage(m));
     }
 

@@ -94,6 +94,7 @@ public class MissionService {
             case 2:
                 performReturnAction(mission, user);
                 break;
+            default: break;
         }
     }
 
@@ -206,7 +207,7 @@ public class MissionService {
         int[] unitsAmount = unitService.getUnitsAmountFromDatabaseUnits(units);
 
 
-        int unitStatisticsBonus = hero.getStatistics().getCharisma(); // heroService.getHeroMainStatisticValue(mission.getHero());
+        int unitStatisticsBonus = hero.getStatistics().getCharisma();
 
         missionBattleUnits.forEach(
                 unit -> {
@@ -339,7 +340,9 @@ public class MissionService {
                     mission1.getUser().addMessage(messageStation);
                     userService.saveUser(mission1.getUser());
                 });
+                break;
             }
+            default: break;
         }
 
         }
