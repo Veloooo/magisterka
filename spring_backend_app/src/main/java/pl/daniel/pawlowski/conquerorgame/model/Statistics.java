@@ -13,6 +13,9 @@ import java.util.Objects;
 @Setter
 @Entity
 public class Statistics {
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "statistics")
+    @JsonIgnore
+    private Hero hero;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +32,7 @@ public class Statistics {
     @Column(name="skill_points")
     private int skillPoints;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "statistics")
-    @JsonIgnore
-    private Hero hero;
+
 
     @Override
     public String toString() {

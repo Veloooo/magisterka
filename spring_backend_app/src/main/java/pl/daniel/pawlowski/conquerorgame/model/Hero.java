@@ -16,24 +16,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "heroes")
 public class Hero {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "class")
-    private String heroClass;
-
-    private int level;
-
-    private int dungeonsCompleted;
-
-    private int exp;
-
-    private String mainStatistic;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "statistics_id", referencedColumnName = "id")
-    private Statistics statistics;
 
     @OneToMany(
             mappedBy = "hero",
@@ -51,6 +33,30 @@ public class Hero {
         items.remove(item);
         item.setHero(null);
     }
+
+
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "statistics_id", referencedColumnName = "id")
+    private Statistics statistics;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "class")
+    private String heroClass;
+
+    private int level;
+
+    private int dungeonsCompleted;
+
+    private int exp;
+
+    private String mainStatistic;
+
+
 
     @OneToMany(
             mappedBy = "hero",

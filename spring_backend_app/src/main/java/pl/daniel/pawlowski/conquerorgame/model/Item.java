@@ -14,6 +14,12 @@ import java.util.Objects;
 @Entity
 @Table (name = "items")
 public class Item {
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name="hero_id")
+    @JsonIgnore
+    private Hero hero;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,10 +38,6 @@ public class Item {
     @JoinColumn(name = "statistics_id", referencedColumnName = "id")
     private ItemStatistics statistics;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="hero_id")
-    @JsonIgnore
-    private Hero hero;
 
     @Override
     public String toString() {

@@ -24,10 +24,6 @@ public class App {
     @Autowired
     private JobScheduler jobScheduler;
 
-    public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
-    }
-
     @Bean
     public StorageProvider storageProvider(JobMapper jobMapper) {
         InMemoryStorageProvider storageProvider = new InMemoryStorageProvider();
@@ -35,9 +31,13 @@ public class App {
         return storageProvider;
     }
 
-
     @PostConstruct
     public void scheduleRecurrently() {
-        jobScheduler.scheduleRecurrently(BackgroundService::executeSampleJob, Cron.minutely());
+        jobScheduler.scheduleRecurrently(BackgroundService::performScheduledActions, Cron.minutely());
     }
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
 }

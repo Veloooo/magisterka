@@ -18,8 +18,6 @@ import java.io.IOException;
 @RequestMapping(path = "api/game", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GameController {
 
-    ObjectMapper mapper = new ObjectMapper();
-
     @Autowired
     UserService userService;
 
@@ -28,6 +26,20 @@ public class GameController {
 
     @Autowired
     MissionService missionService;
+
+    @PostMapping(value = "/population")
+    public String populationAction(@RequestHeader(value = "Authorization") String authorization,
+                                   @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
+        UserAction action = userService.getUserAction(authorization,userActionJSON);
+        String actionMessage = gameService.populationAction(action);
+        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
+    }
+
+
+
+    ObjectMapper mapper = new ObjectMapper();
+
+
 
     @GetMapping(value = "/population")
     public String getPopulation(@RequestHeader(value = "Authorization") String authorization) throws JsonProcessingException {
@@ -41,12 +53,6 @@ public class GameController {
         }
     }
 
-    @PostMapping(value = "/population")
-    public String populationAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws JsonProcessingException {
-        UserAction action = userService.getUserAction(authorization,userActionJSON);
-        String actionMessage = gameService.populationAction(action);
-        return mapper.writeValueAsString(userService.returnResponse(actionMessage));
-    }
 
     @PostMapping(value = "/resources")
     public String resourcesAction(@RequestHeader(value = "Authorization") String authorization, @RequestBody UserActionJSON userActionJSON) throws IOException {

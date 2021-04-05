@@ -49,6 +49,7 @@ public class HeroService {
 
 
     public Unit createHeroUnit(Hero hero, String armyId){
+        hero.removeItem(new Item());
         return Unit.builder()
                 .amount(1)
                 .name(hero.getHeroClass())

@@ -35,8 +35,8 @@ public class BackgroundService {
     }
 
 
-    @Job(name = "The sample job with variable %0", retries = 2)
-    public void executeSampleJob() {
+    @Job(name = "Job that performs scheduled actions", retries = 2)
+    public void performScheduledActions() {
         getAllUsers();
         log.info("Updating resources for all users");
         allUsers.forEach(user -> gameService.updateResources(user));
